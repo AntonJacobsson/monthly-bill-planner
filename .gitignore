@@ -15,10 +15,11 @@ node_modules
 /scripts
 /src/environment.js
 /src/environment.ts
-/www
 /dist
 /test/coverage-jest
 /test/coverage-karma
 /www
+
+# Cordova 
 /platforms
 /plugins
