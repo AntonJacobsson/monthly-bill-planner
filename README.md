@@ -26,8 +26,15 @@ For long time aurelia-cli user, you can still use `au run` with those arguments 
 
 Run `npm run build`, or the old way `au build --env prod`.
 
-## Unit tests
+## Cordova (make sure to bundle before this step)
 
-Run `au test` (or `au jest`).
+```shell
+cordova platform add android
+cordova platform add browser
+```
 
-To run in watch mode, `au test --watch` or `au jest --watch`.
+To run the app 
+```shell
+cordova run android
+cordova run browser
+```
