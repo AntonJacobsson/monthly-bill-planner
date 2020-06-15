@@ -1,0 +1,57 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-body>
+
+      <div class="field">
+        <label class="label">Namn</label>
+        <div class="control">
+          <input class="input" type="text" value.bind="bill.name" placeholder="Bostadsförsäkring">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Pris</label>
+        <div class="control">
+          <input class="input" type="number" value.bind="bill.totalCost" placeholder="1000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Betalningsdatum</label>
+        <div class="control">
+          <input class="input" type="number" placeholder="2" value.bind="bill.payStartMonth">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Hur återkommande är räkningen</label>
+        <div class="control">
+          <input class="input" type="number" placeholder="2" value.bind="bill.payPeriod">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Är räkningen ny?</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="question" model.bind="true" checked.bind="bill.newBill">
+            Ja
+          </label>
+          <label class="radio">
+            <input type="radio" name="question" model.bind="false" checked.bind="bill.newBill">
+            Nej
+          </label>
+        </div>
+      </div>
+
+
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <button click.trigger="controller.cancel()">Avbryt</button>
+      <button click.trigger="controller.ok(bill)">${createOrEditTitle}</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>
+
+
