@@ -1,3 +1,16 @@
+@import '~aurelia-swipeout/style/swipeout';
+@import "../node_modules/bulma/bulma.sass";
+
+$primary-color: #00d1b2;
+
+.slim-header {
+    background-color: $primary-color;
+}
+
+.active-navigation {
+    background: white;
+}
+
 .navbar-icons {
     display: flex;
     min-height: 2em;
@@ -9,12 +22,12 @@
     padding: 0.25em;
 }
 
-.navbar-icons > div > svg {
+.navbar-icons > div > a > svg {
     width: 1.5em;
     height: 1.5em;
 }
 
-.navbar-icons > div > p {
+.navbar-icons > div > a > p {
     margin-top: -.5em;
     font-size: .75em;
 }

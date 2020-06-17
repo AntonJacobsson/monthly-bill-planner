@@ -1,0 +1,42 @@
+<template>
+    <section class="section" style="padding-top: 1.5em">
+        <div class="title-button-row">
+          <h5 class="title is-5">Ränknigar</h5>
+          <button click.delegate="submit()" class="button is-primary is-light">Lägg till ny</button>
+        </div>
+        
+        <div class="columns">
+          <div repeat.for="bill of bills" class="column">
+              <div class="card">
+                <swipeout>    
+                    <div slot="right">
+                      <button click.delegate="edit(bill)" class="swipeout__action">
+                        Ändra
+                      </button>
+                      <button click.delegate="deleteBill(bill)" class="swipeout__action">
+                        Ta bort
+                      </button>
+                    </div>
+                  
+                    <div slot="content">
+                        <div style="display: flex; justify-content: space-between;">
+                            <p class="card-header-title">
+                              ${bill.name}
+                            </p>
+                            <p style="padding: 0.75rem 1rem; color: #00d1b2">
+                              ${bill.payPeriod}
+                            </p>
+                          </div>
+                            <h2 class="subtitle is-2 text-center">${bill.totalCost}</h2>
+                          <footer class="card-footer">
+                          </footer>
+                        </div>
+                    </div>
+                  </swipeout>
+          </div>
+        </div>
+    
+
+       
+      </section>
+</template>

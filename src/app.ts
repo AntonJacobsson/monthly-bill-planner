@@ -1,50 +1,17 @@
-import { BillModal } from './components/bill-modal';
-import { DialogService } from 'aurelia-dialog';
-import { inject } from 'aurelia-framework';
-import { BillService } from 'services/bill-service';
-import { Bill } from 'models/bill';
-
-@inject(DialogService, BillService)
-
+import {RouterConfiguration, Router} from 'aurelia-router';
+import { PLATFORM } from "aurelia-framework";
+  
 export class App {
-  public message: string = 'Månadsvis';
-  public bills: Bill[] = [];
-  public dialogService: DialogService;
-  private _billService: BillService
+  router: Router;
 
-  constructor(dialogService: DialogService, billService: BillService) {
-    this._billService = billService;
-    this.bills = this._billService.getBills();
-    this.dialogService = dialogService;
+  configureRouter(config: RouterConfiguration, router: Router): void {
+    
+    config.map([
+      { route: [ 'example'],   name: 'example',    moduleId: PLATFORM.moduleName('example'), nav: true, title: 'Exempel'},
+      { route: ['', 'bill-handler'],   name: 'bill-handler',    moduleId: PLATFORM.moduleName('bill-handler'), nav: true, title: 'Hantera Räkningar' },
+      { route: [ 'saving-statistics'],   name: 'saving-statistics',    moduleId: PLATFORM.moduleName('saving-statistics'), nav: true, title: 'Sparande per månad' },
+    ]);
+    this.router = router;
+    console.log(this.router);
   }
-
-  submit() {
-    this.dialogService.open({ viewModel: BillModal, model: null }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
-      if (!response.wasCancelled) {
-        console.log(response.output);
-        this._billService.createBill(response.output)
-      } else {
-        console.log('bad');
-      }
-    });
-  }
-
-  deleteBill(bill: Bill) {
-    this.bills = this.bills.filter(x => x !== bill);
-  }
-
-  edit(bill: Bill) {
-    this.dialogService.open({ viewModel: BillModal, model: bill }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
-      if (!response.wasCancelled) {
-        bill.name = response.output.name;
-        bill.newBill = response.output.newBill;
-        bill.payPeriod = response.output.payPeriod;
-        bill.payStartMonth = response.output.payStartMonth;
-        bill.totalCost = response.output.totalCost;
-      } else {
-        console.log('bad');
-      }
-    });
-  }
-
 }

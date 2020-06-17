@@ -1,14 +1,13 @@
 import {Aurelia} from 'aurelia-framework';
 import * as environment from '../aurelia_project/config/environment.json';
 import {PLATFORM} from 'aurelia-pal';
-import 'bulma/css/bulma.css'
-import '../static/style.css';
+import '../static/style.scss';
 
 export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature(PLATFORM.moduleName('resources/index'))
-    .plugin(PLATFORM.moduleName('aurelia-dialog'));
+    .plugin(PLATFORM.moduleName('aurelia-dialog'))
+    .plugin(PLATFORM.moduleName('aurelia-swipeout'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
 
