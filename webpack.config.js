@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
-const project = require("./aurelia_project/aurelia.json");
 const {
   AureliaPlugin,
   ModuleDependenciesPlugin,
@@ -17,7 +16,7 @@ const when = (condition, config, negativeConfig) =>
   condition ? ensureArray(config) : ensureArray(negativeConfig);
 
 const title = "Aurelia Navigation Skeleton";
-const outDir = path.resolve(__dirname, project.platform.output);
+const outDir = path.resolve(__dirname, "www");
 const srcDir = path.resolve(__dirname, "src");
 const baseUrl = "";
 
@@ -91,8 +90,8 @@ module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
     contentBase: outDir,
 
     historyApiFallback: true,
-    hot: hmr || project.platform.hmr,
-    port: port || project.platform.port,
+    hot: hmr || false,
+    port: port || 8080,
     host: host,
   },
   devtool: production ? "nosources-source-map" : "cheap-module-eval-source-map",

@@ -12,6 +12,5 @@ export class App {
       { route: [ 'saving-statistics'],   name: 'saving-statistics',    moduleId: PLATFORM.moduleName('saving-statistics'), nav: true, title: 'Sparande per månad' },
     ]);
     this.router = router;
-    console.log(this.router);
   }
 }

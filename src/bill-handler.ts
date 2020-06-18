@@ -20,10 +20,9 @@ export class BillHandler {
   submit() {
     this.dialogService.open({ viewModel: BillModal, model: null }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
-        console.log(response.output);
         this._billService.createBill(response.output)
       } else {
-        console.log('bad');
+
       }
     });
   }
@@ -41,7 +40,7 @@ export class BillHandler {
         bill.payStartMonth = response.output.payStartMonth;
         bill.totalCost = response.output.totalCost;
       } else {
-        console.log('bad');
+
       }
     });
   }
