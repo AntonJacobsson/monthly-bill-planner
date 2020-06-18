@@ -1,4 +1,4 @@
-import { BillModal } from './components/bill-modal';
+import { BillModal } from '../../components/bill-modal';
 import { DialogService } from 'aurelia-dialog';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
