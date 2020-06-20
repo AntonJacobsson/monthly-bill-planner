@@ -13,14 +13,18 @@ export class BillHandler {
 
   constructor(dialogService: DialogService, billService: BillService) {
     this._billService = billService;
-    this.bills = this._billService.getBills();
     this.dialogService = dialogService;
+  }
+
+  activate() {
+    this.bills = this._billService.getBills();
   }
 
   submit() {
     this.dialogService.open({ viewModel: BillModal, model: null }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
-        this._billService.createBill(response.output)
+        var createdBill = this._billService.createBill(response.output)
+        this.bills.push(createdBill);
       } else {
 
       }
@@ -28,17 +32,14 @@ export class BillHandler {
   }
 
   deleteBill(bill: Bill) {
+    this._billService.deleteBill(bill);
     this.bills = this.bills.filter(x => x !== bill);
   }
 
   edit(bill: Bill) {
     this.dialogService.open({ viewModel: BillModal, model: bill }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
-        bill.name = response.output.name;
-        bill.newBill = response.output.newBill;
-        bill.payPeriod = response.output.payPeriod;
-        bill.payStartMonth = response.output.payStartMonth;
-        bill.totalCost = response.output.totalCost;
+        this._billService.updateBill(response.output);
       } else {
 
       }

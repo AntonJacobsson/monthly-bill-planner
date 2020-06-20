@@ -2,12 +2,12 @@
   <section class="section" style="padding-top: 1.5em">
     <div class="title-button-row">
       <h5 class="title is-5">Ränknigar</h5>
-      <button click.delegate="submit()" class="button is-primary is-light">Lägg till ny</button>
+      <button click.delegate="submit()" class="button is-primary">Lägg till ny</button>
     </div>
 
     <div class="columns">
       <div repeat.for="bill of bills" class="column">
-        <div class="card">
+        <div class="card" style="background: #ebfffc;">
           <swipeout>
             <div slot="right">
               <div class="slide-out-wrapper">
@@ -20,7 +20,7 @@
               </div>
             </div>
 
-            <div slot="content">
+            <div slot="content" style="background: #ebfffc;">
               <div style="display: flex; justify-content: space-between;">
                 <p class="card-header-title">
                   ${bill.name}

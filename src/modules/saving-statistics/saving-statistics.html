@@ -1,39 +1,20 @@
 <template>
     <section class="section">
-        <h3>Det är månad ${currentMonth}</h3>
 
-        <!-- <label>
-    Välj månad:<br>
-    <select value.bind="currentMonth">
-      <option model.bind="null">Choose...</option>
-      <option repeat.for="month of months"
-              model.bind="month">
-        ${month}
-      </option>
-    </select>
-  </label> -->
         <div class="columns">
             <div repeat.for="billMonth of billMonthRows" class="column">
-                <h6 class="title is-6">${billMonth.month}</h6>
+                <h4 class="title is-4">${getMonthString(billMonth.month)}</h4>
                 <div class="box">
-                    <h2>hej</h2>
+                  <div class="content">
+                    <ul>
+                      <li repeat.for="bill of billMonth.bills">${bill.name} - ${bill.totalCost}</li>
+                    </ul>
+
+                    <h5 class="title is-5"> totalt: <span style="color: hsl(348, 100%, 61%)">${totalMonthCost(billMonth.bills)}</span></h5>
+                  </div>
                 </div>
             </div>
         </div>
-
-        <!-- <table>
-    <thead></thead>
-    <tbody>
-      <tr repeat.for="billMonth of billMonthRows">
-        <td>${billMonth.month}</td>
-        <td repeat.for="bill of billMonth.bills">
-          <div class="card card-body">
-            ${bill.name} ${bill.totalCost}kr
-          </div></td>
-        <td style="color:red">totalCost: ${totalMonthCost(billMonth.bills)}</td>
-      </tr>
-    </tbody>
-  </table> -->
 
     </section>
 </template>

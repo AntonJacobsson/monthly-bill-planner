@@ -37,20 +37,6 @@ export class SavingStatistics {
     
   }
 
-  currentMonthChanged(_newValue: any, _oldValue: any) {
-    if(this.billMonthRows !== undefined) {
-      this.billMonthRows.forEach(element => {
-        element.bills = []
-      });
-  
-      const bills = this._billService.getBills();
-      console.log(bills);
-      bills.forEach(element => {
-        this.filterBillMonthRows(element);
-      });
-    }
-
-  }
 
   filterBillMonthRows(bill: any): void {
 
@@ -98,9 +84,7 @@ export class SavingStatistics {
         element.bills.push(bill)
       })
     }
-
   }
-
 
   totalMonthCost(bills: any[]) {
     var totalCost = 0;
@@ -109,6 +93,13 @@ export class SavingStatistics {
     });
     return totalCost;
   }
+
+  getMonthString(number: number) {
+    let m = [ "Januari", "Februari", "Mars", "April", "Maj", "Juni", 
+           "July", "Augusti", "September", "Oktober", "November", "December" ];
+    return m[number - 1];
+  }
+
 }
 
 export class BillMonthRow {

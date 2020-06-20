@@ -14,7 +14,9 @@
     "aurelia-swipeout": "^1.0.5",
     "bulma": "^0.9.0",
     "cordova-android": "^8.1.0",
-    "cordova-browser": "^6.0.0"
+    "cordova-browser": "^6.0.0",
+    "guid-typescript": "^1.0.9",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
