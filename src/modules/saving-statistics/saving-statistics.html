@@ -1,3 +1,39 @@
 <template>
-    här ska det vara något 
+    <section class="section">
+        <h3>Det är månad ${currentMonth}</h3>
+
+        <!-- <label>
+    Välj månad:<br>
+    <select value.bind="currentMonth">
+      <option model.bind="null">Choose...</option>
+      <option repeat.for="month of months"
+              model.bind="month">
+        ${month}
+      </option>
+    </select>
+  </label> -->
+        <div class="columns">
+            <div repeat.for="billMonth of billMonthRows" class="column">
+                <h6 class="title is-6">${billMonth.month}</h6>
+                <div class="box">
+                    <h2>hej</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- <table>
+    <thead></thead>
+    <tbody>
+      <tr repeat.for="billMonth of billMonthRows">
+        <td>${billMonth.month}</td>
+        <td repeat.for="bill of billMonth.bills">
+          <div class="card card-body">
+            ${bill.name} ${bill.totalCost}kr
+          </div></td>
+        <td style="color:red">totalCost: ${totalMonthCost(billMonth.bills)}</td>
+      </tr>
+    </tbody>
+  </table> -->
+
+    </section>
 </template>

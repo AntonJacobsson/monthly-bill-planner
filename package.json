@@ -49,7 +49,7 @@
   },
   "scripts": {
     "build": "webpack --env.production",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --color",
     "build:dev": "webpack",
     "analyze": "webpack --env.production --analyze"
   },

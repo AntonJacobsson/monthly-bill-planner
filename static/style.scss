@@ -50,3 +50,13 @@ body > ux-dialog-overlay.active {
 .ux-dialog-open {
     max-height: 100vh;
 }
+.button-slideout-fix {
+    height: 100%;
+    padding-top:0px;
+    outline: 1px solid white;
+    padding-bottom: 0px;
+}
+.slide-out-wrapper {
+    display: flex;
+    flex-direction: column;
+}
