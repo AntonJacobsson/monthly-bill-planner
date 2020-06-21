@@ -164,6 +164,7 @@ module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
             ignore: [".*"],
           },
         },
+        { from: 'src/locales/', to: 'locales/' }
       ],
     }),
 

@@ -1,0 +1,13 @@
+{
+    "title": "Måndadskoll",
+    "routes": {
+        "settings": "Inställningar",
+        "bill-handler": "Hantera Räkningar",
+        "saving-statistics": "Sparande per månad"
+    },
+    "add-bill" : "Lägg till ny",
+    "bill-title" : "Räkningar",
+    "edit" : "Ändra",
+    "delete": "Ta bort",
+    "total": "Totalt"
+}

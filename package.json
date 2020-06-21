@@ -11,11 +11,13 @@
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.3",
     "aurelia-dialog": "^2.0.0",
+    "aurelia-i18n": "^3.1.1",
     "aurelia-swipeout": "^1.0.5",
     "bulma": "^0.9.0",
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
     "guid-typescript": "^1.0.9",
+    "i18next-xhr-backend": "^3.2.2",
     "lodash": "^4.17.15"
   },
   "devDependencies": {

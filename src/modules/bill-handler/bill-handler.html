@@ -1,8 +1,9 @@
 <template>
+  <require from="./../../converters/currency-format"></require>
   <section class="section" style="padding-top: 1.5em">
     <div class="title-button-row">
-      <h5 class="title is-5">Ränknigar</h5>
-      <button click.delegate="submit()" class="button is-primary">Lägg till ny</button>
+      <h5 class="title is-5" t="bill-title">Bills</h5>
+      <button click.delegate="submit()" class="button is-primary" t="add-bill">Add new</button>
     </div>
 
     <div class="columns">
@@ -11,11 +12,11 @@
           <swipeout>
             <div slot="right">
               <div class="slide-out-wrapper">
-                <button click.delegate="edit(bill)" class="swipeout__action  button-slideout-fix">
-                  Ändra
+                <button click.delegate="edit(bill)" class="swipeout__action  button-slideout-fix" t="edit">
+                  Edit
                 </button>
-                <button click.delegate="deleteBill(bill)" class="swipeout__action button-slideout-fix">
-                  Ta bort
+                <button click.delegate="deleteBill(bill)" class="swipeout__action button-slideout-fix" t="delete">
+                  Delete
                 </button>
               </div>
             </div>
@@ -29,7 +30,7 @@
                   ${bill.payPeriod}
                 </p>
               </div>
-              <h2 class="subtitle is-2 text-center">${bill.totalCost}</h2>
+              <h2 class="subtitle is-2 text-center">${bill.totalCost | currencyFormat} </h2>
               <footer class="card-footer">
               </footer>
             </div>

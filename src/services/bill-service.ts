@@ -7,7 +7,24 @@ export class BillService {
     public bills: Bill[] = []
     
     constructor() {
-      this.bills = this.createMockData();
+
+      var response = this.getBillsFromLocalStorage();
+      if(response !== null) {
+        this.bills = response;
+      }
+
+    }
+
+    getBillsFromLocalStorage() {
+      var data = localStorage.getItem('bills');
+      if (data !== null) {
+        try {
+          return JSON.parse(data);
+        } catch {
+          localStorage.clear();
+        }
+      }
+      return null
     }
 
     getBills() {
@@ -17,11 +34,14 @@ export class BillService {
     createBill(bill: Bill) {
         bill.id = Guid.raw();
         this.bills.push(bill);
+
+        this.updateLocalStorage();
         return bill;
     }
 
     deleteBill(bill: Bill) {
       this.bills = this.bills.filter(x => x.id !== bill.id)
+      this.updateLocalStorage();
     }
 
     updateBill(bill: Bill) {
@@ -32,84 +52,12 @@ export class BillService {
       billToUpdate.payPeriod = bill.payPeriod;
       billToUpdate.payStartMonth = bill.payStartMonth;
       billToUpdate.totalCost = bill.totalCost;
-    }
 
-    private createMockData(): Bill[] {
-        const bills: Bill[] = []
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 1,
-          name: "Hyra",
-          totalCost: 3250,
-          payStartMonth: 1,
-          newBill: false
-        });
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 1,
-          name: "Mat",
-          totalCost: 3000,
-          payStartMonth: 1,
-          newBill: false
-        });
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 12,
-          name: "Bostadsförsäkring",
-          totalCost: 1197,
-          payStartMonth: 7,
-          newBill: false
-        });
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 1,
-          name: "Bensin",
-          totalCost: 3000,
-          payStartMonth: 1,
-          newBill: false
-        });
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 12,
-          name: "NY årlig räkning",
-          totalCost: 3200,
-          payStartMonth: 4,
-          newBill: true
-        });
-    
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 12,
-          name: "12mån gammal",
-          totalCost: 1200,
-          payStartMonth: 3,
-          newBill: false
-        });
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 3,
-          name: "kvartal ny",
-          totalCost: 300,
-          payStartMonth: 7,
-          newBill: true
-        });
-    
-        bills.push({
-          id: Guid.raw(),
-          payPeriod: 0,
-          name: "inte återkommande räk",
-          totalCost: 5000,
-          payStartMonth: 9,
-          newBill: true
-        });
-    
-        return bills;
+      this.updateLocalStorage();
       }
+
+    updateLocalStorage() {
+      localStorage.removeItem('bills')
+      localStorage.setItem('bills', JSON.stringify(this.bills));
+    }
 }
