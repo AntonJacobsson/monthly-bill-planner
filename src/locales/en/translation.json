@@ -1,3 +1,13 @@
 {
-    "test": "hello"
+    "title": "Monthly Bill Planner",
+    "routes": {
+        "settings": "Settings",
+        "bill-handler": "Manage bills",
+        "saving-statistics": "Saving statistics"
+    },
+    "add-bill" : "Add new",
+    "bill-title" : "Bills",
+    "edit" : "Edit",
+    "delete": "Delete",
+    "total": "Total"
 }
