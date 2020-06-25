@@ -20,7 +20,7 @@ export class SavingStatistics {
   activate() {
 
     var currentDate = new Date();
-    this.currentMonth = currentDate.getMonth() +1;
+    this.currentMonth = currentDate.getMonth() + 1;
 
     this.months.forEach(element => {
       var billMonthRow: BillMonthRow = {
@@ -34,7 +34,7 @@ export class SavingStatistics {
     bills.forEach(element => {
       this.filterBillMonthRows(element);
     });
-    
+
   }
 
 
@@ -44,10 +44,9 @@ export class SavingStatistics {
 
     let newArr = [];
 
-    if(bill.newBill) {
-      newArr = this.billMonthRows.filter(x => x.month >= bill.payStartMonth);
-  
-      if(bill.payPeriod !== 0) {
+    newArr = this.billMonthRows.filter(x => x.month >= bill.payStartMonth);
+
+    if (bill.payPeriod > 0) {
       newArr.forEach(element => {
 
         const currentBill = {
@@ -55,7 +54,6 @@ export class SavingStatistics {
           name: bill.name,
           totalCost: Number((totalCost / bill.payPeriod).toFixed(0)),
           payStartMonth: bill.payStartMonth,
-          newBill: bill.newBill
         }
 
         if (element.month === currentBill.payStartMonth) {
@@ -66,24 +64,18 @@ export class SavingStatistics {
       });
     }
 
-      var rowsBeforeBill = this.billMonthRows.filter(x => x.month < bill.payStartMonth && x.month >= this.currentMonth);
+    var rowsBeforeBill = this.billMonthRows.filter(x => x.month <= bill.payStartMonth && x.month >= this.currentMonth);
 
-      rowsBeforeBill.forEach(element => {
-        element.bills.push({
-          payPeriod: bill.payPeriod,
-          name: bill.name,
-          totalCost: Number((totalCost / rowsBeforeBill.length).toFixed(0)),
-          payStartMonth: bill.payStartMonth,
-          newBill: bill.newBill
-        });
-      });
+    rowsBeforeBill.forEach(element => {
 
-    } else {
-      bill.totalCost = Number((totalCost / bill.payPeriod).toFixed(0));
-      this.billMonthRows.forEach(element => {
-        element.bills.push(bill)
-      })
-    }
+        var obj = {
+        payPeriod: bill.payPeriod,
+        name: bill.name,
+        totalCost: Number((totalCost / rowsBeforeBill.length).toFixed(0)),
+        payStartMonth: bill.payStartMonth
+      }
+      element.bills.push(obj);
+    });
   }
 
   totalMonthCost(bills: any[]) {
@@ -95,8 +87,8 @@ export class SavingStatistics {
   }
 
   getMonthString(number: number) {
-    let m = [ "Januari", "Februari", "Mars", "April", "Maj", "Juni", 
-           "July", "Augusti", "September", "Oktober", "November", "December" ];
+    var m = [ "months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
+    "months.july", "months.august", "months.september", "months.october", "months.november", "months.december" ];
     return m[number - 1];
   }
 

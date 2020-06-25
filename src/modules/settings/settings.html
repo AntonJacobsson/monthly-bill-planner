@@ -1,24 +1,24 @@
 <template>
-    <section class="section" style="padding-top: 1.5em">
+  <section class="section" style="padding-top: 1.5em">
     <div class="field">
-        <label class="label">Ändra Språk</label>
-        <div class="control">
-          <div class="select is-medium">
-            <select value.bind="selectedLanguage">
-                <option model.bind="language.locale" repeat.for="language of languages">${language.name}</option>
-            </select>
-          </div>
+      <label class="label" t="change-language"></label>
+      <div class="control">
+        <div class="select is-medium">
+          <select value.bind="selectedLanguage">
+            <option model.bind="language.locale" repeat.for="language of languages">${language.name}</option>
+          </select>
         </div>
+      </div>
     </div>
     <div class="field">
-        <label class="label">Ändra Valuta</label>
-        <div class="control">
-          <div class="select is-medium">
-            <select value.bind="selectedCurrency">
-                <option repeat.for="currency of currencies">${currency}</option>
-            </select>
-          </div>
+      <label class="label" t="change-currency"></label>
+      <div class="control">
+        <div class="select is-medium">
+          <select value.bind="selectedCurrency">
+            <option repeat.for="currency of currencies">${currency}</option>
+          </select>
         </div>
+      </div>
     </div>
-    </section>
+  </section>
 </template>

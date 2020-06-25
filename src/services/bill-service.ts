@@ -48,7 +48,6 @@ export class BillService {
 
       let billToUpdate = this.bills.find(x => x.id === bill.id);
       billToUpdate.name = bill.name;
-      billToUpdate.newBill = bill.newBill;
       billToUpdate.payPeriod = bill.payPeriod;
       billToUpdate.payStartMonth = bill.payStartMonth;
       billToUpdate.totalCost = bill.totalCost;

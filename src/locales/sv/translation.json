@@ -9,5 +9,21 @@
     "bill-title" : "Räkningar",
     "edit" : "Ändra",
     "delete": "Ta bort",
-    "total": "Totalt"
+    "total": "Totalt",
+    "change-language": "Ändra språk",
+    "change-currency": "Ändra valuta", 
+    "months": {
+        "january": "Januari",
+        "february": "Februari",
+        "march": "Mars",
+        "april": "April",
+        "may": "Maj",
+        "june": "Juni",
+        "july": "Juli",
+        "august": "Augusti",
+        "september": "September",
+        "october": "Oktober",
+        "november":"November",
+        "december":"December"
+    }
 }

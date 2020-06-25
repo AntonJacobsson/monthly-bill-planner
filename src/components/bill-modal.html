@@ -17,10 +17,16 @@
       </div>
 
       <div class="field">
-        <label class="label">Betalningsdatum</label>
+        <label class="label">Betalningsmånad</label>
         <div class="control">
-          <input class="input" type="number" placeholder="2" value.bind="bill.payStartMonth">
+          <div class="select">
+          <select value.bind="bill.payStartMonth">
+            <option repeat.for="month of months"
+                    model.bind="month.month" t='${month.name}'>
+            </option>
+          </select>
         </div>
+      </div>
       </div>
 
       <div class="field">
@@ -30,26 +36,11 @@
         </div>
       </div>
 
-      <div class="field">
-        <label class="label">Är räkningen ny?</label>
-        <div class="control">
-          <label class="radio">
-            <input type="radio" name="question" model.bind="true" checked.bind="bill.newBill">
-            Ja
-          </label>
-          <label class="radio">
-            <input type="radio" name="question" model.bind="false" checked.bind="bill.newBill">
-            Nej
-          </label>
-        </div>
-      </div>
-
-
     </ux-dialog-body>
 
     <ux-dialog-footer>
-      <button click.trigger="controller.cancel()">Avbryt</button>
-      <button click.trigger="controller.ok(bill)">${createOrEditTitle}</button>
+      <button class="button is-seconday"click.trigger="controller.cancel()">Avbryt</button>
+      <button class="button is-primary"click.trigger="controller.ok(bill)">${createOrEditTitle}</button>
     </ux-dialog-footer>
   </ux-dialog>
 </template>
