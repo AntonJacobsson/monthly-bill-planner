@@ -4,4 +4,5 @@ export class Bill {
     public name: string;
     public totalCost: number;
     public payStartMonth: number;
+    public createdDate: string;
 }

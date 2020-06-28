@@ -21,6 +21,15 @@ export class BillModal {
     {name: "months.october",  month: 10},
     {name: "months.november", month: 11},
     {name: "months.december", month: 12}];
+
+  public payperiods = [
+    {name: "payperiod.never", value: 0},
+    {name: "payperiod.every1month", value: 1},
+    {name: "payperiod.every2month", value: 2},
+    {name: "payperiod.every3month", value: 3},
+    {name: "payperiod.every6month", value: 6},
+    {name: "payperiod.every12month", value: 12},
+  ]
   
   constructor(controller: DialogController){
     this.controller = controller;
@@ -28,9 +37,9 @@ export class BillModal {
   activate(bill: Bill){
 
     if(bill !== null) {
-      this.createOrEditTitle = "Ändra";
+      this.createOrEditTitle = "change";
     } else {
-      this.createOrEditTitle = "Skapa";
+      this.createOrEditTitle = "create";
     }
 
     this.bill = bill;

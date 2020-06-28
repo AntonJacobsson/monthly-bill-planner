@@ -33,6 +33,7 @@ export class BillService {
 
     createBill(bill: Bill) {
         bill.id = Guid.raw();
+        bill.createdDate = new Date().toISOString();
         this.bills.push(bill);
 
         this.updateLocalStorage();

@@ -3,46 +3,48 @@
     <ux-dialog-body>
 
       <div class="field">
-        <label class="label">Namn</label>
+        <label class="label" t="name"></label>
         <div class="control">
-          <input class="input" type="text" value.bind="bill.name" placeholder="Bostadsförsäkring">
+          <input class="input" type="text" value.bind="bill.name" placeholder="">
         </div>
       </div>
 
       <div class="field">
-        <label class="label">Pris</label>
+        <label class="label" t="price"></label>
         <div class="control">
           <input class="input" type="number" value.bind="bill.totalCost" placeholder="1000">
         </div>
       </div>
 
       <div class="field">
-        <label class="label">Betalningsmånad</label>
+        <label class="label" t="paymonth"></label>
         <div class="control">
           <div class="select">
-          <select value.bind="bill.payStartMonth">
-            <option repeat.for="month of months"
-                    model.bind="month.month" t='${month.name}'>
-            </option>
-          </select>
+            <select value.bind="bill.payStartMonth">
+              <option repeat.for="month of months" model.bind="month.month" t='${month.name}'>
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
       </div>
 
       <div class="field">
-        <label class="label">Hur återkommande är räkningen</label>
+        <label class="label" t="recurringbill"></label>
         <div class="control">
-          <input class="input" type="number" placeholder="2" value.bind="bill.payPeriod">
+          <div class="select">
+            <select value.bind="bill.payPeriod">
+              <option repeat.for="payperiod of payperiods" model.bind="payperiod.value" t='${payperiod.name}'>
+              </option>
+            </select>
+          </div>
         </div>
       </div>
 
     </ux-dialog-body>
 
     <ux-dialog-footer>
-      <button class="button is-seconday"click.trigger="controller.cancel()">Avbryt</button>
-      <button class="button is-primary"click.trigger="controller.ok(bill)">${createOrEditTitle}</button>
+      <button class="button is-seconday" click.trigger="controller.cancel()" t="cancel"></button>
+      <button class="button is-primary" click.trigger="controller.ok(bill)" t="${createOrEditTitle}"></button>
     </ux-dialog-footer>
   </ux-dialog>
 </template>
-
-

@@ -25,5 +25,20 @@
         "october": "October",
         "november":"November",
         "december":"December"
-    }
+    },
+    "payperiod": {
+        "never": "Not recurring",
+        "every1month": "Every month",
+        "every2month": "Every other month",
+        "every3month": "Quarter",
+        "every6month": "Six months",
+        "every12month": "Year"
+    },
+    "name": "Name",
+    "price": "Price",
+    "paymonth": "Payment Month",
+    "recurringbill": "How recurring is the bill?",
+    "change": "Edit",
+    "create": "Create",
+    "cancel": "Cancel"
 }

@@ -25,5 +25,20 @@
         "october": "Oktober",
         "november":"November",
         "december":"December"
-    }
+    },
+    "payperiod": {
+        "never": "Inte återkommande",
+        "every1month": "Varje månad",
+        "every2month": "Varannan månad",
+        "every3month": "Kvartal",
+        "every6month": "Halvår",
+        "every12month": "År"
+    },
+    "name": "Namn",
+    "price": "Pris",
+    "paymonth": "Betalningsmånad",
+    "recurringbill": "Hur återkommande är räkningen?",
+    "change": "Ändra",
+    "create": "Skapa",
+    "cancel": "Avbryt"
 }

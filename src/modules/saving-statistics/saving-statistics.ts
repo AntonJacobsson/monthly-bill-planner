@@ -1,6 +1,7 @@
 import { observable } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
+
 @inject(BillService)
 
 export class SavingStatistics {
@@ -44,7 +45,7 @@ export class SavingStatistics {
 
     let newArr = [];
 
-    newArr = this.billMonthRows.filter(x => x.month >= bill.payStartMonth);
+    newArr = this.billMonthRows.filter(x => x.month > bill.payStartMonth);
 
     if (bill.payPeriod > 0) {
       newArr.forEach(element => {
@@ -56,26 +57,23 @@ export class SavingStatistics {
           payStartMonth: bill.payStartMonth,
         }
 
-        if (element.month === currentBill.payStartMonth) {
-          currentBill.name += '*'
-        }
-
         element.bills.push(currentBill);
       });
     }
 
-    var rowsBeforeBill = this.billMonthRows.filter(x => x.month <= bill.payStartMonth && x.month >= this.currentMonth);
+    var rowsBeforeBill = this.billMonthRows.filter(x => x.month <= bill.payStartMonth && x.month >= Number(bill.createdDate.substring(5,7)));
 
     rowsBeforeBill.forEach(element => {
-
         var obj = {
         payPeriod: bill.payPeriod,
         name: bill.name,
         totalCost: Number((totalCost / rowsBeforeBill.length).toFixed(0)),
-        payStartMonth: bill.payStartMonth
+        payStartMonth: bill.payStartMonth,
+        createdDate: bill.createdDate
       }
       element.bills.push(obj);
     });
+
   }
 
   totalMonthCost(bills: any[]) {
