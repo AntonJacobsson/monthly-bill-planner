@@ -61,25 +61,41 @@ export class SavingStatistics {
       });
     }
 
-    var rowsBeforeBill = this.billMonthRows.filter(x => x.month <= bill.payStartMonth && x.month >= Number(bill.createdDate.substring(5,7)));
 
-    rowsBeforeBill.forEach(element => {
-        var obj = {
+    let createdMonth = Number(bill.createdDate.substring(5,7));
+
+    if(bill.payStartMonth > createdMonth) {
+      var rowsBeforeBill = this.billMonthRows.filter(x => x.month <= bill.payStartMonth && x.month >= createdMonth);
+
+      rowsBeforeBill.forEach(element => {
+          var obj = {
+          payPeriod: bill.payPeriod,
+          name: bill.name,
+          totalCost: Number((totalCost / rowsBeforeBill.length).toFixed(0)),
+          payStartMonth: bill.payStartMonth,
+          createdDate: bill.createdDate
+        }
+        element.bills.push(obj);
+      });
+    } else {
+      var obj = {
         payPeriod: bill.payPeriod,
         name: bill.name,
-        totalCost: Number((totalCost / rowsBeforeBill.length).toFixed(0)),
+        totalCost: bill.totalCost,
         payStartMonth: bill.payStartMonth,
         createdDate: bill.createdDate
       }
-      element.bills.push(obj);
-    });
+      this.billMonthRows.find(x => x.month === bill.payStartMonth).bills.push(obj);
+    }
+
+
 
   }
 
   totalMonthCost(bills: any[]) {
     var totalCost = 0;
     bills.forEach(element => {
-      totalCost += element.totalCost;
+      totalCost += Number(element.totalCost);
     });
     return totalCost;
   }
