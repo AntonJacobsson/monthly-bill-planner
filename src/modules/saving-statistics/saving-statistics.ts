@@ -110,7 +110,7 @@ export class SavingStatistics {
   totalMonthCost(bills: Bill[]) {
     var totalCost = 0;
     bills.forEach(element => {
-      totalCost += element.totalCost;
+      totalCost += Number(element.totalCost);
     });
     return totalCost;
   }
