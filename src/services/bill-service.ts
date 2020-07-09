@@ -50,8 +50,9 @@ export class BillService {
       let billToUpdate = this.bills.find(x => x.id === bill.id);
       billToUpdate.name = bill.name;
       billToUpdate.payPeriod = bill.payPeriod;
-      billToUpdate.payStartMonth = bill.payStartMonth;
       billToUpdate.totalCost = bill.totalCost;
+      billToUpdate.startDate = bill.startDate;
+      billToUpdate.endDate = bill.endDate;
 
       this.updateLocalStorage();
       }

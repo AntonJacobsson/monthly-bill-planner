@@ -12,6 +12,7 @@ export function configure(aurelia: Aurelia) {
       config.useCSS('');
     })
     .plugin(PLATFORM.moduleName('aurelia-swipeout'))
+    .plugin(PLATFORM.moduleName('aurelia-validation'))
     .plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
       let aliases = ['t', 'i18n'];
       TCustomAttribute.configureAliases(aliases);

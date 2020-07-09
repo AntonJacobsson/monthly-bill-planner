@@ -9,8 +9,7 @@ ux-dialog-overlay {
     &.active {
       opacity: 1;
     }
-  }
-  
+  }  
   ux-dialog-container {
     display: block;
     transition: opacity .2s linear;
@@ -48,6 +47,7 @@ ux-dialog-overlay {
       outline: 0;
     }
   }
+
   
   ux-dialog {
     display: block;
@@ -98,3 +98,4 @@ ux-dialog-overlay {
   .ux-dialog-open {
     overflow: hidden;
   }
+

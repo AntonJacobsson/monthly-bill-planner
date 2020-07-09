@@ -2,9 +2,18 @@ import {DialogController} from 'aurelia-dialog';
 import {inject } from 'aurelia-framework';
 import { Bill } from 'models/bill';
 import './bill-modal.scss';
+import {NewInstance} from 'aurelia-framework';
+import {ValidationRules, ValidationController} from "aurelia-validation";
 
-@inject(DialogController)
+@inject(DialogController, NewInstance.of(ValidationController))
 export class BillModal {
+
+  public payPeriod: number;
+  public name: string;
+  public totalCost: number;
+  public startDate: string;
+  public endDate: string;
+
   public controller: DialogController;
   public bill: Bill;
   public createOrEditTitle: string = "";
@@ -31,12 +40,28 @@ export class BillModal {
     {name: "payperiod.every12month", value: 12},
   ]
   
-  constructor(controller: DialogController){
-    this.controller = controller;
+  constructor(controller: DialogController, private _controller: ValidationController){
+    this.controller = controller;     
+    
+    ValidationRules
+      .ensure((m: BillModal) => m.name).required()
+      .ensure((m: BillModal) => m.payPeriod).required()
+      .ensure((m: BillModal) => m.totalCost).required()
+      .ensure((m: BillModal) => m.startDate).required()
+      .ensure((m: BillModal) => m.endDate).required()
+      .on(this);
   }
-  activate(bill: Bill){
 
+  activate(bill: Bill){
+    console.log(bill);
     if(bill !== null) {
+
+      this.name = bill.name;
+      this.payPeriod = bill.payPeriod;
+      this.totalCost = bill.totalCost;
+      this.startDate = bill.startDate;
+      this.endDate = bill.endDate;
+
       this.createOrEditTitle = "change";
     } else {
       this.createOrEditTitle = "create";
@@ -44,6 +69,24 @@ export class BillModal {
 
     this.bill = bill;
   }
+
+
+  async validateOnCreateOrEdit() {
+
+    var result = await this._controller.validate();
+
+    if(result.valid) {
+        this.bill.createdDate = (this.bill.createdDate !== null) ? this.bill.createdDate : null,
+        this.bill.endDate = this.endDate,
+        this.bill.startDate = this.startDate,
+        this.bill.id = (this.bill.id !== null) ? this.bill.id : null,
+        this.bill.name = this.name,
+        this.bill.payPeriod = this.payPeriod,
+        this.bill.totalCost = this.totalCost
+
+        this.controller.ok(this.bill);
+      }
+    }
 }
 
 

@@ -40,5 +40,14 @@
     "recurringbill": "How recurring is the bill?",
     "change": "Edit",
     "create": "Create",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "bill-created": "Bill Created at: ",
+    "validation": {
+        "name-missing": "Name cannot be empty. Please enter a valid name",
+        "totalCost-missing": "Price cannot be empty. Please enter a valid price",
+        "startDate-missing": "Start Date cannot be empty. Please enter a valid start date",
+        "endDate-missing": "End Date cannot be empty. Please enter a valid end date"
+    }   
 }

@@ -1,15 +1,19 @@
 import { observable } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
+import { Bill } from 'models/bill';
+import * as moment from 'moment'
 
 @inject(BillService)
 
 export class SavingStatistics {
 
   private _billService: BillService
+  private _bills: Bill[];
 
-  public months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  @observable currentMonth: number;
+  public months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  public years: number[] = [];
+  @observable selectedYear: number;
 
   public billMonthRows: BillMonthRow[] = []
 
@@ -17,11 +21,20 @@ export class SavingStatistics {
     this._billService = billService;
   }
 
+  selectedYearChanged(newValue: any, oldValue: any) {
+    if(oldValue !== undefined) {
+      this.billMonthRows.forEach(element => {
+        element.bills = [];
+     });
+    
+     this._bills.forEach(element => {
+       this.filterBillMonthRows(element);
+     });
+    }
+  }
+
 
   activate() {
-
-    var currentDate = new Date();
-    this.currentMonth = currentDate.getMonth() + 1;
 
     this.months.forEach(element => {
       var billMonthRow: BillMonthRow = {
@@ -31,52 +44,70 @@ export class SavingStatistics {
       this.billMonthRows.push(billMonthRow);
     });
 
-    const bills = this._billService.getBills();
-    bills.forEach(element => {
+    this._bills = this._billService.getBills();
+
+    this.years = this.getBillYears(this._bills);
+
+    this._bills.forEach(element => {
       this.filterBillMonthRows(element);
     });
 
   }
 
 
-  filterBillMonthRows(bill: any): void {
+  filterBillMonthRows(bill: Bill): void {
 
-    const totalCost: number = bill.totalCost;
-
-    let newArr = [];
-
-    newArr = this.billMonthRows.filter(x => x.month > bill.payStartMonth);
-
-    if (bill.payPeriod > 0) {
-      newArr.forEach(element => {
-
-        const currentBill = {
-          payPeriod: bill.payPeriod,
-          name: bill.name,
-          totalCost: Number((totalCost / bill.payPeriod).toFixed(0)),
-          payStartMonth: bill.payStartMonth,
-        }
-
-        element.bills.push(currentBill);
-      });
+    if (moment(bill.startDate).year() < this.selectedYear && moment(bill.endDate).year() < this.selectedYear) {
+      return;
     }
 
-    var rowsBeforeBill = this.billMonthRows.filter(x => x.month <= bill.payStartMonth && x.month >= Number(bill.createdDate.substring(5,7)));
+    if (moment(bill.startDate).year() > this.selectedYear && moment(bill.endDate).year() > this.selectedYear) {
+      return;
+    }
 
-    rowsBeforeBill.forEach(element => {
-        var obj = {
+    var billsActiveMonths = [];
+    var costPerMonth = [];
+
+
+    var startDate = moment(bill.startDate);
+    var endDate = moment(bill.endDate);
+
+    while (startDate.isBefore(endDate)) {
+      billsActiveMonths.push(startDate.format("YYYY-MM-01"));
+      startDate.add(1, 'month');
+    }
+
+    for (let i = 0; i < billsActiveMonths.length; i++) {
+      const element = billsActiveMonths[i];
+      
+      var obj = {
+        date: element,
+        cost: 0
+      }
+
+      if(bill.payPeriod === 0 || i === 0) {
+        obj.cost = Number((bill.totalCost / 1).toFixed(0));
+      } else {
+        obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+      }
+        
+      costPerMonth.push(obj);
+    };
+
+    var costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() == this.selectedYear);
+
+    costPerMonthWithinSelectedYear.forEach(element => {
+
+      const currentBill = {
         payPeriod: bill.payPeriod,
         name: bill.name,
-        totalCost: Number((totalCost / rowsBeforeBill.length).toFixed(0)),
-        payStartMonth: bill.payStartMonth,
-        createdDate: bill.createdDate
-      }
-      element.bills.push(obj);
+        totalCost: Number(element.cost)
+      };
+      this.billMonthRows.find(x => x.month -1 === moment(element.date).month()).bills.push(currentBill)
     });
-
   }
 
-  totalMonthCost(bills: any[]) {
+  totalMonthCost(bills: Bill[]) {
     var totalCost = 0;
     bills.forEach(element => {
       totalCost += element.totalCost;
@@ -85,11 +116,47 @@ export class SavingStatistics {
   }
 
   getMonthString(number: number) {
-    var m = [ "months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
-    "months.july", "months.august", "months.september", "months.october", "months.november", "months.december" ];
+    var m = ["months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
+      "months.july", "months.august", "months.september", "months.october", "months.november", "months.december"];
     return m[number - 1];
   }
 
+  getBillYears(bills: Bill[]) {
+
+    const years: number[] = [];
+
+    const billYears = bills.map(a => a.startDate);
+
+    bills.map(a => a.endDate).forEach(element => {
+      billYears.push(element);
+    });
+
+    billYears.forEach(element => {
+      years.push(Number(element.substring(0, 4)))
+    });
+
+
+    var uniq = [...new Set(years)].sort();
+    var currentYear = Number(new Date().toISOString().substring(0, 4));
+    var yearsInRange = [];
+    
+
+    if (uniq.length === 0) {
+      yearsInRange.push(currentYear);
+    } else {
+
+      for (var i = uniq[0]; i <= uniq[uniq.length - 1]; i++) {
+          yearsInRange.push(i);
+      }
+    }
+
+    if(yearsInRange.includes(currentYear)) {
+      this.selectedYear = currentYear;
+    } else {
+      this.selectedYear = yearsInRange[0];
+    }
+    return yearsInRange
+  }
 }
 
 export class BillMonthRow {

@@ -40,5 +40,14 @@
     "recurringbill": "Hur återkommande är räkningen?",
     "change": "Ändra",
     "create": "Skapa",
-    "cancel": "Avbryt"
+    "cancel": "Avbryt",
+    "startDate": "Startdatum",
+    "endDate": "Slutdatum",
+    "bill-created": "Räkningen skapades: ",
+    "validation": {
+        "name-missing": "Namn kan inte vara tomt. Fyll i ett giltligt namn",
+        "totalCost-missing": "Pris kan inte vara tomt. Fyll i ett giltligt pris",
+        "startDate-missing": "Startdatum kan inte vara tomt. Fyll i ett giltligt startdatum",
+        "endDate-missing": "Slutdatum kan inte vara tomt. Fyll i ett giltligt slutdatum"
+    }   
 }

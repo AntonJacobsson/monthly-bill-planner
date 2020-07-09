@@ -1,6 +1,19 @@
 <template>
     <section class="section">
+      <div class="title-button-row">
+        <h5 class="title is-5" t="bill-title"></h5>
+        
+          <div class="control">
+            <div class="select">
+              <select value.bind="selectedYear">
+                <option repeat.for="year of years" model.bind="year">
+                  ${year}
+                </option>
+              </select>
+            </div>
+          </div>
 
+      </div>
         <div class="columns">
             <div repeat.for="billMonth of billMonthRows" class="column">
                 <h4 class="title is-4" t="${getMonthString(billMonth.month)}"></h4>
