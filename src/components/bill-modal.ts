@@ -53,7 +53,6 @@ export class BillModal {
   }
 
   activate(bill: Bill){
-    console.log(bill);
     if(bill !== null) {
 
       this.name = bill.name;
@@ -63,11 +62,11 @@ export class BillModal {
       this.endDate = bill.endDate;
 
       this.createOrEditTitle = "change";
+      this.bill = bill;
     } else {
       this.createOrEditTitle = "create";
+      this.bill = new Bill();
     }
-
-    this.bill = bill;
   }
 
 
@@ -76,7 +75,7 @@ export class BillModal {
     var result = await this._controller.validate();
 
     if(result.valid) {
-        this.bill.createdDate = (this.bill.createdDate !== null) ? this.bill.createdDate : null,
+        this.bill.createdDate = (this.bill.createdDate !== null || this.bill.createdDate !== undefined) ? this.bill.createdDate : null,
         this.bill.endDate = this.endDate,
         this.bill.startDate = this.startDate,
         this.bill.id = (this.bill.id !== null) ? this.bill.id : null,

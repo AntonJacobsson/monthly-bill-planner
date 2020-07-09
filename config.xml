@@ -17,6 +17,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
+        <icon src="www/icons/bill_icon.png" platform="android" qualifier="mdpi"/>
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
