@@ -12,7 +12,6 @@ export class DeletePrompt {
     }
 
     activate(bill: Bill){
-        console.log(bill);
           this.bill = bill;
     }
 
