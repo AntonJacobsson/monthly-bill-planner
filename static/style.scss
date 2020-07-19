@@ -16,18 +16,18 @@ $primary-color: #00d1b2;
     min-height: 2em;
 }
 
-.navbar-icons > div {
+.navbar-icons > a {
     width: 100%;
     text-align: center;
     padding: 0.25em;
 }
 
-.navbar-icons > div > a > svg {
+.navbar-icons > a > div > svg {
     width: 1.5em;
     height: 1.5em;
 }
 
-.navbar-icons > div > a > p {
+.navbar-icons > a > div > p {
     margin-top: -.5em;
     font-size: .75em;
 }
