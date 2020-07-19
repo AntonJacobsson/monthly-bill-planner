@@ -1,4 +1,4 @@
-@import '~aurelia-swipeout/style/swipeout';
+@import "../src/components/modal.scss";
 @import "../node_modules/bulma/bulma.sass";
 
 $primary-color: #00d1b2;
@@ -50,13 +50,10 @@ body > ux-dialog-overlay.active {
 .ux-dialog-open {
     max-height: 100vh;
 }
-.button-slideout-fix {
-    height: 100%;
-    padding-top:0px;
-    outline: 1px solid white;
-    padding-bottom: 0px;
+.card-clickable {
+    background: #ebfffc;
 }
-.slide-out-wrapper {
-    display: flex;
-    flex-direction: column;
+.card-clickable:active {
+    background: grayscale($color: #ebfffc);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
 }

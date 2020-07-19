@@ -1,5 +1,5 @@
 {
-    "title": "Måndadskoll",
+    "title": "Månadskoll",
     "routes": {
         "settings": "Inställningar",
         "bill-handler": "Hantera Räkningar",
@@ -49,5 +49,6 @@
         "totalCost-missing": "Pris kan inte vara tomt. Fyll i ett giltligt pris",
         "startDate-missing": "Startdatum kan inte vara tomt. Fyll i ett giltligt startdatum",
         "endDate-missing": "Slutdatum kan inte vara tomt. Fyll i ett giltligt slutdatum"
-    }   
+    },
+    "delete-warning": "Är du säker på att du vill ta bort räkningen?"
 }

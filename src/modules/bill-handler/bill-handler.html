@@ -8,20 +8,7 @@
 
     <div class="columns">
       <div repeat.for="bill of bills" class="column">
-        <div class="card" style="background: #ebfffc;">
-          <swipeout>
-            <div slot="right">
-              <div class="slide-out-wrapper">
-                <button click.delegate="edit(bill)" class="swipeout__action  button-slideout-fix" t="edit">
-                  Edit
-                </button>
-                <button click.delegate="deleteBill(bill)" class="swipeout__action button-slideout-fix" t="delete">
-                  Delete
-                </button>
-              </div>
-            </div>
-
-            <div slot="content" style="background: #ebfffc;">
+        <div click.delegate="edit(bill)" long-click.delegate="openDeletePrompt(bill)" class="card card-clickable">
               <div style="display: flex; justify-content: space-between;">
                 <p class="card-header-title">
                   ${bill.name}
@@ -33,7 +20,6 @@
               <h2 class="subtitle is-2 text-center">${bill.totalCost | currencyFormat} </h2>
               <footer class="card-footer">
               </footer>
-            </div>
         </div>
         </swipeout>
       </div>

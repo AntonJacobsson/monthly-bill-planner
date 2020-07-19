@@ -3,6 +3,7 @@ import { DialogService } from 'aurelia-dialog';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
+import { DeletePrompt } from 'components/delete-prompt';
 
 @inject(DialogService, BillService)
 
@@ -25,8 +26,14 @@ export class BillHandler {
       if (!response.wasCancelled) {
         var createdBill = this._billService.createBill(response.output)
         this.bills.push(createdBill);
-      } else {
+      }
+    });
+  }
 
+  openDeletePrompt(bill: Bill) {
+    this.dialogService.open({ viewModel: DeletePrompt, model: bill }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+      if (!response.wasCancelled) {
+        this.deleteBill(response.output);
       }
     });
   }
@@ -40,8 +47,6 @@ export class BillHandler {
     this.dialogService.open({ viewModel: BillModal, model: bill }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
-      } else {
-
       }
     });
   }

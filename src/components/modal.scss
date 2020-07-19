@@ -12,7 +12,7 @@ ux-dialog-overlay {
   }  
   ux-dialog-container {
     display: block;
-    transition: opacity .2s linear;
+    transition: opacity .25s linear;
     opacity: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -26,11 +26,7 @@ ux-dialog-overlay {
     &.active {
       opacity: 1;
     }
-  
-    & > div {
-      padding: 30px;
-    }
-  
+    
     & > div > div {
       display: block;
       height: -moz-fit-content;
@@ -50,8 +46,10 @@ ux-dialog-overlay {
 
   
   ux-dialog {
+    border-radius: 4px;
     display: block;
     background: white;
+    margin: 30px;
   
     > ux-dialog-body {
       display: block;
@@ -59,17 +57,20 @@ ux-dialog-overlay {
     }
   
     > ux-dialog-footer {
-      display: block;
-      padding: 6px;
+      display:flex;
       border-top: 1px solid #e5e5e5;
       text-align: right;
   
       button {
+        flex: 1;
+        border-radius: 0px!important;
+        padding: 24px 12px!important;
+        font-size: 1.25em!important;
         color: #333;
         background-color: #fff;
-  
-        padding: 6px 12px;
-        font-size: 14px;
+        
+
+        font-size: 16px;
         text-align: center;
         white-space: nowrap;
         vertical-align: middle;
@@ -79,7 +80,6 @@ ux-dialog-overlay {
         background-image: none;
         border: 1px solid #ccc;
         border-radius: 4px;
-        margin: 5px 0 5px 5px;
   
         &:disabled {
           cursor: default;

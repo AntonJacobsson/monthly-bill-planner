@@ -1,7 +1,6 @@
 import {DialogController} from 'aurelia-dialog';
 import {inject } from 'aurelia-framework';
 import { Bill } from 'models/bill';
-import './bill-modal.scss';
 import {NewInstance} from 'aurelia-framework';
 import {ValidationRules, ValidationController} from "aurelia-validation";
 

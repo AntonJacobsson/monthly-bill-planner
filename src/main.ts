@@ -11,7 +11,7 @@ export function configure(aurelia: Aurelia) {
     .plugin(PLATFORM.moduleName('aurelia-dialog'), config => {
       config.useCSS('');
     })
-    .plugin(PLATFORM.moduleName('aurelia-swipeout'))
+    .plugin(PLATFORM.moduleName("aurelia-long-click-event"), { longClickEventName: "long-click", clickDurationMS: 600 })
     .plugin(PLATFORM.moduleName('aurelia-validation'))
     .plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
       let aliases = ['t', 'i18n'];

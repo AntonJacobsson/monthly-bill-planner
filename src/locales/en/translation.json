@@ -49,5 +49,6 @@
         "totalCost-missing": "Price cannot be empty. Please enter a valid price",
         "startDate-missing": "Start Date cannot be empty. Please enter a valid start date",
         "endDate-missing": "End Date cannot be empty. Please enter a valid end date"
-    }   
+    },
+    "delete-warning": "Are you sure you want to delete this bill"
 }
