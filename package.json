@@ -19,7 +19,7 @@
     "cordova-browser": "^6.0.0",
     "guid-typescript": "^1.0.9",
     "i18next-xhr-backend": "^3.2.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0"
   },
   "devDependencies": {
