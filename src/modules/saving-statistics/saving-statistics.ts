@@ -57,56 +57,62 @@ export class SavingStatistics {
 
   filterBillMonthRows(bill: Bill): void {
 
-    if (moment(bill.startDate).year() < this.selectedYear && moment(bill.endDate).year() < this.selectedYear) {
-      return;
-    }
+    if(bill.payPeriod === 0) {
+      var startDate = moment(bill.startDate);
+      this.billMonthRows.find(x => x.month -1 === moment(startDate).month()).bills.push(bill)
 
-    if (moment(bill.startDate).year() > this.selectedYear && moment(bill.endDate).year() > this.selectedYear) {
-      return;
-    }
-
-    var billsActiveMonths = [];
-    var costPerMonth = [];
-
-
-    var startDate = moment(bill.startDate);
-    var endDate = moment(bill.endDate);
-
-    while (startDate.isBefore(endDate)) {
-      billsActiveMonths.push(startDate.format("YYYY-MM-01"));
-      startDate.add(1, 'month');
-    }
-
-    for (let i = 0; i < billsActiveMonths.length; i++) {
-      const element = billsActiveMonths[i];
-      
-      var obj = {
-        date: element,
-        cost: 0
+    } else {
+      if (moment(bill.startDate).year() < this.selectedYear && moment(bill.endDate).year() < this.selectedYear) {
+        return;
       }
-
-      if(bill.payPeriod === 0 || i === 0) {
-        obj.cost = Number((bill.totalCost / 1).toFixed(0));
-      } else {
-        obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+  
+      if (moment(bill.startDate).year() > this.selectedYear && moment(bill.endDate).year() > this.selectedYear) {
+        return;
       }
+  
+      var billsActiveMonths = [];
+      var costPerMonth = [];
+  
+  
+      var startDate = moment(bill.startDate);
+      var endDate = moment(bill.endDate);
+    
+      while (startDate.isBefore(endDate)) {
+        billsActiveMonths.push(startDate.format("YYYY-MM-01"));
+        startDate.add(1, 'month');
+      }
+  
+      for (let i = 0; i < billsActiveMonths.length; i++) {
+        const element = billsActiveMonths[i];
         
-      costPerMonth.push(obj);
-    };
-
-    var costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() == this.selectedYear);
-
-    costPerMonthWithinSelectedYear.forEach(element => {
-
-      const currentBill = {
-        payPeriod: bill.payPeriod,
-        name: bill.name,
-        totalCost: Number(element.cost)
+        var obj = {
+          date: element,
+          cost: 0
+        }
+  
+        if(bill.payPeriod === 0 || i === 0) {
+          obj.cost = Number((bill.totalCost / 1).toFixed(0));
+        } else {
+          obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+        }
+          
+        costPerMonth.push(obj);
       };
-      this.billMonthRows.find(x => x.month -1 === moment(element.date).month()).bills.push(currentBill)
-    });
+  
+      var costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() == this.selectedYear);
+  
+      costPerMonthWithinSelectedYear.forEach(element => {
+  
+        const currentBill = {
+          payPeriod: bill.payPeriod,
+          name: bill.name,
+          totalCost: Number(element.cost)
+        };
+        this.billMonthRows.find(x => x.month -1 === moment(element.date).month()).bills.push(currentBill)
+      });
+    }
   }
-
+  
   totalMonthCost(bills: Bill[]) {
     var totalCost = 0;
     bills.forEach(element => {
@@ -132,7 +138,9 @@ export class SavingStatistics {
     });
 
     billYears.forEach(element => {
-      years.push(Number(element.substring(0, 4)))
+      if(element !== undefined) {
+        years.push(Number(element.substring(0, 4)))
+      }
     });
 
 

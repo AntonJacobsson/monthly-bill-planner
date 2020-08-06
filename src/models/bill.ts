@@ -6,4 +6,5 @@ export class Bill {
     public createdDate: string;
     public startDate: string;
     public endDate: string;
+    public notes: string;
 }

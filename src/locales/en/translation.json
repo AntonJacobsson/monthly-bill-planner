@@ -50,5 +50,8 @@
         "startDate-missing": "Start Date cannot be empty. Please enter a valid start date",
         "endDate-missing": "End Date cannot be empty. Please enter a valid end date"
     },
-    "delete-warning": "Are you sure you want to delete this bill"
+    "delete-warning": "Are you sure you want to delete this bill",
+    "notes": "Notes",
+    "required": "Required info",
+    "additional": "Additional info"
 }

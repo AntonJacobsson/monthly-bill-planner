@@ -12,7 +12,9 @@ export class BillModal {
   public totalCost: number;
   public startDate: string;
   public endDate: string;
+  public notes: string;
 
+  public essentialTabActive: boolean = true;
   public controller: DialogController;
   public bill: Bill;
   public createOrEditTitle: string = "";
@@ -47,18 +49,23 @@ export class BillModal {
       .ensure((m: BillModal) => m.payPeriod).required()
       .ensure((m: BillModal) => m.totalCost).required()
       .ensure((m: BillModal) => m.startDate).required()
-      .ensure((m: BillModal) => m.endDate).required()
+      .ensure((m: BillModal) => m.endDate).required().when(x => x.payPeriod !== 0)
       .on(this);
   }
 
   activate(bill: Bill){
     if(bill !== null) {
-
       this.name = bill.name;
       this.payPeriod = bill.payPeriod;
       this.totalCost = bill.totalCost;
       this.startDate = bill.startDate;
       this.endDate = bill.endDate;
+
+      if (bill.notes !== undefined) {
+        this.notes = bill.notes;
+      } else {
+        this.notes = "";
+      }
 
       this.createOrEditTitle = "change";
       this.bill = bill;
@@ -74,17 +81,26 @@ export class BillModal {
     var result = await this._controller.validate();
 
     if(result.valid) {
-        this.bill.createdDate = (this.bill.createdDate !== null || this.bill.createdDate !== undefined) ? this.bill.createdDate : null,
+        this.bill.createdDate = (this.bill.createdDate !== null || this.bill.createdDate !== undefined) ? this.bill.createdDate : null;
+
         this.bill.endDate = this.endDate,
         this.bill.startDate = this.startDate,
         this.bill.id = (this.bill.id !== null) ? this.bill.id : null,
         this.bill.name = this.name,
         this.bill.payPeriod = this.payPeriod,
-        this.bill.totalCost = this.totalCost
+        this.bill.totalCost = this.totalCost,
+        this.bill.notes = this.notes,
 
         this.controller.ok(this.bill);
       }
+  }
+  setEssentialTabActive(value: boolean) {
+    if(value) {
+      this.essentialTabActive = true;
+    } else {
+      this.essentialTabActive = false;
     }
+  }
 }
 
 

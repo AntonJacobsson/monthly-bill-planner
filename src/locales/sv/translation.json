@@ -50,5 +50,8 @@
         "startDate-missing": "Startdatum kan inte vara tomt. Fyll i ett giltligt startdatum",
         "endDate-missing": "Slutdatum kan inte vara tomt. Fyll i ett giltligt slutdatum"
     },
-    "delete-warning": "Är du säker på att du vill ta bort räkningen?"
+    "delete-warning": "Är du säker på att du vill ta bort räkningen?",
+    "notes": "Anteckningar",
+    "required": "Nödvändig info",
+    "additional": "Extra info"
 }

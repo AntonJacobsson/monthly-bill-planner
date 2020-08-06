@@ -1,6 +1,10 @@
 <template>
   <ux-dialog style="margin: 0px;">
-    <ux-dialog-body>
+    <ux-dialog-header>
+      <button click.delegate="setEssentialTabActive(true)" class="button is-seconday ${essentialTabActive ? 'is-active' : ''}" t="required"></button>
+      <button click.delegate="setEssentialTabActive(false)" class="button is-seconday ${essentialTabActive ? '' : 'is-active'}" t="additional"></button>
+    </ux-dialog-header>
+    <ux-dialog-body show.bind="essentialTabActive">
      
       <div class="field" validation-errors.bind="nameErrors">
         <label class="label" t="name"></label>
@@ -20,24 +24,6 @@
         <p class="help is-danger" if.bind="totalCostErrors.length === 0">&nbsp;</p>
       </div>
 
-      <div class="field" validation-errors.bind="startDateErrors">
-        <label class="label" t="startDate"></label>
-        <div class="control">
-          <input class="input" type="date" value.bind="startDate & validate" class.bind="startDateErrors.length ? 'is-danger' : ''">
-        </div>
-        <p class="help is-danger" repeat.for="errorInfo of startDateErrors" t="validation.startDate-missing"></p>
-        <p class="help is-danger" if.bind="startDateErrors.length === 0">&nbsp;</p>
-      </div>
-
-      <div class="field" validation-errors.bind="endDateErrors">
-        <label class="label" t="endDate"></label>
-        <div class="control">
-          <input class="input" type="date" value.bind="endDate & validate" class.bind="endDateErrors.length ? 'is-danger' : ''">
-        </div>
-        <p class="help is-danger" repeat.for="errorInfo of endDateErrors" t="validation.endDate-missing"></p>
-        <p class="help is-danger" if.bind="endDateErrors.length === 0">&nbsp;</p>
-      </div>
-
       <div class="field">
         <label class="label" t="recurringbill"></label>
         <div class="control">
@@ -50,9 +36,36 @@
         </div>
       </div>
 
+      <div class="field" validation-errors.bind="startDateErrors">
+        <label class="label" t="startDate"></label>
+        <div class="control">
+          <input class="input" type="date" value.bind="startDate & validate" class.bind="startDateErrors.length ? 'is-danger' : ''">
+        </div>
+        <p class="help is-danger" repeat.for="errorInfo of startDateErrors" t="validation.startDate-missing"></p>
+        <p class="help is-danger" if.bind="startDateErrors.length === 0">&nbsp;</p>
+      </div>
+
+      <div class="field" validation-errors.bind="endDateErrors">
+        <label class="label" t="endDate"></label>
+        <div class="control">
+          <input class="input" type="date" value.bind="endDate & validate" class.bind="endDateErrors.length ? 'is-danger' : ''" disabled.bind="payPeriod === 0">
+        </div>
+        <p class="help is-danger" repeat.for="errorInfo of endDateErrors" t="validation.endDate-missing"></p>
+        <p class="help is-danger" if.bind="endDateErrors.length === 0">&nbsp;</p>
+      </div>
+
       <div class="field">
         <div class="control" if.bind="bill.createdDate">
           <span t="bill-created" class="is-size-7"></span><span class="is-size-7">${bill.createdDate.substring(0,10)}</span>
+        </div>
+      </div>
+    </ux-dialog-body>
+    
+    <ux-dialog-body show.bind="!essentialTabActive">
+      <div class="field">
+        <label class="label" t="notes"></label>
+        <div class="control">
+        <textarea value.bind="notes" class="textarea" placeholder=""></textarea>
         </div>
       </div>
     </ux-dialog-body>

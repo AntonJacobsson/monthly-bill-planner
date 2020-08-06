@@ -13,10 +13,27 @@ import { ifError } from 'assert';
   toView(value: number) {
 
     let currency = this._currencyService.getCurrency();
-    if(currency === "SEK") {
-        return value.toString() + ' kr';
-    }
-    return "$" + value.toString();
+
+    switch(currency) { 
+      case "SEK": { 
+          return value.toString() + ' kr';
+      } 
+      case "USD": { 
+        return "$" + value.toString();
+      }
+      case "PHP": { 
+        return "₱" + value.toString();
+      }
+      case "EUR": {
+        return "€" + value.toString();
+      }
+      case "NONE": {
+        return value.toString();
+      }
+      default: { 
+         return value.toString();
+      } 
+   } 
 
   }
 }

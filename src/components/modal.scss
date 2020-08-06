@@ -26,7 +26,7 @@ ux-dialog-overlay {
     &.active {
       opacity: 1;
     }
-    
+
     & > div > div {
       display: block;
       height: -moz-fit-content;
@@ -51,6 +51,25 @@ ux-dialog-overlay {
     background: white;
     margin: 30px;
   
+    > ux-dialog-header {
+      display: flex;
+      button {
+        flex: 1;
+        border-radius: 0px!important;
+        box-shadow: 0 0 0 0em rgba(0,0,0,0)!important;
+      }
+      .is-active {
+        border-color: #b5b5b5!important;
+        border-bottom: 0px;
+      }
+      &:hover:enabled {
+        border-bottom: 0px;
+      }
+      &:focus {
+        border-bottom: 0px;
+      }
+    }
+
     > ux-dialog-body {
       display: block;
       padding: 16px;

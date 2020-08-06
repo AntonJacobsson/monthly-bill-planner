@@ -53,6 +53,7 @@ export class BillService {
       billToUpdate.totalCost = bill.totalCost;
       billToUpdate.startDate = bill.startDate;
       billToUpdate.endDate = bill.endDate;
+      billToUpdate.notes = bill.notes;
 
       this.updateLocalStorage();
       }
