@@ -8,18 +8,17 @@
 
     <div class="columns">
       <div repeat.for="bill of bills" class="column">
-        <div click.delegate="edit(bill)" long-click.delegate="openDeletePrompt(bill)" class="card card-clickable">
+        <div click.delegate="edit(bill)" long-click.delegate="openDeletePrompt(bill)" class="card card-clickable-${bill.color}">
               <div style="display: flex; justify-content: space-between;">
                 <p class="card-header-title">
                   ${bill.name}
                 </p>
-                <p style="padding: 0.75rem 1rem; color: #00d1b2">
+                <p style="padding: 0.75rem 1rem;" class="has-text-${bill.color}">
                   ${bill.payPeriod}
                 </p>
               </div>
               <h2 class="subtitle is-2 text-center">${bill.totalCost | currencyFormat} </h2>
-              <footer class="card-footer">
-              </footer>
+                <p class="card-footer-title">${formatFromTomDateString(bill.startDate, bill.endDate)}</p>
         </div>
         </swipeout>
       </div>

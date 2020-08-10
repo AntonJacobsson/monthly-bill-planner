@@ -13,6 +13,7 @@ export class BillModal {
   public startDate: string;
   public endDate: string;
   public notes: string;
+  public colorScheme: any;
 
   public essentialTabActive: boolean = true;
   public controller: DialogController;
@@ -40,6 +41,14 @@ export class BillModal {
     {name: "payperiod.every6month", value: 6},
     {name: "payperiod.every12month", value: 12},
   ]
+
+  public colorSchemes = [
+    {name: "primary", value: "#ebfffc"},
+    {name: "info", value: "#eef6fc"},
+    {name: "success", value: "#effaf3"},
+    {name: "warning", value: "#fffbeb"},
+    {name: "danger", value: "#feecf0"},
+  ]
   
   constructor(controller: DialogController, private _controller: ValidationController){
     this.controller = controller;     
@@ -60,6 +69,7 @@ export class BillModal {
       this.totalCost = bill.totalCost;
       this.startDate = bill.startDate;
       this.endDate = bill.endDate;
+      this.colorScheme = this.colorSchemes.find(x => x.name == bill.color);
 
       if (bill.notes !== undefined) {
         this.notes = bill.notes;
@@ -82,7 +92,7 @@ export class BillModal {
 
     if(result.valid) {
         this.bill.createdDate = (this.bill.createdDate !== null || this.bill.createdDate !== undefined) ? this.bill.createdDate : null;
-
+        this.bill.color = (this.colorScheme !== null || this.colorScheme !== undefined) ? this.colorScheme.name : "Primary";
         this.bill.endDate = this.endDate,
         this.bill.startDate = this.startDate,
         this.bill.id = (this.bill.id !== null) ? this.bill.id : null,

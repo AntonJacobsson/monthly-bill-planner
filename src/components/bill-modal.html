@@ -68,6 +68,20 @@
         <textarea value.bind="notes" class="textarea" placeholder=""></textarea>
         </div>
       </div>
+
+      <div class="field">
+        <label class="label" t="color-scheme"></label>
+        <div class="control">
+          <div class="select">
+            <select value.bind="colorScheme" css="background: ${colorScheme.value}">
+            <option repeat.for="color of colorSchemes" model.bind="color" css="background: ${color.value}">
+                ${color.name.toUpperCase()}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
     </ux-dialog-body>
 
     <ux-dialog-footer>

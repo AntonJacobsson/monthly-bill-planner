@@ -50,10 +50,61 @@ body > ux-dialog-overlay.active {
 .ux-dialog-open {
     max-height: 100vh;
 }
-.card-clickable {
+
+.card-clickable- {
     background: #ebfffc;
 }
-.card-clickable:active {
+.card-clickable-:active {
     background: grayscale($color: #ebfffc);
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
+}
+.has-text- {
+    color: #00d1b2 !important;
+}
+
+.card-clickable-primary {
+    background: #ebfffc;
+}
+.card-clickable-primary:active {
+    background: grayscale($color: #ebfffc);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
+}
+
+.card-clickable-info {
+    background: #eef6fc;
+}
+.card-clickable-info:active {
+    background: grayscale($color: #eef6fc);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
+}
+
+.card-clickable-success {
+    background: #effaf3;
+}
+.card-clickable-success:active {
+    background: grayscale($color: #effaf3);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
+}
+
+.card-clickable-warning {
+    background: #fffbeb;
+}
+.card-clickable-warning:active {
+    background: grayscale($color: #fffbeb);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
+}
+
+.card-clickable-danger {
+    background: #feecf0;
+}
+.card-clickable-danger:active {
+    background: grayscale($color: #feecf0);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.2), 0 0px 0 1px rgba(10, 10, 10, 0.04);
+}
+
+.card-footer-title {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
+    color: #AAA;
 }

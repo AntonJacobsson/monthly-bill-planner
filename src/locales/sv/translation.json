@@ -53,5 +53,6 @@
     "delete-warning": "Är du säker på att du vill ta bort räkningen?",
     "notes": "Anteckningar",
     "required": "Nödvändig info",
-    "additional": "Extra info"
+    "additional": "Extra info",
+    "color-scheme": "Färgschema"
 }

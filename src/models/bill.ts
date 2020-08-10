@@ -7,4 +7,5 @@ export class Bill {
     public startDate: string;
     public endDate: string;
     public notes: string;
+    public color: string;
 }

@@ -4,15 +4,16 @@ import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import { DeletePrompt } from 'components/delete-prompt';
+import { LanguageService } from 'services/language-service';
 
-@inject(DialogService, BillService)
+@inject(DialogService, BillService, LanguageService)
 
 export class BillHandler {
   public bills: Bill[] = [];
   public dialogService: DialogService;
   private _billService: BillService
 
-  constructor(dialogService: DialogService, billService: BillService) {
+  constructor(dialogService: DialogService, billService: BillService, private _languageService: LanguageService) {
     this._billService = billService;
     this.dialogService = dialogService;
   }
@@ -50,4 +51,24 @@ export class BillHandler {
       }
     });
   }
+
+  formatFromTomDateString(startDate: string, endDate: string) {
+
+    var locale = this._languageService.getLanguage();
+    var start = new Date(startDate);
+
+    let options = {year: 'numeric', month: 'short', day: 'numeric' };
+    
+    var dateString = start.toLocaleString(locale, options);
+    
+    if(endDate !== undefined && endDate !== "") {
+      var end = new Date(endDate).toLocaleString(locale, options);
+
+      dateString = dateString + " - " + end
+
+    } 
+    return dateString
+    
+  }
+
 }

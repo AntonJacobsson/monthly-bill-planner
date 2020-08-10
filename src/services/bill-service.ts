@@ -54,6 +54,7 @@ export class BillService {
       billToUpdate.startDate = bill.startDate;
       billToUpdate.endDate = bill.endDate;
       billToUpdate.notes = bill.notes;
+      billToUpdate.color = bill.color;
 
       this.updateLocalStorage();
       }
