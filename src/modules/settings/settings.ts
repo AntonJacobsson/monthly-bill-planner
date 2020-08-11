@@ -22,6 +22,14 @@ export class Settings {
   activate() {
     this.selectedLanguage = this._languageService.getLanguageFromLocalStorage();
     this.selectedCurrency = this._currencyService.getCurrencyFromLocalStorage();
+
+    var event = new CustomEvent("openBannerAd", { "detail": "Opens banner ad" });
+    document.dispatchEvent(event);
+  }
+
+  deactivate() {
+    var event = new CustomEvent("hideBannerAd", { "detail": "Hides banner ad" });
+    document.dispatchEvent(event);
   }
 
   selectedCurrencyChanged(newValue: string, oldValue: any) {

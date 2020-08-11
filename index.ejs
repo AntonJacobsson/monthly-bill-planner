@@ -10,6 +10,36 @@
 
     <% if (htmlWebpackPlugin.options.metadata.isCordova) { %>
       <script type="text/javascript" src="cordova.js"></script>
+      <script>
+        var admobid = {}
+    if (/(android)/i.test(navigator.userAgent)) {  // for android & amazon-fireos
+      admobid = {
+        banner: 'ca-app-pub-5803000491420516/1974858893'
+      }
+    }
+    document.addEventListener('deviceready', function() {
+
+      admob.banner.config({
+      id: admobid.banner,
+      isTesting: false,
+      autoShow: false,
+    })
+    admob.banner.prepare()
+
+    }, false)
+    
+    document.addEventListener('openBannerAd', function(event) {
+      admob.banner.show()
+    })
+
+    document.addEventListener('hideBannerAd', function(event) {
+      admob.banner.hide()
+    })
+    
+    document.addEventListener('admob.banner.events.LOAD_FAIL', function(event) {
+      console.log(event)
+    })    
+      </script>
       <% } %>
   </body>
 </html>

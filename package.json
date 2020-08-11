@@ -15,8 +15,11 @@
     "aurelia-long-click-event": "^1.0.3",
     "aurelia-validation": "^2.0.0-rc2",
     "bulma": "^0.9.0",
-    "cordova-android": "^8.1.0",
+    "cordova-admob-sdk": "0.21.0",
+    "cordova-android": "^7.1.4",
     "cordova-browser": "^6.0.0",
+    "cordova-plugin-admob-free": "^0.23.0",
+    "cordova-promise-polyfill": "0.0.2",
     "guid-typescript": "^1.0.9",
     "i18next-xhr-backend": "^3.2.2",
     "lodash": "^4.17.19",
@@ -64,7 +67,10 @@
   },
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-admob-free": {
+        "ADMOB_APP_ID": "ca-app-pub-5803000491420516~3047842387"
+      }
     },
     "platforms": [
       "browser",
