@@ -61,5 +61,7 @@
         "green": "Grön",
         "yellow": "Gul",
         "red": "Röd"
-    }
+    },
+    "short-month": "mån.",
+    "short-year": "år"
 }

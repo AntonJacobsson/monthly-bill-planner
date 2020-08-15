@@ -61,5 +61,7 @@
         "green": "Green",
         "yellow": "Yellow",
         "red": "Red"
-    }
+    },
+    "short-month": "mo.",
+    "short-year": "yr."
 }

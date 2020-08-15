@@ -49,8 +49,8 @@
         <label class="label" t="endDate"></label>
         <div class="control">
           <input class="input" type="date" value.bind="endDate & validate" class.bind="endDateErrors.length ? 'is-danger' : ''" disabled.bind="payPeriod === 0" style="width: 50%;">
-          <button click.delegate="addMonthsToEndDate(1)"if.bind="payPeriod !== 0" class="button">1+ <span>mo.</span></button>
-          <button click.delegate="addMonthsToEndDate(12)"if.bind="payPeriod !== 0" class="button">1+ <span>yr.</span></button>
+          <button click.delegate="addMonthsToEndDate(1)"if.bind="payPeriod !== 0" class="button">1+&nbsp;<span t="short-month"></span></button>
+          <button click.delegate="addMonthsToEndDate(12)"if.bind="payPeriod !== 0" class="button">1+&nbsp;<span t="short-year"></span></button>
         </div>
         <p class="help is-danger" repeat.for="errorInfo of endDateErrors" t="validation.endDate-missing"></p>
         <p class="help is-danger" if.bind="endDateErrors.length === 0">&nbsp;</p>
