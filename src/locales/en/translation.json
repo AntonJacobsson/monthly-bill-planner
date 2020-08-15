@@ -54,5 +54,12 @@
     "notes": "Notes",
     "required": "Required info",
     "additional": "Additional info",
-    "color-scheme": "Color Scheme"
+    "color-scheme": "Color Scheme",
+    "color": {
+        "default": "Default",
+        "blue": "Blue",
+        "green": "Green",
+        "yellow": "Yellow",
+        "red": "Red"
+    }
 }

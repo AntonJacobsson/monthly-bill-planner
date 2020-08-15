@@ -54,5 +54,12 @@
     "notes": "Anteckningar",
     "required": "Nödvändig info",
     "additional": "Extra info",
-    "color-scheme": "Färgschema"
+    "color-scheme": "Färgschema",
+    "color": {
+        "default": "Standard",
+        "blue": "Blå",
+        "green": "Grön",
+        "yellow": "Gul",
+        "red": "Röd"
+    }
 }

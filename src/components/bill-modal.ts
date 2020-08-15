@@ -3,11 +3,13 @@ import {inject } from 'aurelia-framework';
 import { Bill } from 'models/bill';
 import {NewInstance} from 'aurelia-framework';
 import {ValidationRules, ValidationController} from "aurelia-validation";
+import { observable } from 'aurelia-framework';
+import * as moment from 'moment'
 
 @inject(DialogController, NewInstance.of(ValidationController))
 export class BillModal {
 
-  public payPeriod: number;
+  @observable payPeriod: number;
   public name: string;
   public totalCost: number;
   public startDate: string;
@@ -43,11 +45,11 @@ export class BillModal {
   ]
 
   public colorSchemes = [
-    {name: "primary", value: "#ebfffc"},
-    {name: "info", value: "#eef6fc"},
-    {name: "success", value: "#effaf3"},
-    {name: "warning", value: "#fffbeb"},
-    {name: "danger", value: "#feecf0"},
+    {name: "primary", value: "#ebfffc", displayName: "color.default"},
+    {name: "info", value: "#eef6fc", displayName: "color.blue"},
+    {name: "success", value: "#effaf3", displayName: "color.green"},
+    {name: "warning", value: "#fffbeb", displayName: "color.yellow"},
+    {name: "danger", value: "#feecf0", displayName: "color.red"},
   ]
   
   constructor(controller: DialogController, private _controller: ValidationController){
@@ -110,6 +112,21 @@ export class BillModal {
     } else {
       this.essentialTabActive = false;
     }
+  }
+  payPeriodChanged(newValue, oldValue) {
+    
+    if(this.payPeriod === 0) {
+      this.endDate = undefined;
+      return;
+    }
+    
+    if(this.endDate === undefined || this.endDate === '') {
+      this.endDate = moment(this.startDate).add(newValue, "M").format("YYYY-MM-DD");
+    }
+  }
+
+  addMonthsToEndDate(value) {
+    this.endDate = moment(this.endDate).add(value, 'M').format("YYYY-MM-DD");
   }
 }
 
