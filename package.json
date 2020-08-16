@@ -21,7 +21,6 @@
     "cordova-plugin-admob-free": "^0.23.0",
     "cordova-promise-polyfill": "0.0.2",
     "guid-typescript": "^1.0.9",
-    "hammerjs": "^2.0.8",
     "i18next-xhr-backend": "^3.2.2",
     "lodash": "^4.17.19",
     "moment": "^2.27.0"

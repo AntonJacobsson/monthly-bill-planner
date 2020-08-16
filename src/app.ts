@@ -4,7 +4,6 @@ import { I18N } from 'aurelia-i18n';
 import { inject } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
 import { LanguageService } from 'services/language-service';
-import * as Hammer from 'hammerjs';
 @inject(I18N, CurrencyService, LanguageService)
 
 
@@ -38,55 +37,7 @@ export class App {
 
   async activate() {
     await this._i18n.setLocale(this._languageService.getLanguage());
-
   }
-  attached() {
-    var myElement = document.getElementById('myElement');
-    var mc = new Hammer(myElement);
-
-    
-    mc.on("panleft panright", (ev) => {
-      var test = document.getElementById('section');
-      
-      test.style.transform = 'translateX(' + (ev.deltaX / 2) + 'px)';
-            console.log(ev.type + " gesture detected.");
-            console.log(ev.deltaX);
-            console.log(this.router.currentInstruction.config.name);
-
-    });
-
-    mc.on("panend", (ev) => {
-      var value = 150;
-      var negativeValue = value * -1;
-      var test = document.getElementById('section');
-      switch (this.router.currentInstruction.config.name) {
-        case "settings":
-          if (ev.deltaX < negativeValue) {
-            this.router.navigateToRoute('bill-handler');
-          }
-          break;
-        case "bill-handler":
-            if (ev.deltaX < negativeValue) {
-              this.router.navigateToRoute('saving-statistics');
-            }
-            if (ev.deltaX > value) {
-              this.router.navigateToRoute('settings');
-            }
-            break;
-            case "saving-statistics":
-              if (ev.deltaX > value) {
-                this.router.navigateToRoute('bill-handler');
-              }
-              break;
-      
-        default:
-          break;
-      }
-
-      test.style.transform = 'inherit';
-     });
-  }
-  
   
   configureRouter(config: RouterConfiguration, router: Router): void {
 
