@@ -3,9 +3,10 @@
     "routes": {
         "settings": "Inställningar",
         "bill-handler": "Hantera Räkningar",
-        "saving-statistics": "Sparande per månad"
+        "monthly-expenses" : "Månatliga utgifter"
     },
     "add-bill" : "Lägg till ny",
+    "add-bill-now": "Lägg till nu",
     "bill-title" : "Räkningar",
     "edit" : "Ändra",
     "delete": "Ta bort",
@@ -63,5 +64,7 @@
         "red": "Röd"
     },
     "short-month": "mån.",
-    "short-year": "år"
+    "short-year": "år",
+    "nothing-here": "Det finns inget här",
+    "start-add-bill": "Börja med att lägga till nya räkningar"
 }

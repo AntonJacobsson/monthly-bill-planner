@@ -6,7 +6,7 @@ import * as moment from 'moment'
 
 @inject(BillService)
 
-export class SavingStatistics {
+export class MonthlyExpenses {
 
   private _billService: BillService
   private _bills: Bill[];

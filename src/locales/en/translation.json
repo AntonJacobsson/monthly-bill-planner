@@ -3,9 +3,10 @@
     "routes": {
         "settings": "Settings",
         "bill-handler": "Manage bills",
-        "saving-statistics": "Saving statistics"
+        "monthly-expenses" : "Monthly Expenses"
     },
     "add-bill" : "Add new",
+    "add-bill-now": "Add now",
     "bill-title" : "Bills",
     "edit" : "Edit",
     "delete": "Delete",
@@ -63,5 +64,7 @@
         "red": "Red"
     },
     "short-month": "mo.",
-    "short-year": "yr."
+    "short-year": "yr.",
+    "nothing-here": "There's nothing here",
+    "start-add-bill": "Start out by adding new bills"
 }

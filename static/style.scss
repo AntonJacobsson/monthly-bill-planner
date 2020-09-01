@@ -1,10 +1,8 @@
 @import "../src/components/modal.scss";
 @import "../node_modules/bulma/bulma.sass";
 
-$primary-color: #00d1b2;
-
-.slim-header {
-    background-color: $primary-color;
+.section {
+    padding-bottom: 5em;
 }
 
 .active-navigation {
@@ -14,6 +12,9 @@ $primary-color: #00d1b2;
 .navbar-icons {
     display: flex;
     min-height: 2em;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 .navbar-icons > a {
@@ -107,4 +108,14 @@ body > ux-dialog-overlay.active {
     padding-right: 0.5em;
     padding-bottom: 0.5em;
     color: #AAA;
+}
+
+.no-item-help {
+    padding-top: 5em;
+
+   > svg {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+   } 
 }

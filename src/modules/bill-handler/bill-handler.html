@@ -2,8 +2,11 @@
   <require from="./../../converters/currency-format"></require>
   <section class="section" style="padding-top: 1.5em">
     <div class="title-button-row">
-      <h5 class="title is-5" t="bill-title">Bills</h5>
-      <button click.delegate="submit()" class="button is-primary" t="add-bill">Add new</button>
+      <h5 class="title is-5" >
+        <span t="bill-title"></span> 
+        <span if.bind="bills.length > 0">(${bills.length})</span>
+      </h5>
+      <button if.bind="bills.length > 0" click.delegate="submit()" class="button is-primary" t="add-bill"></button>
     </div>
 
     <div class="columns">
@@ -20,7 +23,46 @@
               <h2 class="subtitle is-2 text-center">${bill.totalCost | currencyFormat} </h2>
                 <p class="card-footer-title">${formatFromTomDateString(bill.startDate, bill.endDate)}</p>
         </div>
-        </swipeout>
+      </div>
+      <div class="no-item-help"if.bind="bills.length === 0">
+        <h4 class="subtitle  is-4 text-center" t="nothing-here"></h4>
+       
+          <svg id="svg" viewbox="0 0 120 120">
+            <g id="face" transform='translate(60 60)'>
+              <circle
+                id="facecircle"
+                cx="0"
+                cy="0"
+                r="50"
+                stroke="#222"
+                stroke-width="2"
+                fill="#FFF0B3" />
+              <circle
+                cx="-20"
+                cy="-10"
+                r="5"
+                fill="#222" />
+              <circle
+                cx="20"
+                cy="-10"
+                r="5"
+                fill="#222" />
+          
+              <g id="smile" transform="translate(0, 25)">
+                <path
+                  id="smilepath"
+                  fill="none"
+                  stroke="#222"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  d="M-20,-10 C-20,10 20,10 20,-10" />
+              </g>
+            </g>
+          </svg>
+          
+          <h5 class="subtitle  is-5 text-center" t="start-add-bill"></h5>
+
+          <button click.delegate="submit()" class="button is-primary is-large is-fullwidth" style="margin-top:2em" t="add-bill-now"></button>
       </div>
     </div>
 

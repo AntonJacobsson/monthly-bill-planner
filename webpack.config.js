@@ -1,6 +1,7 @@
 const path = require("path");
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const {
@@ -100,7 +101,6 @@ module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
       {
         test: /\.s[ac]ss$/i,
         use: [
-          // fallback to style-loader in development
           production !== true ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader",
@@ -124,20 +124,10 @@ module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
         loader: "url-loader",
         options: { limit: 10000, mimetype: "application/font-woff" },
       },
-
       {
         test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
         loader: "file-loader",
-      },
-      {
-        test: /environment\.json$/i,
-        use: [
-          {
-            loader: "app-settings-loader",
-            options: { env: production ? "production" : "development" },
-          },
-        ],
-      },
+      }
     ],
   },
   plugins: [
@@ -155,17 +145,15 @@ module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
       chunkFilename: "[id].css",
     }),
 
-    new CopyWebpackPlugin({
+    new CopyPlugin({
       patterns: [
-        {
-          from: "static",
-          to: outDir,
-          globOptions: {
-            ignore: [".*"],
-          },
-        },
+        { from: 'static', to: outDir },
         { from: 'src/locales/', to: 'locales/' }
       ],
+    }),
+    
+    new webpack.DefinePlugin({
+      IS_PRODUCTION: production
     }),
 
     ...when(analyze, new BundleAnalyzerPlugin()),

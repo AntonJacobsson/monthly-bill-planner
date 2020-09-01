@@ -1,7 +1,8 @@
 <template>
-    <section class="section">
+  <require from="./../../converters/currency-format"></require>
+    <section class="section" style="padding-top: 1.5em">
       <div class="title-button-row">
-        <h5 class="title is-5" t="bill-title"></h5>
+        <h5 class="title is-5" t="routes.monthly-expenses"></h5>
         
           <div class="control">
             <div class="select">
@@ -20,10 +21,10 @@
                 <div class="box">
                   <div class="content">
                     <ul>
-                      <li repeat.for="bill of billMonth.bills">${bill.name} - ${bill.totalCost}</li>
+                      <li repeat.for="bill of billMonth.bills">${bill.name} - ${bill.totalCost | currencyFormat}</li>
                     </ul>
 
-                    <h5 class="title is-5"> <span t="total">Total </span>:&nbsp<span style="color: hsl(348, 100%, 61%)">${totalMonthCost(billMonth.bills)}</span></h5>
+                    <h5 class="title is-5"> <span t="total">Total </span>:&nbsp<span style="color: hsl(348, 100%, 61%)">${totalMonthCost(billMonth.bills) | currencyFormat}</span></h5>
                   </div>
                 </div>
             </div>

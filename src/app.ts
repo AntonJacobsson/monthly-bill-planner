@@ -44,7 +44,7 @@ export class App {
     config.map([
       { route: ['settings'], name: 'settings', moduleId: PLATFORM.moduleName('modules/settings/settings'), nav: true, title: this._i18n.tr("routes.settings") },
       { route: ['', 'bill-handler'], name: 'bill-handler', moduleId: PLATFORM.moduleName('modules/bill-handler/bill-handler'), nav: true, title: this._i18n.tr("routes.bill-handler") },
-      { route: ['saving-statistics'], name: 'saving-statistics', moduleId: PLATFORM.moduleName('modules/saving-statistics/saving-statistics'), nav: true, title: this._i18n.tr("routes.saving-statistics") },
+      { route: ['monthly-expenses'], name: 'monthly-expenses', moduleId: PLATFORM.moduleName('modules/monthly-expenses/monthly-expenses'), nav: true, title: this._i18n.tr("routes.monthly-expenses") },
     ]);
     this.router = router;
   }
