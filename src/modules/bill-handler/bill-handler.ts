@@ -23,7 +23,7 @@ export class BillHandler {
   }
 
   submit() {
-    this.dialogService.open({ viewModel: BillModal, model: null }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: BillModal, model: null, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         var createdBill = this._billService.createBill(response.output)
         this.bills.push(createdBill);
@@ -32,7 +32,7 @@ export class BillHandler {
   }
 
   openDeletePrompt(bill: Bill) {
-    this.dialogService.open({ viewModel: DeletePrompt, model: bill }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: DeletePrompt, model: bill , lock: false}).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this.deleteBill(response.output);
       }
@@ -45,7 +45,7 @@ export class BillHandler {
   }
 
   edit(bill: Bill) {
-    this.dialogService.open({ viewModel: BillModal, model: bill }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: BillModal, model: bill , lock: false}).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
       }
