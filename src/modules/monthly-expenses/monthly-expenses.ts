@@ -59,8 +59,9 @@ export class MonthlyExpenses {
 
     if(bill.payPeriod === 0) {
       var startDate = moment(bill.startDate);
-      this.billMonthRows.find(x => x.month -1 === moment(startDate).month()).bills.push(bill)
-
+      if(moment(bill.startDate).year() === this.selectedYear) {
+        this.billMonthRows.find(x => x.month -1 === moment(startDate).month()).bills.push(bill)
+      }
     } else {
       if (moment(bill.startDate).year() < this.selectedYear && moment(bill.endDate).year() < this.selectedYear) {
         return;
@@ -138,7 +139,7 @@ export class MonthlyExpenses {
     });
 
     billYears.forEach(element => {
-      if(element !== undefined) {
+      if(element !== undefined && element !== "") {
         years.push(Number(element.substring(0, 4)))
       }
     });
@@ -148,7 +149,6 @@ export class MonthlyExpenses {
     var currentYear = Number(new Date().toISOString().substring(0, 4));
     var yearsInRange = [];
     
-
     if (uniq.length === 0) {
       yearsInRange.push(currentYear);
     } else {
