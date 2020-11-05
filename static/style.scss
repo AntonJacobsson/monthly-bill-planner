@@ -119,3 +119,7 @@ body > ux-dialog-overlay.active {
     display: block;
    } 
 }
+.flex-fields {
+    display: flex;
+    justify-content: space-around;
+}

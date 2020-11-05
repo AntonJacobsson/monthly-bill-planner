@@ -66,5 +66,20 @@
     "short-month": "mo.",
     "short-year": "yr.",
     "nothing-here": "There's nothing here",
-    "start-add-bill": "Start out by adding new bills"
+    "start-add-bill": "Start out by adding new bills",
+    "contact": "Contact",
+    "email": "Email",
+    "send" : "Send",
+    "form-success-title": "Thanks for being awesome!",
+    "form-success-subtitle": "Your message has been sent successfully",
+    "form-send-failed": "Something went wrong, check your internet connection and try again later",
+    "reason": {
+        "select-a-reason": "Select a reason",
+        "general-question": "General question",
+        "feature-request": "Feature request",
+        "language-request": "Language request",
+        "currency-request": "Currency request",
+        "problem-with-bills": "Problem with bills",
+        "other": "Other"
+    }
 }

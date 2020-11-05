@@ -18,20 +18,20 @@ export class BillHandler {
     this.dialogService = dialogService;
   }
 
-  activate() {
+  public activate() {
     this.bills = this._billService.getBills();
   }
 
-  submit() {
+  public submit() {
     this.dialogService.open({ viewModel: BillModal, model: null, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
-        var createdBill = this._billService.createBill(response.output)
+        let createdBill = this._billService.createBill(response.output)
         this.bills.push(createdBill);
       }
     });
   }
 
-  openDeletePrompt(bill: Bill) {
+  public openDeletePrompt(bill: Bill) {
     this.dialogService.open({ viewModel: DeletePrompt, model: bill , lock: false}).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this.deleteBill(response.output);
@@ -39,12 +39,12 @@ export class BillHandler {
     });
   }
 
-  deleteBill(bill: Bill) {
+  public deleteBill(bill: Bill) {
     this._billService.deleteBill(bill);
     this.bills = this.bills.filter(x => x !== bill);
   }
 
-  edit(bill: Bill) {
+  public edit(bill: Bill) {
     this.dialogService.open({ viewModel: BillModal, model: bill , lock: false}).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
@@ -52,23 +52,23 @@ export class BillHandler {
     });
   }
 
-  formatFromTomDateString(startDate: string, endDate: string) {
+  public formatFromTomDateString(startDate: string, endDate: string) {
 
-    var locale = this._languageService.getLanguage();
-    var start = new Date(startDate);
+    let locale = this._languageService.getLanguage();
+    let start = new Date(startDate);
 
     let options = {year: 'numeric', month: 'short', day: 'numeric' };
-    
-    var dateString = start.toLocaleString(locale, options);
-    
+
+    let dateString = start.toLocaleString(locale, options);
+
     if(endDate !== undefined && endDate !== "") {
-      var end = new Date(endDate).toLocaleString(locale, options);
+      let end = new Date(endDate).toLocaleString(locale, options);
 
       dateString = dateString + " - " + end
 
-    } 
+    }
     return dateString
-    
+
   }
 
 }

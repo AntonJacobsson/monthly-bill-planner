@@ -20,26 +20,26 @@ export class App {
 
     if(this._languageService.getLanguageFromLocalStorage() === null) {
       let translationLanguage = 'en';
-      if (window.navigator.language.slice(0, 2) === 'sv') {       
+      if (window.navigator.language.slice(0, 2) === 'sv') {
         translationLanguage = 'sv';
       }
       this._languageService.setLanguageToLocalStorage(translationLanguage);
     }
-    
+
     if(this._currencyService.getCurrencyFromLocalStorage() === null) {
       let currency = 'USD';
-      if (this._languageService.getLanguage() === 'sv') {       
+      if (this._languageService.getLanguage() === 'sv') {
         currency = 'SEK';
       }
       this._currencyService.setCurrencyToLocalStorage(currency);
     }
   }
 
-  async activate() {
+  public async activate() {
     await this._i18n.setLocale(this._languageService.getLanguage());
   }
-  
-  configureRouter(config: RouterConfiguration, router: Router): void {
+
+  public configureRouter(config: RouterConfiguration, router: Router): void {
 
     config.map([
       { route: ['settings'], name: 'settings', moduleId: PLATFORM.moduleName('modules/settings/settings'), nav: true, title: this._i18n.tr("routes.settings") },

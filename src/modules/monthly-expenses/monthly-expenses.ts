@@ -7,13 +7,12 @@ import * as moment from 'moment'
 @inject(BillService)
 
 export class MonthlyExpenses {
-
   private _billService: BillService
   private _bills: Bill[];
 
   public months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   public years: number[] = [];
-  @observable selectedYear: number;
+  @observable public selectedYear: number;
 
   public billMonthRows: BillMonthRow[] = []
 
@@ -21,23 +20,23 @@ export class MonthlyExpenses {
     this._billService = billService;
   }
 
-  selectedYearChanged(newValue: any, oldValue: any) {
-    if(oldValue !== undefined) {
+  public selectedYearChanged(newValue: any, oldValue: any) {
+    if (oldValue !== undefined) {
       this.billMonthRows.forEach(element => {
         element.bills = [];
-     });
-    
-     this._bills.forEach(element => {
-       this.filterBillMonthRows(element);
-     });
+      });
+
+      this._bills.forEach(element => {
+        this.filterBillMonthRows(element);
+      });
     }
   }
 
 
-  activate() {
+  public activate() {
 
     this.months.forEach(element => {
-      var billMonthRow: BillMonthRow = {
+      let billMonthRow: BillMonthRow = {
         month: element,
         bills: []
       }
@@ -52,83 +51,100 @@ export class MonthlyExpenses {
       this.filterBillMonthRows(element);
     });
 
+
+
   }
 
+  public attached() {
 
-  filterBillMonthRows(bill: Bill): void {
+    let currentMonth = moment(new Date()).month() + 1;
+    if (currentMonth > 3) {
+      let scrollToDiv = document.getElementById("month-" + currentMonth.toString());
+      if (scrollToDiv !== null) {
+        let position = scrollToDiv.getBoundingClientRect().top + window.scrollY;
 
-    if(bill.payPeriod === 0) {
-      var startDate = moment(bill.startDate);
-      if(moment(bill.startDate).year() === this.selectedYear) {
-        this.billMonthRows.find(x => x.month -1 === moment(startDate).month()).bills.push(bill)
+        window.scroll({
+          top: position,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }
+
+  public filterBillMonthRows(bill: Bill): void {
+
+    if (bill.payPeriod === 0) {
+      let startDate = moment(bill.startDate);
+      if (moment(bill.startDate).year() === this.selectedYear) {
+        this.billMonthRows.find(x => x.month - 1 === moment(startDate).month()).bills.push(bill)
       }
     } else {
       if (moment(bill.startDate).year() < this.selectedYear && moment(bill.endDate).year() < this.selectedYear) {
         return;
       }
-  
+
       if (moment(bill.startDate).year() > this.selectedYear && moment(bill.endDate).year() > this.selectedYear) {
         return;
       }
-  
-      var billsActiveMonths = [];
-      var costPerMonth = [];
-  
-  
-      var startDate = moment(bill.startDate);
-      var endDate = moment(bill.endDate);
-    
+
+      let billsActiveMonths = [];
+      let costPerMonth = [];
+
+
+      let startDate = moment(bill.startDate);
+      let endDate = moment(bill.endDate);
+
       while (startDate.isBefore(endDate)) {
         billsActiveMonths.push(startDate.format("YYYY-MM-01"));
         startDate.add(1, 'month');
       }
-  
+
       for (let i = 0; i < billsActiveMonths.length; i++) {
         const element = billsActiveMonths[i];
-        
-        var obj = {
+
+        let obj = {
           date: element,
           cost: 0
         }
-  
-        if(bill.payPeriod === 0 || i === 0) {
+
+        if (bill.payPeriod === 0 || i === 0) {
           obj.cost = Number((bill.totalCost / 1).toFixed(0));
         } else {
           obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
         }
-          
+
         costPerMonth.push(obj);
       };
-  
-      var costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() == this.selectedYear);
-  
+
+      let costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() == this.selectedYear);
+
       costPerMonthWithinSelectedYear.forEach(element => {
-  
+
         const currentBill = {
           payPeriod: bill.payPeriod,
           name: bill.name,
           totalCost: Number(element.cost)
         };
-        this.billMonthRows.find(x => x.month -1 === moment(element.date).month()).bills.push(currentBill)
+        this.billMonthRows.find(x => x.month - 1 === moment(element.date).month()).bills.push(currentBill)
       });
     }
   }
-  
-  totalMonthCost(bills: Bill[]) {
-    var totalCost = 0;
+
+  public totalMonthCost(bills: Bill[]) {
+    let totalCost = 0;
     bills.forEach(element => {
       totalCost += Number(element.totalCost);
     });
     return totalCost;
   }
 
-  getMonthString(number: number) {
-    var m = ["months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
+  public getMonthString(number: number) {
+    let m = ["months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
       "months.july", "months.august", "months.september", "months.october", "months.november", "months.december"];
     return m[number - 1];
   }
 
-  getBillYears(bills: Bill[]) {
+  public getBillYears(bills: Bill[]) {
 
     const years: number[] = [];
 
@@ -139,26 +155,26 @@ export class MonthlyExpenses {
     });
 
     billYears.forEach(element => {
-      if(element !== undefined && element !== "") {
+      if (element !== undefined && element !== "") {
         years.push(Number(element.substring(0, 4)))
       }
     });
 
 
-    var uniq = [...new Set(years)].sort();
-    var currentYear = Number(new Date().toISOString().substring(0, 4));
-    var yearsInRange = [];
-    
+    let uniq = [...new Set(years)].sort();
+    let currentYear = Number(new Date().toISOString().substring(0, 4));
+    let yearsInRange = [];
+
     if (uniq.length === 0) {
       yearsInRange.push(currentYear);
     } else {
 
-      for (var i = uniq[0]; i <= uniq[uniq.length - 1]; i++) {
-          yearsInRange.push(i);
+      for (let i = uniq[0]; i <= uniq[uniq.length - 1]; i++) {
+        yearsInRange.push(i);
       }
     }
 
-    if(yearsInRange.includes(currentYear)) {
+    if (yearsInRange.includes(currentYear)) {
       this.selectedYear = currentYear;
     } else {
       this.selectedYear = yearsInRange[0];

@@ -3,20 +3,20 @@ import {cloneDeep} from 'lodash';
 import { Guid } from "guid-typescript";
 
 export class BillService {
-    
+
     public bills: Bill[] = []
-    
+
     constructor() {
 
-      var response = this.getBillsFromLocalStorage();
+      let response = this.getBillsFromLocalStorage();
       if(response !== null) {
         this.bills = response;
       }
 
     }
 
-    getBillsFromLocalStorage() {
-      var data = localStorage.getItem('bills');
+    public getBillsFromLocalStorage() {
+      let data = localStorage.getItem('bills');
       if (data !== null) {
         try {
           return JSON.parse(data);
@@ -27,11 +27,11 @@ export class BillService {
       return null
     }
 
-    getBills() {
+    public getBills() {
       return cloneDeep(this.bills);
     }
 
-    createBill(bill: Bill) {
+    public createBill(bill: Bill) {
         bill.id = Guid.raw();
         bill.createdDate = new Date().toISOString();
         this.bills.push(bill);
@@ -40,12 +40,12 @@ export class BillService {
         return bill;
     }
 
-    deleteBill(bill: Bill) {
+    public deleteBill(bill: Bill) {
       this.bills = this.bills.filter(x => x.id !== bill.id)
       this.updateLocalStorage();
     }
 
-    updateBill(bill: Bill) {
+    public updateBill(bill: Bill) {
 
       let billToUpdate = this.bills.find(x => x.id === bill.id);
       billToUpdate.name = bill.name;
@@ -59,7 +59,7 @@ export class BillService {
       this.updateLocalStorage();
       }
 
-    updateLocalStorage() {
+    public updateLocalStorage() {
       localStorage.removeItem('bills')
       localStorage.setItem('bills', JSON.stringify(this.bills));
     }

@@ -66,5 +66,20 @@
     "short-month": "mån.",
     "short-year": "år",
     "nothing-here": "Det finns inget här",
-    "start-add-bill": "Börja med att lägga till nya räkningar"
+    "start-add-bill": "Börja med att lägga till nya räkningar",
+    "contact": "Kontakta",
+    "email": "E-postadress",
+    "send" : "Skicka",
+    "form-success-title": "Tack!",
+    "form-success-subtitle": "Ditt meddelande har skickats",
+    "form-send-failed": "Något gick fel, kontrollera din internetanslutning och försök igen senare",
+    "reason": {
+        "select-a-reason": "Välj en kategori",
+        "general-question": "Generell fråga",
+        "feature-request": "Funktionsförfrågan",
+        "language-request": "Språkförfrågan",
+        "currency-request": "Valutaförfrågan",
+        "problem-with-bills": "Problem med räkningar",
+        "other": "Annat"
+    }
 }

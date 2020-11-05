@@ -9,7 +9,7 @@ import * as moment from 'moment'
 @inject(DialogController, NewInstance.of(ValidationController))
 export class BillModal {
 
-  @observable payPeriod: number;
+  @observable public payPeriod: number;
   public name: string;
   public totalCost: number;
   public startDate: string;
@@ -21,7 +21,7 @@ export class BillModal {
   public controller: DialogController;
   public bill: Bill;
   public createOrEditTitle: string = "";
-  public months = [ 
+  public months = [
     {name: "months.january", month: 1},
     {name: "months.february", month: 2},
     {name: "months.march", month: 3},
@@ -51,10 +51,10 @@ export class BillModal {
     {name: "warning", value: "#fffbeb", displayName: "color.yellow"},
     {name: "danger", value: "#feecf0", displayName: "color.red"},
   ]
-  
+
   constructor(controller: DialogController, private _controller: ValidationController){
-    this.controller = controller;     
-    
+    this.controller = controller;
+
     ValidationRules
       .ensure((m: BillModal) => m.name).required()
       .ensure((m: BillModal) => m.payPeriod).required()
@@ -64,7 +64,7 @@ export class BillModal {
       .on(this);
   }
 
-  activate(bill: Bill){
+  public activate(bill: Bill){
     if(bill !== null) {
       this.name = bill.name;
       this.payPeriod = bill.payPeriod;
@@ -88,9 +88,9 @@ export class BillModal {
   }
 
 
-  async validateOnCreateOrEdit() {
+  public async validateOnCreateOrEdit() {
 
-    var result = await this._controller.validate();
+    let result = await this._controller.validate();
 
     if(result.valid) {
         this.bill.createdDate = (this.bill.createdDate !== null || this.bill.createdDate !== undefined) ? this.bill.createdDate : null;
@@ -106,26 +106,26 @@ export class BillModal {
         this.controller.ok(this.bill);
       }
   }
-  setEssentialTabActive(value: boolean) {
+  public setEssentialTabActive(value: boolean) {
     if(value) {
       this.essentialTabActive = true;
     } else {
       this.essentialTabActive = false;
     }
   }
-  payPeriodChanged(newValue, oldValue) {
-    
+  public payPeriodChanged(newValue, oldValue) {
+
     if(this.payPeriod === 0) {
       this.endDate = undefined;
       return;
     }
-    
+
     if(this.endDate === undefined || this.endDate === '') {
       this.endDate = moment(this.startDate).add(newValue, "M").format("YYYY-MM-DD");
     }
   }
 
-  addMonthsToEndDate(value) {
+  public addMonthsToEndDate(value) {
     this.endDate = moment(this.endDate).add(value, 'M').format("YYYY-MM-DD");
   }
 }

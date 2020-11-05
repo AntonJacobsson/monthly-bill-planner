@@ -8,10 +8,10 @@ export class DeletePrompt {
     public bill: Bill;
 
     constructor(controller: DialogController){
-      this.controller = controller;     
+      this.controller = controller;
     }
 
-    activate(bill: Bill){
+    public activate(bill: Bill){
           this.bill = bill;
     }
 

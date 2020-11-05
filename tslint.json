@@ -1,0 +1,19 @@
+{
+    "rules": {
+      "no-empty": true,
+      "no-console": true,
+      "no-unused-variable": true,
+      "no-unused-expression": true,
+      "max-classes-per-file":  true,
+      "no-require-imports": true,
+      "no-magic-numbers": false,
+      "trailing-comma": true,
+      "no-trailing-whitespace": true,
+      "class-name": true,
+      "no-var-keyword": true,
+      "no-use-before-declare": true,
+      "import-spacing": true,
+      "member-access": true,
+      "member-ordering": true
+    }
+  }
