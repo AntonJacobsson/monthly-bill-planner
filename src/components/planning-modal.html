@@ -1,0 +1,23 @@
+<template>
+    <ux-dialog>
+      <ux-dialog-body>
+        <div class="field">
+            <label class="label" t="name"></label>
+            <div class="control">
+              <input class="input" type="text" value.bind="name">
+            </div>
+        </div>
+
+        <div if.bind="planning.key !== 0" class="field">
+            <div class="control">
+                <button class="button is-danger" t="delete" click.delegate="delete()"></button>
+              </div>
+        </div>
+
+      </ux-dialog-body>
+      <ux-dialog-footer>
+        <button class="button is-seconday" click.trigger="controller.cancel()" t="cancel"></button>
+        <button class="button is-primary" click.trigger="edit()" t="edit"></button>
+      </ux-dialog-footer>
+    </ux-dialog>
+</template>

@@ -1,66 +1,170 @@
 import { Bill } from "models/bill";
-import {cloneDeep} from 'lodash';
+import { cloneDeep } from 'lodash';
 import { Guid } from "guid-typescript";
+import { Planning, PlanningRequest } from "models/planning";
 
 export class BillService {
 
-    public bills: Bill[] = []
+  public plannings: Planning[] = [];
+  public bills: Bill[] = []
+  public currentPlanningId: number;
 
-    constructor() {
+  constructor() {
 
-      let response = this.getBillsFromLocalStorage();
-      if(response !== null) {
-        this.bills = response;
+    let plannings = this.getPlanningsFromLocalStorage();
+    if (plannings !== null) {
+      this.plannings = plannings;
+    }
+  }
+
+  public getBillsFromLocalStorage(key: string) {
+    let data = localStorage.getItem(key);
+    if (data !== null) {
+      try {
+        return JSON.parse(data);
+      } catch {
+        localStorage.clear();
+      }
+    }
+    return null
+  }
+
+  public getPlanningsFromLocalStorage() {
+    let data = localStorage.getItem('plannings');
+    if (data !== null) {
+      try {
+        return JSON.parse(data);
+      } catch {
+        localStorage.clear();
+      }
+    } else {
+      let name = ""
+      let language = localStorage.getItem('language');
+
+      if(language == 'sv') {
+        name = 'Mina räkningar'
+      } else {
+        name = 'My bills'
       }
 
+      let plannings: Planning[] = [
+        { name: name, key: 0 }
+      ]
+      localStorage.setItem('plannings', JSON.stringify(plannings));
+      return plannings;
     }
+    return null
+  }
 
-    public getBillsFromLocalStorage() {
-      let data = localStorage.getItem('bills');
-      if (data !== null) {
-        try {
-          return JSON.parse(data);
-        } catch {
-          localStorage.clear();
+  public getBills(): Bill[] {
+    return cloneDeep(this.bills);
+  }
+
+  public getBillsByPlanning(planning: Planning): Bill[] {
+
+    if (this.currentPlanningId != planning.key) {
+      if (planning.key == 0) {
+        let response = this.getBillsFromLocalStorage("bills");
+
+        if (response !== null) {
+          this.bills = response;
+        } else {
+          this.bills = [];
+        }
+      } else {
+        let response = this.getBillsFromLocalStorage("bills" + planning.key);
+
+        if (response !== null) {
+          this.bills = response;
+        } else {
+          this.bills = [];
         }
       }
-      return null
+    }
+    this.currentPlanningId = planning.key;
+    return cloneDeep(this.bills);
+  }
+
+  public getPlannings(): Planning[] {
+    return cloneDeep(this.plannings);
+  }
+
+
+  public createBill(bill: Bill) {
+    bill.id = Guid.raw();
+    bill.createdDate = new Date().toISOString();
+    this.bills.push(bill);
+
+    if (this.currentPlanningId === 0) {
+      this.updateLocalStorage("bills", this.bills);
+    } else {
+      this.updateLocalStorage("bills" + this.currentPlanningId, this.bills);
+    }
+    return bill;
+  }
+
+  public deleteBill(bill: Bill) {
+    this.bills = this.bills.filter(x => x.id !== bill.id)
+    if (this.currentPlanningId === 0) {
+      this.updateLocalStorage("bills", this.bills);
+    } else {
+      this.updateLocalStorage("bills" + this.currentPlanningId, this.bills);
     }
 
-    public getBills() {
-      return cloneDeep(this.bills);
+  }
+
+  public updateBill(bill: Bill) {
+
+    let billToUpdate = this.bills.find(x => x.id === bill.id);
+    billToUpdate.name = bill.name;
+    billToUpdate.payPeriod = bill.payPeriod;
+    billToUpdate.totalCost = bill.totalCost;
+    billToUpdate.startDate = bill.startDate;
+    billToUpdate.endDate = bill.endDate;
+    billToUpdate.notes = bill.notes;
+    billToUpdate.color = bill.color;
+
+    if (this.currentPlanningId === 0) {
+      this.updateLocalStorage("bills", this.bills);
+    } else {
+      this.updateLocalStorage("bills" + this.currentPlanningId, this.bills);
     }
+  }
 
-    public createBill(bill: Bill) {
-        bill.id = Guid.raw();
-        bill.createdDate = new Date().toISOString();
-        this.bills.push(bill);
+  public updateLocalStorage(key: string, data: any) {
+    localStorage.removeItem(key)
+    localStorage.setItem(key, JSON.stringify(data));
+  }
 
-        this.updateLocalStorage();
-        return bill;
+  public createPlanning(planningRequest: PlanningRequest): Planning {
+    let key = this.plannings.map(x => x.key).sort((y, z) => y - z).reverse().shift() + 1
+
+    let planning: Planning = {
+      name: planningRequest.name,
+      key: key
     }
+    this.plannings.push(planning);
 
-    public deleteBill(bill: Bill) {
-      this.bills = this.bills.filter(x => x.id !== bill.id)
-      this.updateLocalStorage();
+    this.updateLocalStorage("plannings", this.plannings);
+    return planning;
+  }
+
+  public updatePlanning(planning: Planning) {
+
+    let planningToUpdate = this.plannings.find(x => x.key === planning.key);
+    planningToUpdate.name = planning.name;
+
+    this.updateLocalStorage("plannings", this.plannings);
+  }
+
+  public deletePlanning(key: number) {
+    this.plannings = this.plannings.filter(x => x.key !== key);
+    this.updateLocalStorage("plannings", this.plannings);
+    if(key != 0) {
+      localStorage.removeItem("bills" + key);
+    } else {
+      localStorage.removeItem("bills");
     }
+  }
 
-    public updateBill(bill: Bill) {
-
-      let billToUpdate = this.bills.find(x => x.id === bill.id);
-      billToUpdate.name = bill.name;
-      billToUpdate.payPeriod = bill.payPeriod;
-      billToUpdate.totalCost = bill.totalCost;
-      billToUpdate.startDate = bill.startDate;
-      billToUpdate.endDate = bill.endDate;
-      billToUpdate.notes = bill.notes;
-      billToUpdate.color = bill.color;
-
-      this.updateLocalStorage();
-      }
-
-    public updateLocalStorage() {
-      localStorage.removeItem('bills')
-      localStorage.setItem('bills', JSON.stringify(this.bills));
-    }
 }

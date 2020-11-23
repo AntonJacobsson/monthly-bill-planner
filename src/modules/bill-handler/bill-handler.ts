@@ -1,17 +1,21 @@
 import { BillModal } from '../../components/bill-modal';
+import { PlanningModal } from '../../components/planning-modal';
 import { DialogService } from 'aurelia-dialog';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import { DeletePrompt } from 'components/delete-prompt';
 import { LanguageService } from 'services/language-service';
+import { Planning, PlanningRequest } from 'models/planning';
 
 @inject(DialogService, BillService, LanguageService)
 
 export class BillHandler {
   public bills: Bill[] = [];
+  public plannings: Planning[] = [];
   public dialogService: DialogService;
-  private _billService: BillService
+  private _billService: BillService;
+  public currentPlanning: Planning;
 
   constructor(dialogService: DialogService, billService: BillService, private _languageService: LanguageService) {
     this._billService = billService;
@@ -19,7 +23,19 @@ export class BillHandler {
   }
 
   public activate() {
-    this.bills = this._billService.getBills();
+
+    window.scroll({
+      top: 0,
+      behavior: 'auto'
+    });
+
+    this.plannings = this._billService.getPlannings();
+    if (this._billService.currentPlanningId === undefined) {
+      this.currentPlanning = this.plannings[0];
+    } else {
+      this.currentPlanning = this.plannings.find(x => x.key == this._billService.currentPlanningId);
+    }
+    this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
   }
 
   public submit() {
@@ -32,7 +48,8 @@ export class BillHandler {
   }
 
   public openDeletePrompt(bill: Bill) {
-    this.dialogService.open({ viewModel: DeletePrompt, model: bill , lock: false}).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    navigator.vibrate(50);
+    this.dialogService.open({ viewModel: DeletePrompt, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this.deleteBill(response.output);
       }
@@ -45,7 +62,7 @@ export class BillHandler {
   }
 
   public edit(bill: Bill) {
-    this.dialogService.open({ viewModel: BillModal, model: bill , lock: false}).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
       }
@@ -57,18 +74,61 @@ export class BillHandler {
     let locale = this._languageService.getLanguage();
     let start = new Date(startDate);
 
-    let options = {year: 'numeric', month: 'short', day: 'numeric' };
+    let options = { year: 'numeric', month: 'short', day: 'numeric' };
 
     let dateString = start.toLocaleString(locale, options);
 
-    if(endDate !== undefined && endDate !== "") {
+    if (endDate !== undefined && endDate !== "") {
       let end = new Date(endDate).toLocaleString(locale, options);
 
       dateString = dateString + " - " + end
 
     }
     return dateString
+  }
 
+  public addPlanning() {
+    let name = "";
+    let language = this._languageService.getLanguage();
+    if(language == 'sv') {
+      name = 'Ny'
+    } else {
+      name = 'New'
+    }
+
+    let planning: PlanningRequest = {
+      name: name,
+    };
+    let result = this._billService.createPlanning(planning);
+    this.plannings.push(result);
+  }
+
+  public selectPlanning(planning: Planning) {
+    this.currentPlanning = planning;
+    this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
+  }
+
+  public editPlanning(planning: Planning) {
+    navigator.vibrate(50);
+    this.dialogService.open({ viewModel: PlanningModal, model: planning, lock: false }).whenClosed((response: { wasCancelled: any; output: any; }) => {
+      if (!response.wasCancelled) {
+        if (response.output.name != undefined) {
+          this._billService.updatePlanning(response.output);
+        } else {
+          this._billService.deletePlanning(response.output);
+          this.plannings = this._billService.getPlannings();
+
+          if(this.currentPlanning.key == response.output) {
+            this.currentPlanning = this.plannings[0];
+          }
+          this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
+        }
+      }
+    });
+  }
+
+  public deactivate() {
+    this.dialogService.closeAll();
   }
 
 }

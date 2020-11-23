@@ -123,3 +123,29 @@ body > ux-dialog-overlay.active {
     display: flex;
     justify-content: space-around;
 }
+
+.svg-container {
+    display: flex;
+    align-items: center;
+    > svg {
+        margin: 0 auto;
+        display: block;
+        width: 1.75em;
+        height: 1.75em;
+    }
+}
+.tabs {
+    width: 100%;
+
+    > ul {
+        display: flex;
+        > li {
+            flex: 1;
+        }
+    }
+}
+
+.tabs::-webkit-scrollbar {
+    background: transparent;
+    height: 0px;
+  }

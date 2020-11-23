@@ -1,6 +1,22 @@
 <template>
   <require from="./../../converters/currency-format"></require>
+
+  <div style="display: flex;">
+    <div class="tabs" style="margin-bottom: 0;">
+      <ul style="display: flex;">
+        <li class="${currentPlanning.key == plan.key ? 'is-active' : ''}" repeat.for="plan of plannings" click.delegate="selectPlanning(plan)" long-click.delegate="editPlanning(plan)"><a>${plan.name}</a></li>
+      </ul>
+    </div>
+    <div click.delegate="addPlanning()"class="svg-container">
+      <svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><title>Add Circle</title><path d='M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z' fill='none' stroke='grey' stroke-miterlimit='10' stroke-width='32'/><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='32' d='M256 176v160M336 256H176'/></svg>
+    </div>
+  </div>
+
+
   <section class="section" style="padding-top: 1.5em">
+
+    
+
     <div class="title-button-row">
       <h5 class="title is-5" >
         <span t="bill-title"></span> 
