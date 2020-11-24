@@ -38,6 +38,7 @@ export class Settings {
       Currency.SEK,
       Currency.MXN,
       Currency.PHP,
+      Currency.MYR,
       Currency.NONE
     ];
 

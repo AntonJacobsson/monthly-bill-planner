@@ -48,6 +48,9 @@ import { Currency } from 'models/currency';
       case Currency.PHP: {
         return "₱" + value.toString();
       }
+      case Currency.MYR: {
+        return "RM" + value.toString();
+      }
       case Currency.NONE: {
         return value.toString();
       }

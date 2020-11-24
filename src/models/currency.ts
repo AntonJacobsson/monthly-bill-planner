@@ -11,5 +11,7 @@ export enum Currency {
     MXN = "MXN", // Mexican Peso $100
 
     PHP = "PHP", // Philippine Peso ₱100
+    MYR = "MYR", // Malaysian Ringgit RM100
+
     NONE = "NONE"
 };
