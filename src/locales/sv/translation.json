@@ -29,6 +29,8 @@
     },
     "payperiod": {
         "never": "Inte återkommande",
+        "every1week": "Varje vecka",
+        "every2week": "Varannan vecka",
         "every1month": "Varje månad",
         "every2month": "Varannan månad",
         "every3month": "Kvartal",

@@ -37,6 +37,8 @@ export class BillModal {
 
   public payperiods = [
     {name: "payperiod.never", value: 0},
+    {name: "payperiod.every1week", value: 0.25},
+    {name: "payperiod.every2week", value: 0.5},
     {name: "payperiod.every1month", value: 1},
     {name: "payperiod.every2month", value: 2},
     {name: "payperiod.every3month", value: 3},
@@ -64,7 +66,7 @@ export class BillModal {
       .on(this);
   }
 
-  public activate(bill: Bill){
+  public activate(bill: Bill): void {
     if(bill !== null) {
       this.name = bill.name;
       this.payPeriod = bill.payPeriod;
@@ -88,7 +90,7 @@ export class BillModal {
   }
 
 
-  public async validateOnCreateOrEdit() {
+  public async validateOnCreateOrEdit(): Promise<void> {
 
     let result = await this._controller.validate();
 
@@ -106,14 +108,14 @@ export class BillModal {
         this.controller.ok(this.bill);
       }
   }
-  public setEssentialTabActive(value: boolean) {
+  public setEssentialTabActive(value: boolean): void {
     if(value) {
       this.essentialTabActive = true;
     } else {
       this.essentialTabActive = false;
     }
   }
-  public payPeriodChanged(newValue, oldValue) {
+  public payPeriodChanged(newValue, oldValue): void {
 
     if(this.payPeriod === 0) {
       this.endDate = undefined;
@@ -125,7 +127,7 @@ export class BillModal {
     }
   }
 
-  public addMonthsToEndDate(value) {
+  public addMonthsToEndDate(value: number): void {
     this.endDate = moment(this.endDate).add(value, 'M').format("YYYY-MM-DD");
   }
 }

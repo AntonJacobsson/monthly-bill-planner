@@ -20,7 +20,7 @@ export class MonthlyExpenses {
     this._billService = billService;
   }
 
-  public selectedYearChanged(newValue: any, oldValue: any) {
+  public selectedYearChanged(newValue: any, oldValue: any): void {
     if (oldValue !== undefined) {
       this.billMonthRows.forEach(element => {
         element.bills = [];
@@ -33,7 +33,7 @@ export class MonthlyExpenses {
   }
 
 
-  public activate() {
+  public activate(): void {
 
     this.months.forEach(element => {
       let billMonthRow: BillMonthRow = {
@@ -55,7 +55,7 @@ export class MonthlyExpenses {
 
   }
 
-  public attached() {
+  public attached(): void {
 
     let currentMonth = moment(new Date()).month() + 1;
     if (currentMonth > 3) {
@@ -72,7 +72,6 @@ export class MonthlyExpenses {
   }
 
   public filterBillMonthRows(bill: Bill): void {
-
     if (bill.payPeriod === 0) {
       let startDate = moment(bill.startDate);
       if (moment(bill.startDate).year() === this.selectedYear) {
@@ -107,8 +106,12 @@ export class MonthlyExpenses {
           cost: 0
         }
 
-        if (bill.payPeriod === 0 || i === 0) {
-          obj.cost = Number((bill.totalCost / 1).toFixed(0));
+        if (i === 0) {
+          if(bill.payPeriod < 1) {
+            obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+          } else {
+            obj.cost = Number((bill.totalCost / 1).toFixed(0));
+          }
         } else {
           obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
         }
@@ -130,7 +133,7 @@ export class MonthlyExpenses {
     }
   }
 
-  public totalMonthCost(bills: Bill[]) {
+  public totalMonthCost(bills: Bill[]): number {
     let totalCost = 0;
     bills.forEach(element => {
       totalCost += Number(element.totalCost);
@@ -138,13 +141,13 @@ export class MonthlyExpenses {
     return totalCost;
   }
 
-  public getMonthString(number: number) {
+  public getMonthString(number: number): string {
     let m = ["months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
       "months.july", "months.august", "months.september", "months.october", "months.november", "months.december"];
     return m[number - 1];
   }
 
-  public getBillYears(bills: Bill[]) {
+  public getBillYears(bills: Bill[]): any {
 
     const years: number[] = [];
 
