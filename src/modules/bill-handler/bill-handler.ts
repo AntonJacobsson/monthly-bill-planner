@@ -22,7 +22,7 @@ export class BillHandler {
     this.dialogService = dialogService;
   }
 
-  public activate() {
+  public activate(): void {
 
     window.scroll({
       top: 0,
@@ -38,7 +38,7 @@ export class BillHandler {
     this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
   }
 
-  public submit() {
+  public submit(): void {
     this.dialogService.open({ viewModel: BillModal, model: null, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         let createdBill = this._billService.createBill(response.output)
@@ -47,7 +47,7 @@ export class BillHandler {
     });
   }
 
-  public openDeletePrompt(bill: Bill) {
+  public openDeletePrompt(bill: Bill): void {
     navigator.vibrate(50);
     this.dialogService.open({ viewModel: DeletePrompt, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
@@ -56,12 +56,12 @@ export class BillHandler {
     });
   }
 
-  public deleteBill(bill: Bill) {
+  public deleteBill(bill: Bill): void {
     this._billService.deleteBill(bill);
     this.bills = this.bills.filter(x => x !== bill);
   }
 
-  public edit(bill: Bill) {
+  public edit(bill: Bill): void {
     this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
@@ -69,7 +69,7 @@ export class BillHandler {
     });
   }
 
-  public formatFromTomDateString(startDate: string, endDate: string) {
+  public formatFromTomDateString(startDate: string, endDate: string): string {
 
     let locale = this._languageService.getLanguage();
     let start = new Date(startDate);
@@ -87,7 +87,7 @@ export class BillHandler {
     return dateString
   }
 
-  public addPlanning() {
+  public addPlanning(): void {
     let name = "";
     let language = this._languageService.getLanguage();
     if(language == 'sv') {
@@ -103,12 +103,12 @@ export class BillHandler {
     this.plannings.push(result);
   }
 
-  public selectPlanning(planning: Planning) {
+  public selectPlanning(planning: Planning): void {
     this.currentPlanning = planning;
     this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
   }
 
-  public editPlanning(planning: Planning) {
+  public editPlanning(planning: Planning): void {
     navigator.vibrate(50);
     this.dialogService.open({ viewModel: PlanningModal, model: planning, lock: false }).whenClosed((response: { wasCancelled: any; output: any; }) => {
       if (!response.wasCancelled) {
@@ -127,7 +127,7 @@ export class BillHandler {
     });
   }
 
-  public deactivate() {
+  public deactivate(): void {
     this.dialogService.closeAll();
   }
 

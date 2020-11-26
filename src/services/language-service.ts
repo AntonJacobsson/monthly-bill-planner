@@ -21,7 +21,7 @@ export class LanguageService {
         return this.selectedLanguage;
     }
 
-    public setLanguageToLocalStorage(language: string) {
+    public setLanguageToLocalStorage(language: string): void {
         this.selectedLanguage = language
         localStorage.removeItem('language')
         localStorage.setItem('language', this.selectedLanguage);

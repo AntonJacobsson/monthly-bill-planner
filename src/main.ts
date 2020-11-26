@@ -4,7 +4,7 @@ import '../static/style.scss';
 import { TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
 
-export function configure(aurelia: Aurelia) {
+export function configure(aurelia: Aurelia): void {
   aurelia.use
     .standardConfiguration()
     .plugin(PLATFORM.moduleName('aurelia-dialog'), config => {

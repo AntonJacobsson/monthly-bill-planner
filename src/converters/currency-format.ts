@@ -10,7 +10,7 @@ import { Currency } from 'models/currency';
         this._currencyService = currencyService;
     }
 
-  public toView(value: number) {
+  public toView(value: number): string {
 
     let currency = this._currencyService.getCurrency();
 

@@ -17,7 +17,7 @@ export class BillService {
     }
   }
 
-  public getBillsFromLocalStorage(key: string) {
+  public getBillsFromLocalStorage(key: string): any {
     let data = localStorage.getItem(key);
     if (data !== null) {
       try {
@@ -29,7 +29,7 @@ export class BillService {
     return null
   }
 
-  public getPlanningsFromLocalStorage() {
+  public getPlanningsFromLocalStorage(): any {
     let data = localStorage.getItem('plannings');
     if (data !== null) {
       try {
@@ -90,7 +90,7 @@ export class BillService {
   }
 
 
-  public createBill(bill: Bill) {
+  public createBill(bill: Bill) : Bill {
     bill.id = Guid.raw();
     bill.createdDate = new Date().toISOString();
     this.bills.push(bill);
@@ -103,7 +103,7 @@ export class BillService {
     return bill;
   }
 
-  public deleteBill(bill: Bill) {
+  public deleteBill(bill: Bill): void {
     this.bills = this.bills.filter(x => x.id !== bill.id)
     if (this.currentPlanningId === 0) {
       this.updateLocalStorage("bills", this.bills);
@@ -113,7 +113,7 @@ export class BillService {
 
   }
 
-  public updateBill(bill: Bill) {
+  public updateBill(bill: Bill): void {
 
     let billToUpdate = this.bills.find(x => x.id === bill.id);
     billToUpdate.name = bill.name;
@@ -131,7 +131,7 @@ export class BillService {
     }
   }
 
-  public updateLocalStorage(key: string, data: any) {
+  public updateLocalStorage(key: string, data: any): void {
     localStorage.removeItem(key)
     localStorage.setItem(key, JSON.stringify(data));
   }
@@ -149,7 +149,7 @@ export class BillService {
     return planning;
   }
 
-  public updatePlanning(planning: Planning) {
+  public updatePlanning(planning: Planning): void {
 
     let planningToUpdate = this.plannings.find(x => x.key === planning.key);
     planningToUpdate.name = planning.name;
@@ -157,7 +157,7 @@ export class BillService {
     this.updateLocalStorage("plannings", this.plannings);
   }
 
-  public deletePlanning(key: number) {
+  public deletePlanning(key: number): void {
     this.plannings = this.plannings.filter(x => x.key !== key);
     this.updateLocalStorage("plannings", this.plannings);
     if(key != 0) {

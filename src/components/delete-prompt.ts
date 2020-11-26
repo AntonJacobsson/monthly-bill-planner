@@ -11,7 +11,7 @@ export class DeletePrompt {
       this.controller = controller;
     }
 
-    public activate(bill: Bill){
+    public activate(bill: Bill): void {
           this.bill = bill;
     }
 

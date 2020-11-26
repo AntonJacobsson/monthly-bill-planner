@@ -53,7 +53,7 @@ export class Settings {
       .on(this);
   }
 
-  public activate() {
+  public activate(): void {
     this.selectedLanguage = this._languageService.getLanguageFromLocalStorage();
     this.selectedCurrency = this._currencyService.getCurrencyFromLocalStorage();
 
@@ -61,25 +61,25 @@ export class Settings {
     document.dispatchEvent(event);
   }
 
-  public deactivate() {
+  public deactivate(): void {
     let event = new CustomEvent("hideBannerAd", { "detail": "Hides banner ad" });
     document.dispatchEvent(event);
   }
 
-  public selectedCurrencyChanged(newValue: string, oldValue: any) {
+  public selectedCurrencyChanged(newValue: string, oldValue: any): void {
     if (oldValue !== undefined) {
       this._currencyService.setCurrencyToLocalStorage(newValue);
     }
   }
 
-  public selectedLanguageChanged(newValue: any, oldValue: any) {
+  public selectedLanguageChanged(newValue: any, oldValue: any): void {
     if (oldValue !== undefined) {
       this._languageService.setLanguageToLocalStorage(newValue);
       window.location.reload();
     }
   }
 
-  public async sumbitForm() {
+  public async sumbitForm(): Promise<void> {
 
     if (this.isBusy == false) {
 

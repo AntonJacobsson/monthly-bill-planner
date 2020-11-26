@@ -35,7 +35,7 @@ export class App {
     }
   }
 
-  public async activate() {
+  public async activate(): Promise<void> {
     await this._i18n.setLocale(this._languageService.getLanguage());
   }
 

@@ -12,17 +12,17 @@ export class PlanningModal {
       this.controller = controller;
     }
 
-    public activate(planning: Planning){
+    public activate(planning: Planning): void {
         this.planning = planning;
         this.name = this.planning.name;
     }
 
-    public edit() {
+    public edit(): void {
         this.planning.name = this.name
         this.controller.ok(this.planning);
     }
 
-    public delete() {
+    public delete(): void {
         if(this.planning.key !== 0) {
             this.controller.ok(this.planning.key);
         }
