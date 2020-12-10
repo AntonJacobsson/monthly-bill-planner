@@ -7,8 +7,9 @@ import { Bill } from 'models/bill';
 import { DeletePrompt } from 'components/delete-prompt';
 import { LanguageService } from 'services/language-service';
 import { Planning, PlanningRequest } from 'models/planning';
+import { I18N } from 'aurelia-i18n';
 
-@inject(DialogService, BillService, LanguageService)
+@inject(DialogService, BillService, LanguageService, I18N)
 
 export class BillHandler {
   public bills: Bill[] = [];
@@ -17,7 +18,7 @@ export class BillHandler {
   private _billService: BillService;
   public currentPlanning: Planning;
 
-  constructor(dialogService: DialogService, billService: BillService, private _languageService: LanguageService) {
+  constructor(dialogService: DialogService, billService: BillService, private _languageService: LanguageService, private _i18n: I18N) {
     this._billService = billService;
     this.dialogService = dialogService;
   }
@@ -88,13 +89,7 @@ export class BillHandler {
   }
 
   public addPlanning(): void {
-    let name = "";
-    let language = this._languageService.getLanguage();
-    if(language == 'sv') {
-      name = 'Ny'
-    } else {
-      name = 'New'
-    }
+    let name = this._i18n.tr("new");
 
     let planning: PlanningRequest = {
       name: name,

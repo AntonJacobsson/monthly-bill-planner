@@ -49,7 +49,13 @@ import { Currency } from 'models/currency';
         return "₱" + value.toString();
       }
       case Currency.MYR: {
-        return "RM" + value.toString();
+        return "RM " + value.toString();
+      }
+      case Currency.TRY: {
+        return value.toString() + ' ₺';
+      }
+      case Currency.INR: {
+        return "₹" + value.toString();
       }
       case Currency.NONE: {
         return value.toString();

@@ -2,14 +2,17 @@ import { Bill } from "models/bill";
 import { cloneDeep } from 'lodash';
 import { Guid } from "guid-typescript";
 import { Planning, PlanningRequest } from "models/planning";
+import { I18N } from "aurelia-i18n";
+import { inject } from 'aurelia-framework';
 
+@inject(I18N)
 export class BillService {
 
   public plannings: Planning[] = [];
   public bills: Bill[] = []
   public currentPlanningId: number;
 
-  constructor() {
+  constructor(private _i18n: I18N) {
 
     let plannings = this.getPlanningsFromLocalStorage();
     if (plannings !== null) {
@@ -38,14 +41,7 @@ export class BillService {
         localStorage.clear();
       }
     } else {
-      let name = ""
-      let language = localStorage.getItem('language');
-
-      if(language == 'sv') {
-        name = 'Mina räkningar'
-      } else {
-        name = 'My bills'
-      }
+      let name = this._i18n.tr("my-bills");
 
       let plannings: Planning[] = [
         { name: name, key: 0 }

@@ -23,6 +23,9 @@ export class App {
       if (window.navigator.language.slice(0, 2) === 'sv') {
         translationLanguage = 'sv';
       }
+      if (window.navigator.language.slice(0, 2) === 'tr') {
+        translationLanguage = 'tr';
+      }
       this._languageService.setLanguageToLocalStorage(translationLanguage);
     }
 

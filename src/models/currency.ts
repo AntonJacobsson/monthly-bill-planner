@@ -12,6 +12,8 @@ export enum Currency {
 
     PHP = "PHP", // Philippine Peso ₱100
     MYR = "MYR", // Malaysian Ringgit RM100
+    TRY = "TRY", // Turkish lira 100₺
+    INR = "INR", // Indian Rupee ₹100
 
     NONE = "NONE"
 };

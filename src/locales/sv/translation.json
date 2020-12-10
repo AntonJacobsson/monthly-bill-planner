@@ -83,5 +83,7 @@
         "currency-request": "Valutaförfrågan",
         "problem-with-bills": "Problem med räkningar",
         "other": "Annat"
-    }
+    },
+    "new": "Ny",
+    "my-bills": "Mina räkningar"
 }

@@ -83,5 +83,7 @@
         "currency-request": "Currency request",
         "problem-with-bills": "Problem with bills",
         "other": "Other"
-    }
+    },
+    "new": "New",
+    "my-bills": "My Bills"
 }

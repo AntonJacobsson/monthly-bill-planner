@@ -24,7 +24,12 @@ export class Settings {
 
   public isBusy: boolean = false;
   public reasons: string[] = ["select-a-reason", "general-question", "feature-request", "language-request", "currency-request", "problem-with-bills", "other"]
-  public languages: any[] = [{ name: 'Svenska', locale: 'sv' }, { name: 'English', locale: 'en' }];
+  public languages: any[] = [
+    { name: 'Svenska', locale: 'sv' },
+    { name: 'English', locale: 'en' },
+    { name: 'Türkçe', locale: 'tr' },
+  ];
+
   public currencies: string[] =
     [
       Currency.USD,
@@ -39,6 +44,8 @@ export class Settings {
       Currency.MXN,
       Currency.PHP,
       Currency.MYR,
+      Currency.TRY,
+      Currency.INR,
       Currency.NONE
     ];
 
