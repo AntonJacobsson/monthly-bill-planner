@@ -2,7 +2,8 @@ import { observable } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
-import * as moment from 'moment'
+import * as moment from 'moment';
+import Chartist from 'chartist-webpack';
 
 @inject(BillService)
 
@@ -32,13 +33,14 @@ export class MonthlyExpenses {
     }
   }
 
-
   public activate(): void {
 
     this.months.forEach(element => {
       let billMonthRow: BillMonthRow = {
         month: element,
-        bills: []
+        bills: [],
+        isFlipped: false,
+        dataset: []
       }
       this.billMonthRows.push(billMonthRow);
     });
@@ -50,9 +52,6 @@ export class MonthlyExpenses {
     this._bills.forEach(element => {
       this.filterBillMonthRows(element);
     });
-
-
-
   }
 
   public attached(): void {
@@ -68,6 +67,55 @@ export class MonthlyExpenses {
           behavior: 'smooth'
         });
       }
+    }
+  }
+
+  public flipCard(billMonthRow: BillMonthRow, index: number): void {
+    if( billMonthRow.bills.length === 0) {
+      return;
+    }
+
+    billMonthRow.isFlipped = !billMonthRow.isFlipped;
+
+    if (billMonthRow.isFlipped) {
+
+      let colors = [
+      "#d70206",
+      "#f05b4f",
+      "#f4c63d",
+      "#d17905",
+      "#453d3f",
+      "#59922b",
+      "#0544d3",
+      "#6b0392",
+      "#f05b4f",
+      "#dda458",
+      "#eacf7d",
+      "#86797d",
+      "#b2c326",
+      "#6188e2",
+      "#a748ca"
+      ]
+
+      let dataset = [];
+
+      for (let i = 0; i < billMonthRow.bills.length; i++) {
+        dataset.push({
+          name: billMonthRow.bills[i].name, cost: Number(billMonthRow.bills[i].totalCost), color: colors[i] ,
+        });
+      }
+
+      billMonthRow.dataset = dataset;
+
+      let data = {
+        series: dataset.map(x => x.cost),
+      };
+
+      let sum = (a, b) => { return a + b };
+      let labelInterpolationFnc = (value: number) => {
+        return Math.round(value / data.series.reduce(sum) * 100) + '%';
+      };
+      let chartist = new Chartist.Pie('.ct-chart-' + index, data, { labelInterpolationFnc });
     }
   }
 
@@ -107,7 +155,7 @@ export class MonthlyExpenses {
         }
 
         if (i === 0) {
-          if(bill.payPeriod < 1) {
+          if (bill.payPeriod < 1) {
             obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
           } else {
             obj.cost = Number((bill.totalCost / 1).toFixed(0));
@@ -123,10 +171,16 @@ export class MonthlyExpenses {
 
       costPerMonthWithinSelectedYear.forEach(element => {
 
-        const currentBill = {
+        const currentBill: Bill = {
           payPeriod: bill.payPeriod,
           name: bill.name,
-          totalCost: Number(element.cost)
+          totalCost: Number(element.cost),
+          color: bill.color,
+          createdDate: bill.createdDate,
+          endDate: bill.endDate,
+          id: bill.id,
+          notes: bill.notes,
+          startDate: bill.startDate
         };
         this.billMonthRows.find(x => x.month - 1 === moment(element.date).month()).bills.push(currentBill)
       });
@@ -188,5 +242,7 @@ export class MonthlyExpenses {
 
 export class BillMonthRow {
   public month: number;
-  public bills: any[];
+  public bills: Bill[];
+  public isFlipped: boolean;
+  public dataset: any[];
 }

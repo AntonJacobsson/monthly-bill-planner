@@ -1,6 +1,32 @@
 @import "../src/components/modal.scss";
 @import "../node_modules/bulma/bulma.sass";
 
+$ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) !default;
+$ct-series-colors: (
+  #d70206,
+  #f05b4f,
+  #f4c63d,
+  #d17905,
+  #453d3f,
+  #59922b,
+  #0544d3,
+  #6b0392,
+  #f05b4f,
+  #dda458,
+  #eacf7d,
+  #86797d,
+  #b2c326,
+  #6188e2,
+  #a748ca
+) !default;
+
+@import "../node_modules/chartist-webpack/dist/scss/chartist.scss";
+
+.ct-label {
+    color: white;
+    fill: white;
+}
+
 .section {
     padding-bottom: 5em;
 }
@@ -149,3 +175,16 @@ body > ux-dialog-overlay.active {
     background: transparent;
     height: 0px;
   }
+
+  .field-flex-wrapper {
+      display: flex;
+      > div {
+          flex: 1;
+      }
+      > div:first-child {
+        margin-right: 0.5em;
+        }
+        > div:last-child {
+            margin-left: 0.5em;
+        }
+}

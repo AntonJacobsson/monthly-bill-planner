@@ -40,7 +40,7 @@
     "name": "Name",
     "price": "Price",
     "paymonth": "Payment Month",
-    "recurringbill": "How recurring is the bill?",
+    "recurringbill": "Recurring",
     "change": "Edit",
     "create": "Create",
     "cancel": "Cancel",

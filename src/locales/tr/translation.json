@@ -40,7 +40,7 @@
     "name": "İsim",
     "price": "Fiyat",
     "paymonth": "Ödeme Ayı",
-    "recurringbill": "Fatura ne kadar yineleniyor?",
+    "recurringbill": "Yinelenen",
     "change": "Düzenle",
     "create": "Oluştur",
     "cancel": "İptal",

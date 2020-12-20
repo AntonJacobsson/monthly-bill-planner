@@ -5,7 +5,7 @@
         <h5 class="title is-5" t="routes.monthly-expenses"></h5>
         
           <div class="control">
-            <div class="select" style="position: fixed; right: 0;">
+            <div class="select" style="position: fixed; right: 0; z-index: 100;">
               <select value.bind="selectedYear">
                 <option repeat.for="year of years" model.bind="year">
                   ${year}
@@ -18,15 +18,24 @@
         <div class="columns">
             <div repeat.for="billMonth of billMonthRows" class="column" id="month-${billMonth.month}">
                 <h4 class="title is-4" t="${getMonthString(billMonth.month)}"></h4>
-                <div class="box">
-                  <div class="content">
+                <div class="box" click.delegate="flipCard(billMonth, $index)" style="position: relative;">
+                  <div if.bind="!billMonth.isFlipped" class="content">
                     <ul>
                       <li repeat.for="bill of billMonth.bills">${bill.name} - ${bill.totalCost | currencyFormat}</li>
                     </ul>
 
                     <h5 class="title is-5"> <span t="total">Total </span>:&nbsp<span style="color: hsl(348, 100%, 61%)">${totalMonthCost(billMonth.bills) | currencyFormat}</span></h5>
+                    <svg if.bind="billMonth.bills.length > 0"style="width: 1.5em; height: 1.5em; position: absolute; right: .5em; bottom: .5em; stroke: rgba(0,0,0,0.3);" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><title>Arrow Redo</title><path d='M448 256L272 88v96C103.57 184 64 304.77 64 424c48.61-62.24 91.6-96 208-96v96z' fill='none' stroke-linejoin='round' stroke-width='32'/></svg>
+                  </div>
+                  <div show.bind="billMonth.isFlipped" class="content">
+
+                    <div class="ct-chart-${$index} ct-perfect-fourth"></div>
+                    <ul style="list-style: square outside none; margin-top: 0; display: flex;flex-direction: row; flex-wrap: wrap;">
+                      <li repeat.for="dataset of billMonth.dataset" css="color: ${dataset.color}; margin-top:4px; flex: 1 50%"><span style="color: black">${dataset.name}</span></li>
+                    </ul>
                   </div>
                 </div>
+                
             </div>
         </div>
 

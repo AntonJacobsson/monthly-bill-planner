@@ -40,7 +40,7 @@
     "name": "Namn",
     "price": "Pris",
     "paymonth": "Betalningsmånad",
-    "recurringbill": "Hur återkommande är räkningen?",
+    "recurringbill": "Återkommande",
     "change": "Ändra",
     "create": "Skapa",
     "cancel": "Avbryt",

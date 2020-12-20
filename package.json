@@ -15,6 +15,7 @@
     "aurelia-long-click-event": "^1.0.3",
     "aurelia-validation": "^2.0.0-rc2",
     "bulma": "^0.9.1",
+    "chartist-webpack": "^0.9.5-0",
     "cordova-admob-sdk": "^0.24.1",
     "cordova-android": "^7.1.4",
     "cordova-browser": "^6.0.0",
