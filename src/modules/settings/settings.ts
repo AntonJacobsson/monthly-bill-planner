@@ -6,8 +6,9 @@ import { Currency } from 'models/currency';
 import { NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from "aurelia-validation";
 import { ContactData } from 'models/contact-data';
+import { BillService } from 'services/bill-service';
 
-@inject(CurrencyService, LanguageService, NewInstance.of(ValidationController))
+@inject(CurrencyService, LanguageService, NewInstance.of(ValidationController), BillService)
 
 export class Settings {
   private _currencyService: CurrencyService;
@@ -49,7 +50,7 @@ export class Settings {
       Currency.NONE
     ];
 
-  constructor(currencyService: CurrencyService, languageService: LanguageService, private _controller: ValidationController) {
+  constructor(currencyService: CurrencyService, languageService: LanguageService, private _controller: ValidationController, private _billService: BillService) {
     this._currencyService = currencyService;
     this._languageService = languageService;
 
@@ -94,10 +95,18 @@ export class Settings {
       if (result.valid) {
         this.formSendFailed = false;
         this.isBusy = true;
+
+        let billJson = JSON.stringify(this._billService.getBillsFromLocalStorage("bills"));
+        let planningsJson = JSON.stringify(this._billService.getPlanningsFromLocalStorage());
+
         let data: ContactData = {
           email: this.email,
           message: this.message,
-          reason: this.selectedReason
+          reason: this.selectedReason,
+          billJson: billJson,
+          planningsJson: planningsJson,
+          locale: window.navigator.language,
+          createdAt:  new Date().toISOString(),
         }
 
         let response = await fetch("https://api.apispreadsheets.com/data/2963/", {
