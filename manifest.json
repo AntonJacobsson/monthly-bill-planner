@@ -1,0 +1,15 @@
+{
+    "name": "Monthly Bill Planner",
+    "short_name": "Monthly Bill Planner",
+    "icons": [{
+        "src": "icons/bill_icon.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any maskable"
+        }],
+    "lang": "en-US",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "white"
+}

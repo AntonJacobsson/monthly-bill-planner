@@ -16,12 +16,12 @@ const ensureArray = (config) =>
 const when = (condition, config, negativeConfig) =>
   condition ? ensureArray(config) : ensureArray(negativeConfig);
 
-const title = "Aurelia Navigation Skeleton";
+const title = "Monthly Bill Planner";
 const outDir = path.resolve(__dirname, "www");
 const srcDir = path.resolve(__dirname, "src");
 const baseUrl = "";
 
-module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
+module.exports = ({ production, cordova } = {}, { analyze, hmr, port, host } = {}) => ({
   resolve: {
     extensions: [".ts", ".js"],
     modules: [srcDir, "node_modules"],
@@ -138,22 +138,33 @@ module.exports = ({ production } = {}, { analyze, hmr, port, host } = {}) => ({
     }),
     new HtmlWebpackPlugin({
       template: "index.ejs",
-      metadata: { title, baseUrl, isCordova: production ? true : false },
+      metadata: { title, baseUrl, isCordova: cordova ? true : false, isProduction: production ? true: false },
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
 
+    (cordova) ?
     new CopyPlugin({
       patterns: [
         { from: 'static', to: outDir },
         { from: 'src/locales/', to: 'locales/' }
       ],
-    }),
+    }) :
+
+    new CopyPlugin({
+      patterns: [
+        { from: 'static', to: outDir },
+        { from: 'manifest.json', to:outDir},
+        { from: 'serviceworker.js', to:outDir},
+        { from: 'src/locales/', to: 'locales/' }
+      ],
+    }), 
     
     new webpack.DefinePlugin({
-      IS_PRODUCTION: production
+      IS_PRODUCTION: production,
+      IS_CORDOVA: cordova
     }),
 
     ...when(analyze, new BundleAnalyzerPlugin()),

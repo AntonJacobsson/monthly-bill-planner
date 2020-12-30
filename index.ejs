@@ -3,42 +3,69 @@
 
 <head>
   <meta charset="utf-8">
-  <title><%- htmlWebpackPlugin.options.metadata.title %></title>
+  <title>
+    <%- htmlWebpackPlugin.options.metadata.title %>
+  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
+
+  <% if (!htmlWebpackPlugin.options.metadata.isCordova && htmlWebpackPlugin.options.metadata.isProduction) { %>
+    <meta name="theme-color" content="white" />
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="icons/bill_icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Hello World">
+    <meta name="msapplication-TileImage" content="icons/bill_icon.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+  <% } %>
+
 </head>
 
 <body aurelia-app="main">
 
   <% if (htmlWebpackPlugin.options.metadata.isCordova) { %>
-  <script type="text/javascript" src="cordova.js"></script>
-  <script>
-    var admobid = {}
-    if (/(android)/i.test(navigator.userAgent)) {  // for android & amazon-fireos
-      admobid = {
-        interstitial: 'ca-app-pub-5803000491420516/5299331126',
+    <script type="text/javascript" src="cordova.js"></script>
+    <script>
+      var admobid = {}
+      if (/(android)/i.test(navigator.userAgent)) {  // for android & amazon-fireos
+        admobid = {
+          interstitial: 'ca-app-pub-5803000491420516/5299331126',
+        }
       }
-    }
-    document.addEventListener('deviceready', function () {
+      document.addEventListener('deviceready', function () {
 
-      admob.interstitial.config({
-        id: admobid.interstitial,
-        isTesting: false,
-        autoShow: false,
+        admob.interstitial.config({
+          id: admobid.interstitial,
+          isTesting: false,
+          autoShow: false,
+        })
+        admob.interstitial.prepare()
+
+      }, false)
+
+      document.addEventListener('openBannerAd', function (event) {
+        admob.interstitial.show()
       })
-      admob.interstitial.prepare()
 
-    }, false)
+      document.addEventListener('hideBannerAd', function (event) {
+        admob.interstitial.prepare()
+      })
+    </script>
+    <% } %>
 
-    document.addEventListener('openBannerAd', function (event) {
-      admob.interstitial.show()
-    })
+    <% if (!htmlWebpackPlugin.options.metadata.isCordova && htmlWebpackPlugin.options.metadata.isProduction) { %>
+      <script>  window.onload = () => {
+          'use strict';
 
-    document.addEventListener('hideBannerAd', function (event) {
-      admob.interstitial.prepare()
-    })
-  </script>
-  <% } %>
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+              .register('./serviceworker.js');
+          }
+        }</script>
+
+      <noscript>Sorry, your browser does not support JavaScript!</noscript>
+    <% } %>
 </body>
 
 </html>
