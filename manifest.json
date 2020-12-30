@@ -10,6 +10,6 @@
     "lang": "en-US",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "black",
-    "theme_color": "black"
+    "background_color": "white",
+    "theme_color": "white"
 }
