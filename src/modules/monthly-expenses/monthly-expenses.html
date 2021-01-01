@@ -30,8 +30,8 @@
                   <div show.bind="billMonth.isFlipped" class="content">
 
                     <div class="ct-chart-${$index} ct-perfect-fourth"></div>
-                    <ul style="list-style: square outside none; margin-top: 0; display: flex;flex-direction: row; flex-wrap: wrap;">
-                      <li repeat.for="dataset of billMonth.dataset" css="color: ${dataset.color}; margin-top:4px; flex: 1 50%"><span style="color: black">${dataset.name}</span></li>
+                    <ul style="list-style: square outside none; margin-top: 0; display: flex;flex-direction: column; flex-wrap: wrap;">
+                      <li repeat.for="dataset of billMonth.dataset" css="color: ${dataset.color}; margin-top:4px;"><span style="color: black">${dataset.name} ${dataset.percent}</span></li>
                     </ul>
                   </div>
                 </div>

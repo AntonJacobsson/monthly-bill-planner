@@ -3,13 +3,13 @@
 
 $ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) !default;
 $ct-series-colors: (
-  #d70206,
-  #f05b4f,
-  #f4c63d,
-  #d17905,
-  #453d3f,
+#00d1b2,
+  #3273dc,
+  #209cee,
+  #48c774,
+  #ffdd57,
   #59922b,
-  #0544d3,
+  #ff3860,
   #6b0392,
   #f05b4f,
   #dda458,
@@ -31,8 +31,25 @@ $ct-series-colors: (
     padding-bottom: 5em;
 }
 
+.navbar-container {
+    > svg {
+        stroke: lightgrey;
+        fill: whitesmoke
+    }
+}
+
 .active-navigation {
     background: white;
+    > div {
+        > svg {
+            stroke: black;
+            fill:white;
+        }
+        > p {
+            color: black!important;
+        }
+    }
+
 }
 
 .navbar-icons {
@@ -57,6 +74,7 @@ $ct-series-colors: (
 .navbar-icons > a > div > p {
     margin-top: -.5em;
     font-size: .75em;
+    color: #888;
 }
 
 .title-button-row {

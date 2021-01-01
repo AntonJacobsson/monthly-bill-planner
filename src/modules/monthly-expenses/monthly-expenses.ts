@@ -52,6 +52,8 @@ export class MonthlyExpenses {
     this._bills.forEach(element => {
       this.filterBillMonthRows(element);
     });
+
+    this.billMonthRows.forEach(x => x.bills.sort((n1,n2) => n1.totalCost - n2.totalCost).reverse());
   }
 
   public attached(): void {
@@ -77,35 +79,37 @@ export class MonthlyExpenses {
 
     billMonthRow.isFlipped = !billMonthRow.isFlipped;
 
+    billMonthRow.bills = billMonthRow.bills.sort((n1,n2) => n1.totalCost - n2.totalCost).reverse();
+
     if (billMonthRow.isFlipped) {
 
       let colors = [
-      "#d70206",
-      "#f05b4f",
-      "#f4c63d",
-      "#d17905",
-      "#453d3f",
-      "#59922b",
-      "#0544d3",
-      "#6b0392",
-      "#f05b4f",
-      "#dda458",
-      "#eacf7d",
-      "#86797d",
-      "#b2c326",
-      "#6188e2",
-      "#a748ca"
+        "#00d1b2",
+        "#3273dc",
+        "#209cee",
+        "#48c774",
+        "#ffdd57",
+        "#59922b",
+        "#ff3860",
+        "#6b0392",
+        "#f05b4f",
+        "#dda458",
+        "#eacf7d",
+        "#86797d",
+        "#b2c326",
+        "#6188e2",
+        "#a748ca"
       ]
 
       let dataset = [];
 
       for (let i = 0; i < billMonthRow.bills.length; i++) {
         dataset.push({
-          name: billMonthRow.bills[i].name, cost: Number(billMonthRow.bills[i].totalCost), color: colors[i] ,
+          name: billMonthRow.bills[i].name, cost: Number(billMonthRow.bills[i].totalCost), color: colors[i],
         });
       }
 
-      billMonthRow.dataset = dataset;
+      dataset = dataset.sort((n1,n2) => n1.cost - n2.cost).reverse();
 
       let data = {
         series: dataset.map(x => x.cost),
@@ -113,8 +117,21 @@ export class MonthlyExpenses {
 
       let sum = (a, b) => { return a + b };
       let labelInterpolationFnc = (value: number) => {
-        return Math.round(value / data.series.reduce(sum) * 100) + '%';
+        let percent = Math.round(value / data.series.reduce(sum) * 100);
+
+        return (percent < 5) ? "" : percent + '%';
+
       };
+
+      dataset.forEach(element => {
+        let percent = Math.round(element.cost / data.series.reduce(sum) * 100)
+        if(percent < 5) {
+          element.percent =  " - " + Math.round(element.cost / data.series.reduce(sum) * 100) + '%';
+        }
+      });
+
+      billMonthRow.dataset = dataset;
+
       let chartist = new Chartist.Pie('.ct-chart-' + index, data, { labelInterpolationFnc });
     }
   }
