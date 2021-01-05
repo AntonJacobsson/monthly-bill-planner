@@ -44,7 +44,7 @@ export class BillService {
       let name = this._i18n.tr("my-bills");
 
       let plannings: Planning[] = [
-        { name: name, key: 0 }
+        { name: name, key: 0, billOrder: [] }
       ]
       localStorage.setItem('plannings', JSON.stringify(plannings));
       return plannings;
@@ -59,22 +59,13 @@ export class BillService {
   public getBillsByPlanning(planning: Planning): Bill[] {
 
     if (this.currentPlanningId != planning.key) {
-      if (planning.key == 0) {
-        let response = this.getBillsFromLocalStorage("bills");
 
-        if (response !== null) {
-          this.bills = response;
-        } else {
-          this.bills = [];
-        }
+      let response = (planning.key == 0) ? this.getBillsFromLocalStorage("bills") : this.getBillsFromLocalStorage("bills" + planning.key);
+
+      if (response !== null) {
+        this.bills = response;
       } else {
-        let response = this.getBillsFromLocalStorage("bills" + planning.key);
-
-        if (response !== null) {
-          this.bills = response;
-        } else {
-          this.bills = [];
-        }
+        this.bills = [];
       }
     }
     this.currentPlanningId = planning.key;
@@ -137,7 +128,8 @@ export class BillService {
 
     let planning: Planning = {
       name: planningRequest.name,
-      key: key
+      key: key,
+      billOrder: []
     }
     this.plannings.push(planning);
 
@@ -149,6 +141,7 @@ export class BillService {
 
     let planningToUpdate = this.plannings.find(x => x.key === planning.key);
     planningToUpdate.name = planning.name;
+    planningToUpdate.billOrder = planning.billOrder
 
     this.updateLocalStorage("plannings", this.plannings);
   }

@@ -1,10 +1,10 @@
 <template>
         <ux-dialog>
             <div style="padding: 0.5em">
-                <h2 class="title is-5">${bill.name}</h2>
+                <h2 class="title is-5 no-copy">${bill.name}</h2>
             </div>
           <ux-dialog-body>
-              <p t="delete-warning"></p>
+              <p class="no-copy" t="delete-warning"></p>
           </ux-dialog-body>
           <ux-dialog-footer>
             <button class="button is-seconday" click.trigger="controller.cancel()" t="cancel"></button>

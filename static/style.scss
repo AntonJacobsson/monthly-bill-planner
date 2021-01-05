@@ -206,3 +206,33 @@ body > ux-dialog-overlay.active {
             margin-left: 0.5em;
         }
 }
+
+  .no-copy {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */     
+  }
+
+  .arrow-icon-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      > svg  {
+          width: 3em;
+      }
+  }
+
+  .save-reorder {
+    width: 100%;
+    height: 3.3em;
+    z-index: 999;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    > h4 {
+        color: whitesmoke;
+        align-self: center;
+    }
+  }

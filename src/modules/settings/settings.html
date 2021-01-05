@@ -2,12 +2,12 @@
   <section class="section" style="padding-top: 1.5em">
 
     <div class="title-button-row" style="min-height: 60px;">
-      <h5 class="title is-5" t="routes.settings"></h5>
+      <h5 class="title is-5 no-copy" t="routes.settings"></h5>
     </div>
 
     <div class="flex-fields">
       <div class="field">
-        <label class="label" t="change-language"></label>
+        <label class="label no-copy" t="change-language"></label>
         <div class="control">
           <div class="select">
             <select value.bind="selectedLanguage">
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="field">
-        <label class="label" t="change-currency"></label>
+        <label class="label no-copy" t="change-currency"></label>
         <div class="control">
           <div class="select">
             <select value.bind="selectedCurrency">
@@ -28,11 +28,11 @@
       </div>
     </div>
 
-    <h5 class="title is-5" t="contact" style="padding-top: 1em"></h5>
+    <h5 class="title is-5 no-copy" t="contact" style="padding-top: 1em"></h5>
 
     <div if.bind="formSent === false">
       <div class="field" validation-errors.bind="emailErrors">
-        <label class="label" t="email"></label>
+        <label class="label no-copy" t="email"></label>
         <div class="control">
           <input class="input" type="email" placeholder="mail@mail.com" value.bind="email & validate" class.bind="emailErrors.length ? 'is-danger' : ''">
         </div>

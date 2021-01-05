@@ -6,7 +6,7 @@ import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import { DeletePrompt } from 'components/delete-prompt';
 import { LanguageService } from 'services/language-service';
-import { Planning, PlanningRequest } from 'models/planning';
+import { BillOrderDictionary, Planning, PlanningRequest } from 'models/planning';
 import { I18N } from 'aurelia-i18n';
 
 @inject(DialogService, BillService, LanguageService, I18N)
@@ -17,6 +17,7 @@ export class BillHandler {
   public dialogService: DialogService;
   private _billService: BillService;
   public currentPlanning: Planning;
+  public isReorderMode: boolean = false;
 
   constructor(dialogService: DialogService, billService: BillService, private _languageService: LanguageService, private _i18n: I18N) {
     this._billService = billService;
@@ -36,7 +37,28 @@ export class BillHandler {
     } else {
       this.currentPlanning = this.plannings.find(x => x.key == this._billService.currentPlanningId);
     }
-    this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+    let bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+    if(this.currentPlanning.billOrder !== undefined && this.currentPlanning.billOrder.length > 0) {
+
+      let billOrders = this.currentPlanning.billOrder.sort(x => x.value);
+
+      billOrders.forEach(element => {
+        let bill = bills.find(x => x.id === element.id);
+        if(bill != undefined) {
+          this.bills.push(bill);
+          bills = bills.filter(x => x.id !== bill.id)
+        }
+      });
+
+      bills.forEach(element => {
+        this.bills.push(element);
+      });
+
+    } else {
+      this.bills = bills;
+    }
   }
 
   public submit(): void {
@@ -49,6 +71,8 @@ export class BillHandler {
   }
 
   public openDeletePrompt(bill: Bill): void {
+    if(this.isReorderMode) { return; }
+
     navigator.vibrate(50);
     this.dialogService.open({ viewModel: DeletePrompt, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
@@ -63,6 +87,8 @@ export class BillHandler {
   }
 
   public edit(bill: Bill): void {
+    if(this.isReorderMode) { return; }
+
     this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
@@ -89,6 +115,8 @@ export class BillHandler {
   }
 
   public addPlanning(): void {
+    if(this.isReorderMode) { return; }
+
     let name = this._i18n.tr("new");
 
     let planning: PlanningRequest = {
@@ -99,11 +127,52 @@ export class BillHandler {
   }
 
   public selectPlanning(planning: Planning): void {
+    if(this.isReorderMode) { return; }
+
     this.currentPlanning = planning;
     this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
   }
 
+  public openReorderMode(): void {
+    this.isReorderMode = true;
+  }
+
+  public saveReorder(): void {
+
+    let billOrderList : BillOrderDictionary[] = [];
+
+    let count = 0;
+
+    this.bills.forEach(element => {
+      let billOrder : BillOrderDictionary = {id: element.id, value: count}
+      billOrderList.push(billOrder);
+      count++;
+    });
+
+    this.currentPlanning.billOrder = billOrderList;
+    this._billService.updatePlanning(this.currentPlanning);
+
+    this.isReorderMode = false;
+  }
+
+  public reorderBill(bill: Bill, number: number): void {
+
+    let index = this.bills.findIndex(x => x.id == bill.id);
+
+    if (index === 0 && number === -1) {
+      return;
+    }
+
+    if (index === (this.bills.length - 1) && number === 1) {
+      return;
+    }
+
+    this.bills = this.moveItemInArrayFromIndexToIndex(this.bills, index, index + number);
+  }
+
   public editPlanning(planning: Planning): void {
+    if(this.isReorderMode) { return; }
+
     navigator.vibrate(50);
     this.dialogService.open({ viewModel: PlanningModal, model: planning, lock: false }).whenClosed((response: { wasCancelled: any; output: any; }) => {
       if (!response.wasCancelled) {
@@ -113,7 +182,7 @@ export class BillHandler {
           this._billService.deletePlanning(response.output);
           this.plannings = this._billService.getPlannings();
 
-          if(this.currentPlanning.key == response.output) {
+          if (this.currentPlanning.key == response.output) {
             this.currentPlanning = this.plannings[0];
           }
           this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
@@ -125,5 +194,22 @@ export class BillHandler {
   public deactivate(): void {
     this.dialogService.closeAll();
   }
+
+  private moveItemInArrayFromIndexToIndex(array, fromIndex, toIndex): any {
+    if (fromIndex === toIndex) return array;
+
+    const newArray = [...array];
+
+    const target = newArray[fromIndex];
+    const inc = toIndex < fromIndex ? -1 : 1;
+
+    for (let i = fromIndex; i !== toIndex; i += inc) {
+      newArray[i] = newArray[i + inc];
+    }
+
+    newArray[toIndex] = target;
+
+    return newArray;
+  };
 
 }

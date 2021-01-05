@@ -8,7 +8,7 @@
     
       <div class="field-flex-wrapper">
       <div class="field" validation-errors.bind="nameErrors">
-        <label class="label" t="name"></label>
+        <label class="label no-copy" t="name"></label>
         <div class="control">
           <input class="input" type="text" value.bind="name & validate" placeholder="" class.bind="nameErrors.length ? 'is-danger' : ''">
         </div>
@@ -17,7 +17,7 @@
       </div>
 
       <div class="field" validation-errors.bind="totalCostErrors">
-        <label class="label" t="price"></label>
+        <label class="label no-copy" t="price"></label>
         <div class="control">
           <input class="input" type="number" value.bind="totalCost & validate" placeholder="1000" class.bind="totalCostErrors.length ? 'is-danger' : ''">
         </div>
@@ -28,7 +28,7 @@
 
     <div class="field-flex-wrapper">
       <div class="field" validation-errors.bind="startDateErrors">
-        <label class="label" t="startDate"></label>
+        <label class="label no-copy" t="startDate"></label>
         <div class="control">
           <input class="input" type="date" value.bind="startDate & validate" class.bind="startDateErrors.length ? 'is-danger' : ''">
         </div>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="field">
-        <label class="label" t="recurringbill"></label>
+        <label class="label no-copy" t="recurringbill"></label>
         <div class="control">
           <div class="select">
             <select value.bind="payPeriod" style="width: 100%;">
@@ -50,7 +50,7 @@
     </div>
 
       <div class="field" validation-errors.bind="endDateErrors">
-        <label class="label" t="endDate"></label>
+        <label class="label no-copy" t="endDate"></label>
         <div class="control">
           <input class="input" type="date" value.bind="endDate & validate" class.bind="endDateErrors.length ? 'is-danger' : ''" disabled.bind="payPeriod === 0" style="width: 50%;">
           <button click.delegate="addMonthsToEndDate(1)"if.bind="payPeriod !== 0" class="button">1+&nbsp;<span t="short-month"></span></button>
@@ -62,21 +62,21 @@
 
       <div class="field">
         <div class="control" if.bind="bill.createdDate">
-          <span t="bill-created" class="is-size-7"></span><span class="is-size-7">${bill.createdDate.substring(0,10)}</span>
+          <span t="bill-created" class="is-size-7 no-copy"></span><span class="is-size-7">${bill.createdDate.substring(0,10)}</span>
         </div>
       </div>
     </ux-dialog-body>
     
     <ux-dialog-body show.bind="!essentialTabActive">
       <div class="field">
-        <label class="label" t="notes"></label>
+        <label class="label no-copy" t="notes"></label>
         <div class="control">
         <textarea value.bind="notes" class="textarea" placeholder=""></textarea>
         </div>
       </div>
 
       <div class="field">
-        <label class="label" t="color-scheme"></label>
+        <label class="label no-copy" t="color-scheme"></label>
         <div class="control">
           <div class="select">
             <select value.bind="colorScheme" css="background: ${colorScheme.value}">
