@@ -1,26 +1,36 @@
 import { BillModal } from '../../components/bill-modal';
 import { PlanningModal } from '../../components/planning-modal';
 import { DialogService } from 'aurelia-dialog';
-import { inject } from 'aurelia-framework';
+import { inject, observable } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import { DeletePrompt } from 'components/delete-prompt';
 import { LanguageService } from 'services/language-service';
 import { BillOrderDictionary, Planning, PlanningRequest } from 'models/planning';
 import { I18N } from 'aurelia-i18n';
+import * as moment from 'moment';
 
 @inject(DialogService, BillService, LanguageService, I18N)
 
 export class BillHandler {
+
+  @observable public selectedSort: string;
+
   public bills: Bill[] = [];
   public plannings: Planning[] = [];
   public dialogService: DialogService;
-  private _billService: BillService;
   public currentPlanning: Planning;
   public isReorderMode: boolean = false;
 
-  constructor(dialogService: DialogService, billService: BillService, private _languageService: LanguageService, private _i18n: I18N) {
-    this._billService = billService;
+
+  private _locale: string = '';
+
+  public sorts: any[] = [
+    { name: "custom", value: "" },
+    { name: "due-date", value: "dueDate" }
+  ]
+
+  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N) {
     this.dialogService = dialogService;
   }
 
@@ -31,6 +41,8 @@ export class BillHandler {
       behavior: 'auto'
     });
 
+    this._locale = this._languageService.getLanguage();
+
     this.plannings = this._billService.getPlannings();
     if (this._billService.currentPlanningId === undefined) {
       this.currentPlanning = this.plannings[0];
@@ -38,27 +50,19 @@ export class BillHandler {
       this.currentPlanning = this.plannings.find(x => x.key == this._billService.currentPlanningId);
     }
 
+    this.selectedSort = (this.currentPlanning.sort != undefined) ? this.currentPlanning.sort : '';
+
     let bills = this._billService.getBillsByPlanning(this.currentPlanning);
 
-    if(this.currentPlanning.billOrder !== undefined && this.currentPlanning.billOrder.length > 0) {
+    this.bills = this.sortBills(bills, this.currentPlanning);
+  }
 
-      let billOrders = this.currentPlanning.billOrder.sort(x => x.value);
-
-      billOrders.forEach(element => {
-        let bill = bills.find(x => x.id === element.id);
-        if(bill != undefined) {
-          this.bills.push(bill);
-          bills = bills.filter(x => x.id !== bill.id)
-        }
-      });
-
-      bills.forEach(element => {
-        this.bills.push(element);
-      });
-
-    } else {
-      this.bills = bills;
+  public selectedSortChanged(newValue: string, oldValue: string): void {
+    if(oldValue != undefined) {
+      this.currentPlanning.sort = newValue;
+      this.bills = this.sortBills(this.bills, this.currentPlanning);
     }
+
   }
 
   public submit(): void {
@@ -66,12 +70,15 @@ export class BillHandler {
       if (!response.wasCancelled) {
         let createdBill = this._billService.createBill(response.output)
         this.bills.push(createdBill);
+        if(this.selectedSort != "") {
+          this.bills = this.sortBills(this.bills, this.currentPlanning);
+        }
       }
     });
   }
 
   public openDeletePrompt(bill: Bill): void {
-    if(this.isReorderMode) { return; }
+    if (this.isReorderMode) { return; }
 
     navigator.vibrate(50);
     this.dialogService.open({ viewModel: DeletePrompt, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
@@ -87,35 +94,54 @@ export class BillHandler {
   }
 
   public edit(bill: Bill): void {
-    if(this.isReorderMode) { return; }
+    if (this.isReorderMode) { return; }
 
     this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
+        if(this.selectedSort != "") {
+          this.bills = this.sortBills(this.bills, this.currentPlanning);
+        }
       }
     });
   }
 
-  public formatFromTomDateString(startDate: string, endDate: string): string {
+  public formatFromTomDateString(startDate: string, endDate: string, payPeriod: number): string {
 
-    let locale = this._languageService.getLanguage();
-    let start = new Date(startDate);
+    let today = moment().startOf('day');
+
+    let start = moment(startDate);
+    let end = (endDate !== null && endDate !== "" && endDate !== undefined) ? moment(endDate) : moment(startDate);
+    let payperiod = (payPeriod >= 1) ? payPeriod : 1
 
     let options = { year: 'numeric', month: 'short', day: 'numeric' };
 
-    let dateString = start.toLocaleString(locale, options);
-
-    if (endDate !== undefined && endDate !== "") {
-      let end = new Date(endDate).toLocaleString(locale, options);
-
-      dateString = dateString + " - " + end
-
+    if (today <= start) {
+      return start.toDate().toLocaleString(this._locale, options);
     }
-    return dateString
+
+    if (today > end) {
+      return '';
+    }
+
+    let billDueDates = [];
+
+    while (start.isSameOrBefore(end)) {
+      billDueDates.push(start.format("YYYY-MM-DD"));
+      start.add(payperiod, 'month');
+    }
+
+    for (let i = 0; i < billDueDates.length; i++) {
+      const element = billDueDates[i];
+      if (today.toDate() < new Date(element)) {
+        return new Date(element).toLocaleString(this._locale, options);
+      }
+    }
+    return '';
   }
 
   public addPlanning(): void {
-    if(this.isReorderMode) { return; }
+    if (this.isReorderMode) { return; }
 
     let name = this._i18n.tr("new");
 
@@ -127,10 +153,13 @@ export class BillHandler {
   }
 
   public selectPlanning(planning: Planning): void {
-    if(this.isReorderMode) { return; }
+    if (this.isReorderMode) { return; }
 
     this.currentPlanning = planning;
-    this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+    let bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+    this.bills = this.sortBills(bills, this.currentPlanning);
   }
 
   public openReorderMode(): void {
@@ -139,23 +168,32 @@ export class BillHandler {
 
   public saveReorder(): void {
 
-    let billOrderList : BillOrderDictionary[] = [];
+    if (this.selectedSort === "dueDate") {
+      this.currentPlanning.sort = this.selectedSort
+      this._billService.updatePlanning(this.currentPlanning);
+    } else {
+      let billOrderList: BillOrderDictionary[] = [];
 
-    let count = 0;
+      let count = 0;
 
-    this.bills.forEach(element => {
-      let billOrder : BillOrderDictionary = {id: element.id, value: count}
-      billOrderList.push(billOrder);
-      count++;
-    });
+      this.bills.forEach(element => {
+        let billOrder: BillOrderDictionary = { id: element.id, value: count }
+        billOrderList.push(billOrder);
+        count++;
+      });
 
-    this.currentPlanning.billOrder = billOrderList;
-    this._billService.updatePlanning(this.currentPlanning);
+      this.currentPlanning.billOrder = billOrderList;
+      this.currentPlanning.sort = "";
+      this._billService.updatePlanning(this.currentPlanning);
+    }
 
     this.isReorderMode = false;
   }
 
   public reorderBill(bill: Bill, number: number): void {
+
+    this.selectedSort = "";
+    this.currentPlanning.sort = "";
 
     let index = this.bills.findIndex(x => x.id == bill.id);
 
@@ -171,7 +209,7 @@ export class BillHandler {
   }
 
   public editPlanning(planning: Planning): void {
-    if(this.isReorderMode) { return; }
+    if (this.isReorderMode) { return; }
 
     navigator.vibrate(50);
     this.dialogService.open({ viewModel: PlanningModal, model: planning, lock: false }).whenClosed((response: { wasCancelled: any; output: any; }) => {
@@ -195,6 +233,74 @@ export class BillHandler {
     this.dialogService.closeAll();
   }
 
+  private sortBills(bills: Bill[], planning: Planning): Bill[] {
+
+    if (planning.sort !== undefined && planning.sort !== "") {
+
+      if (planning.sort = "duedate") {
+
+        let billsWithDate: any[] = []
+
+        bills.forEach(element => {
+
+          let billDueDates = [];
+
+          let startDate = moment(element.startDate);
+          let endDate = (element.endDate !== null && element.endDate !== "" && element.endDate !== undefined) ? moment(element.endDate) : moment(startDate);
+
+          let payPeriod = (element.payPeriod >= 1) ? element.payPeriod : 1
+
+
+          while (startDate.isSameOrBefore(endDate)) {
+            billDueDates.push(startDate.format("YYYY-MM-DD"));
+            startDate.add(payPeriod, 'month');
+          }
+
+          let now = moment().startOf('day').toDate();
+
+          let closest = new Date("2025-01-01");
+
+          billDueDates.forEach((d) => {
+            const date = new Date(d);
+
+            if (date >= now && (date < new Date(closest) || date < closest)) {
+              closest = d;
+            }
+          });
+
+          billsWithDate.push({ bill: element, date: moment(closest) });
+        });
+
+        billsWithDate = billsWithDate.sort((a, b) => a.date - b.date);
+        return billsWithDate.map(a => a.bill);
+      }
+
+    };
+
+    //sort by billOrder Custom sort
+    if (planning.billOrder !== undefined && planning.billOrder.length > 0) {
+      let sortedBills: Bill[] = [];
+      let billOrders = planning.billOrder.sort(x => x.value);
+
+      billOrders.forEach(element => {
+        let bill = bills.find(x => x.id === element.id);
+        if (bill != undefined) {
+          sortedBills.push(bill);
+          bills = bills.filter(x => x.id !== bill.id)
+        }
+      });
+
+      bills.forEach(element => {
+        sortedBills.push(element);
+      });
+
+      return sortedBills;
+    }
+
+    return bills;
+  }
+
+
   private moveItemInArrayFromIndexToIndex(array, fromIndex, toIndex): any {
     if (fromIndex === toIndex) return array;
 
@@ -211,5 +317,4 @@ export class BillHandler {
 
     return newArray;
   };
-
 }

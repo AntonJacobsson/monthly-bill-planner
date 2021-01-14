@@ -14,13 +14,28 @@
 
   <section class="section" style="padding-top: 1.5em">
     <div class="title-button-row">
-      <h5 class="title is-5 no-copy">
-        <span t="bill-title"></span>
-        <span if.bind="bills.length > 0">(${bills.length})</span>
-      </h5>
+      <div>
+        <h5 if.bind="!isReorderMode" class="title is-5 no-copy">
+          <span t="bill-title"></span>
+          <span if.bind="bills.length > 0">(${bills.length})</span>
+        </h5>
+        
+        <div if.bind="isReorderMode" style="display: flex; align-items: center">
+        <label class="label" style="margin-bottom: 0; padding-right: 0.5em;" t="sort-by"></label>
+        <div class="control">
+          <div class="select">
+            <select value.bind="selectedSort">
+              <option repeat.for="sort of sorts" model.bind="sort.value" t="sort.${sort.name}">
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
       <div if.bind="bills.length > 0">
-        <button click.delegate="submit()" class="button is-primary" t="add-bill" disabled.bind="isReorderMode"></button>
-        <button click.delegate="openReorderMode()" class="button is-secondary" disabled.bind="isReorderMode">
+        <button if.bind="!isReorderMode"click.delegate="submit()" class="button is-primary" t="add-bill"></button>
+        <button if.bind="bills.length > 1" click.delegate="openReorderMode()" class="button is-secondary" disabled.bind="isReorderMode">
           <span class="icon">
             <svg style="width:100%" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><title>Ellipsis Vertical</title><circle cx='256' cy='256' r='32' fill='none' stroke='currentColor' stroke-miterlimit='10' stroke-width='32' /><circle cx='256' cy='416' r='32' fill='none' stroke='currentColor' stroke-miterlimit='10'stroke-width='32' /><circle cx='256' cy='96' r='32' fill='none' stroke='currentColor' stroke-miterlimit='10' stroke-width='32' /></svg>
           </span>
@@ -40,9 +55,9 @@
             </p>
           </div>
           <h2 class="subtitle is-2 text-center no-copy">${bill.totalCost | currencyFormat} </h2>
-          <p class="card-footer-title no-copy">${formatFromTomDateString(bill.startDate, bill.endDate)}</p>
+          <p class="card-footer-title no-copy">${formatFromTomDateString(bill.startDate, bill.endDate, bill.payPeriod)}</p>
         </div>
-        <div if.bind="isReorderMode" class="arrow-icon-wrapper">
+        <div if.bind="isReorderMode && selectedSort == ''" class="arrow-icon-wrapper">
           <svg if.bind="$index != 0" click.delegate="reorderBill(bill, -1)" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'> <title>Chevron Up</title><path fill='none' stroke='lightgrey' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M112 328l144-144 144 144' /></svg>
           <svg if.bind="bills.length -1 != $index" click.delegate="reorderBill(bill, 1)" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><title>Chevron Down</title><path fill='none' stroke='lightgrey' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M112 184l144 144 144-144' /></svg>
         </div>
@@ -71,6 +86,6 @@
   </section>
 
   <div if.bind="isReorderMode" click.delegate="saveReorder()" class="save-reorder has-background-success">
-    <h4 class="subtitle is-4" t="save"></h4>
+    <h4 class="subtitle is-4 no-copy" t="save"></h4>
   </div>
 </template>

@@ -86,5 +86,10 @@
     },
     "new": "New",
     "my-bills": "My Bills",
-    "save": "Save"
+    "save": "Save",
+    "sort": {
+        "custom": "Custom",
+        "due-date": "Due Date"
+    },
+    "sort-by": "Sort by"
 }

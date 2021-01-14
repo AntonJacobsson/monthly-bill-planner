@@ -80,9 +80,13 @@ $ct-series-colors: (
 .title-button-row {
     display: flex;
     justify-content: space-between;
+
+    > div {
+        margin-bottom: 1.5rem;
+    }
 }
 
-.title-button-row > h5 {
+.title-button-row > div > h5 {
     line-height: 1.8;
 }
 .text-center {

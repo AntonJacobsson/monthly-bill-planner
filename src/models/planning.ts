@@ -2,6 +2,7 @@ export class Planning {
     public name: string;
     public key: number;
     public billOrder: BillOrderDictionary[];
+    public sort: string;
 }
 
 export class PlanningRequest {

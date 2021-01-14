@@ -44,7 +44,7 @@ export class BillService {
       let name = this._i18n.tr("my-bills");
 
       let plannings: Planning[] = [
-        { name: name, key: 0, billOrder: [] }
+        { name: name, key: 0, billOrder: [], sort: '' }
       ]
       localStorage.setItem('plannings', JSON.stringify(plannings));
       return plannings;
@@ -129,7 +129,8 @@ export class BillService {
     let planning: Planning = {
       name: planningRequest.name,
       key: key,
-      billOrder: []
+      billOrder: [],
+      sort: ''
     }
     this.plannings.push(planning);
 
@@ -141,7 +142,8 @@ export class BillService {
 
     let planningToUpdate = this.plannings.find(x => x.key === planning.key);
     planningToUpdate.name = planning.name;
-    planningToUpdate.billOrder = planning.billOrder
+    planningToUpdate.billOrder = planning.billOrder;
+    planningToUpdate.sort = (planning.sort != undefined) ? planning.sort : ""
 
     this.updateLocalStorage("plannings", this.plannings);
   }
