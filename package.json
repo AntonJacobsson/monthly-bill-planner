@@ -59,7 +59,7 @@
   "scripts": {
     "start": "webpack-dev-server --color",
     "start:prod": "webpack-dev-server --color --env.production",
-    "build": "webpack --env.production",
+    "build:pwa": "webpack --env.production",
     "build:cordova": "webpack --env.production --env.cordova",
     "build:dev": "webpack",
     "analyze": "webpack --env.production --analyze"
