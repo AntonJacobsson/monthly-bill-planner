@@ -1,18 +1,18 @@
-import {DialogController} from 'aurelia-dialog';
-import {inject } from 'aurelia-framework';
+import { DialogController } from 'aurelia-dialog';
+import { inject } from 'aurelia-framework';
 import { Bill } from 'models/bill';
 
 @inject(DialogController)
 export class DeletePrompt {
-    public controller: DialogController;
-    public bill: Bill;
+  public controller: DialogController;
+  public bill: Bill;
 
-    constructor(controller: DialogController){
-      this.controller = controller;
-    }
+  constructor(controller: DialogController) {
+    this.controller = controller;
+  }
 
-    public activate(bill: Bill): void {
-          this.bill = bill;
-    }
+  public activate(bill: Bill): void {
+    this.bill = bill;
+  }
 
 }

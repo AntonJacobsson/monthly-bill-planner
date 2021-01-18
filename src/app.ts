@@ -8,15 +8,9 @@ import { LanguageService } from 'services/language-service';
 
 
 export class App {
-  private _i18n: I18N;
-  private _currencyService: CurrencyService;
-  private _languageService: LanguageService;
   public router: Router;
 
-  constructor(i18n: I18N, currencyService: CurrencyService, languageService: LanguageService) {
-    this._i18n = i18n;
-    this._currencyService = currencyService;
-    this._languageService = languageService;
+  constructor(private _i18n: I18N, private _currencyService: CurrencyService, private _languageService: LanguageService) {
 
     if(this._languageService.getLanguageFromLocalStorage() === null) {
       let translationLanguage = 'en';

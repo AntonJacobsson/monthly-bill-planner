@@ -4,17 +4,17 @@ export class LanguageService {
 
     constructor() {
         let response = this.getLanguageFromLocalStorage();
-        if(response !== null) {
-          this.selectedLanguage = response;
+        if (response !== null) {
+            this.selectedLanguage = response;
         }
     }
 
     public getLanguageFromLocalStorage(): string {
         let data = localStorage.getItem('language');
-      if (data !== null) {
-          return data;
-      }
-      return null;
+        if (data !== null) {
+            return data;
+        }
+        return null;
     }
 
     public getLanguage(): string {

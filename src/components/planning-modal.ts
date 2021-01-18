@@ -1,5 +1,5 @@
-import {DialogController} from 'aurelia-dialog';
-import {inject } from 'aurelia-framework';
+import { DialogController } from 'aurelia-dialog';
+import { inject } from 'aurelia-framework';
 import { Planning } from 'models/planning';
 
 @inject(DialogController)
@@ -8,8 +8,8 @@ export class PlanningModal {
     public planning: Planning;
     public name: string;
 
-    constructor(controller: DialogController){
-      this.controller = controller;
+    constructor(controller: DialogController) {
+        this.controller = controller;
     }
 
     public activate(planning: Planning): void {
@@ -23,9 +23,8 @@ export class PlanningModal {
     }
 
     public delete(): void {
-        if(this.planning.key !== 0) {
+        if (this.planning.key !== 0) {
             this.controller.ok(this.planning.key);
         }
     }
-
 }

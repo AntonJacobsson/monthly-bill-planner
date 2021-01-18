@@ -49,6 +49,7 @@
       <div class="field" validation-errors.bind="messageErrors">
         <div class="control">
           <textarea class="textarea" placeholder="" value.bind="message & validate"  class.bind="messageErrors.length ? 'is-danger' : ''"></textarea>
+          <p style="font-size: 0.8em; padding-top: 0.25em;" class="no-copy" if.bind="selectedLanguage !== 'sv' && selectedLanguage !== 'en'">* Please write your message in English or Swedish</p>
         </div>
       </div>
       <div class="field">

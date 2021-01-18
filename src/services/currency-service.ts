@@ -4,17 +4,17 @@ export class CurrencyService {
 
     constructor() {
         let response = this.getCurrencyFromLocalStorage();
-        if(response !== null) {
-          this.selectedCurrency = response;
+        if (response !== null) {
+            this.selectedCurrency = response;
         }
     }
 
     public getCurrencyFromLocalStorage(): string {
-    let data = localStorage.getItem('currency');
-      if (data !== null) {
-          return data;
-      }
-      return null;
+        let data = localStorage.getItem('currency');
+        if (data !== null) {
+            return data;
+        }
+        return null;
     }
 
     public getCurrency(): string {

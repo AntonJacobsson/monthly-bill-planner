@@ -77,7 +77,7 @@ export class BillService {
   }
 
 
-  public createBill(bill: Bill) : Bill {
+  public createBill(bill: Bill): Bill {
     bill.id = Guid.raw();
     bill.createdDate = new Date().toISOString();
     this.bills.push(bill);
@@ -151,7 +151,7 @@ export class BillService {
   public deletePlanning(key: number): void {
     this.plannings = this.plannings.filter(x => x.key !== key);
     this.updateLocalStorage("plannings", this.plannings);
-    if(key != 0) {
+    if (key != 0) {
       localStorage.removeItem("bills" + key);
     } else {
       localStorage.removeItem("bills");

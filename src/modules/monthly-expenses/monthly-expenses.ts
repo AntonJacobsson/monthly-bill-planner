@@ -8,8 +8,8 @@ import Chartist from 'chartist-webpack';
 @inject(BillService)
 
 export class MonthlyExpenses {
-  private _billService: BillService
   private _bills: Bill[];
+  private lastDateForBills: string = '';
 
   public months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   public years: number[] = [];
@@ -17,11 +17,9 @@ export class MonthlyExpenses {
 
   public billMonthRows: BillMonthRow[] = []
 
-  constructor(billService: BillService) {
-    this._billService = billService;
-  }
+  constructor(private _billService: BillService) {}
 
-  public selectedYearChanged(newValue: any, oldValue: any): void {
+  public selectedYearChanged(newValue: number, oldValue: number): void {
     if (oldValue !== undefined) {
       this.billMonthRows.forEach(element => {
         element.bills = [];
@@ -48,6 +46,11 @@ export class MonthlyExpenses {
     this._bills = this._billService.getBills();
 
     this.years = this.getBillYears(this._bills);
+
+    let years = [... this.years].sort((a, b) => b - a);
+    let year = (years.length > 0) ? years[0] : this.selectedYear;
+
+    this.lastDateForBills = (year + "-12-31");
 
     this._bills.forEach(element => {
       this.filterBillMonthRows(element);
@@ -143,6 +146,11 @@ export class MonthlyExpenses {
         this.billMonthRows.find(x => x.month - 1 === moment(startDate).month()).bills.push(bill)
       }
     } else {
+
+      if(bill.endDate === undefined) {
+        bill.endDate = this.lastDateForBills
+      }
+
       if (moment(bill.startDate).year() < this.selectedYear && moment(bill.endDate).year() < this.selectedYear) {
         return;
       }
@@ -197,7 +205,7 @@ export class MonthlyExpenses {
           endDate: bill.endDate,
           id: bill.id,
           notes: bill.notes,
-          startDate: bill.startDate
+          startDate: bill.startDate,
         };
         this.billMonthRows.find(x => x.month - 1 === moment(element.date).month()).bills.push(currentBill)
       });

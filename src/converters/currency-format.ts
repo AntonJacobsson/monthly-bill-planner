@@ -1,20 +1,20 @@
-import {inject} from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
 import { Currency } from 'models/currency';
 @inject(CurrencyService)
 
-  export class CurrencyFormatValueConverter {
-    private _currencyService: CurrencyService;
+export class CurrencyFormatValueConverter {
+  private _currencyService: CurrencyService;
 
-    constructor(currencyService: CurrencyService) {
-        this._currencyService = currencyService;
-    }
+  constructor(currencyService: CurrencyService) {
+    this._currencyService = currencyService;
+  }
 
   public toView(value: number): string {
 
     let currency = this._currencyService.getCurrency();
 
-    switch(currency) {
+    switch (currency) {
       case Currency.USD: {
         return "$" + value.toString();
       }
@@ -40,7 +40,7 @@ import { Currency } from 'models/currency';
         return "¥" + value.toString();
       }
       case Currency.SEK: {
-          return value.toString() + ' kr';
+        return value.toString() + ' kr';
       }
       case Currency.MXN: {
         return "$" + value.toString();
@@ -61,11 +61,8 @@ import { Currency } from 'models/currency';
         return value.toString();
       }
       default: {
-         return value.toString();
+        return value.toString();
       }
-   }
-
+    }
   }
 }
-
-
