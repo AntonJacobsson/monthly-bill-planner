@@ -39,13 +39,14 @@
       <div class="field">
         <label class="label no-copy" t="recurringbill"></label>
         <div class="control">
-          <div class="select">
+          <div class="select ${payPeriod > 0 && 1 > payPeriod ? 'is-danger' : ''}">
             <select value.bind="payPeriod" style="width: 100%;">
-              <option repeat.for="payperiod of payperiods" model.bind="payperiod.value" t='${payperiod.name}'>
+              <option show.bind="payperiod.value >= 1 || payperiod.value === 0" repeat.for="payperiod of payperiods" model.bind="payperiod.value" t='${payperiod.name}' class="is-danger">
               </option>
             </select>
           </div>
         </div>
+        <p class="help is-danger" if.bind="payPeriod > 0 && 1 > payPeriod" t="payperiod.error-message"></p>
       </div>
     </div>
 
@@ -62,7 +63,7 @@
       </div>
       <div class="field">
         <div if.bind="payPeriod !== 0">
-        <label class="label no-copy">Repeat forever</label>
+        <label class="label no-copy" t="repeat-forever"></label>
         <div class="control">
         <input id="switchRoundedDefault" type="checkbox" name="switchRoundedDefault" class="switch is-rounded" checked.bind="repeatForever">
         <label for="switchRoundedDefault" style="line-height: 2.5"></label>

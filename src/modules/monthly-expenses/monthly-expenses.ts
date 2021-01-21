@@ -206,6 +206,7 @@ export class MonthlyExpenses {
           id: bill.id,
           notes: bill.notes,
           startDate: bill.startDate,
+          nextDueDate: bill.nextDueDate
         };
         this.billMonthRows.find(x => x.month - 1 === moment(element.date).month()).bills.push(currentBill)
       });

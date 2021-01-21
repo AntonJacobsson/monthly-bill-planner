@@ -8,4 +8,6 @@ export class Bill {
     public endDate: string;
     public notes: string;
     public color: string;
+
+    public nextDueDate: Date;
 }

@@ -29,18 +29,20 @@
     },
     "payperiod": {
         "never": "Inte återkommande",
-        "every1week": "Varje vecka",
-        "every2week": "Varannan vecka",
         "every1month": "Varje månad",
         "every2month": "Varannan månad",
         "every3month": "Kvartal",
         "every6month": "Halvår",
-        "every12month": "År"
+        "every12month": "År",
+        "error": "Fel",
+        "error-message": "Välj en giltlig period"
     },
+    "action-required": "Åtgärd krävs!",
     "name": "Namn",
     "price": "Pris",
     "paymonth": "Betalningsmånad",
     "recurringbill": "Återkommande",
+    "repeat-forever": "Inget slutdatum",
     "change": "Ändra",
     "create": "Skapa",
     "cancel": "Avbryt",

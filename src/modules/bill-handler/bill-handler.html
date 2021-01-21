@@ -1,5 +1,6 @@
 <template>
   <require from="./../../converters/currency-format"></require>
+  <require from="./../../converters/date-format"></require>
 
   <div style="display: flex;">
     <div class="tabs" style="margin-bottom: 0;">
@@ -55,7 +56,11 @@
             </p>
           </div>
           <h2 class="subtitle is-2 text-center no-copy">${bill.totalCost | currencyFormat} </h2>
-          <p class="card-footer-title no-copy">${formatFromTomDateString(bill.startDate, bill.endDate, bill.payPeriod)}</p>
+          <div style="display: flex; justify-content: space-between;">
+            <p class="card-footer-title no-copy">${bill.nextDueDate | dateFormat}</p>
+            <p if.bind="bill.payPeriod > 0 && 1 > bill.payPeriod" class="card-footer-title no-copy has-text-danger" t="action-required"></p>
+          </div>
+          
         </div>
         <div if.bind="isReorderMode && selectedSort == ''" class="arrow-icon-wrapper">
           <svg if.bind="$index != 0" click.delegate="reorderBill(bill, -1)" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'> <title>Chevron Up</title><path fill='none' stroke='lightgrey' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M112 328l144-144 144 144' /></svg>

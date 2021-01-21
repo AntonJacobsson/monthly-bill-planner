@@ -22,7 +22,6 @@ export class BillHandler {
   public currentPlanning: Planning;
   public isReorderMode: boolean = false;
 
-
   private _locale: string = '';
 
   public sorts: any[] = [
@@ -54,15 +53,18 @@ export class BillHandler {
 
     let bills = this._billService.getBillsByPlanning(this.currentPlanning);
 
+    bills.forEach(element => {
+      element.nextDueDate = this.formatFromTomDateString(element);
+    });
+
     this.bills = this.sortBills(bills, this.currentPlanning);
   }
 
   public selectedSortChanged(newValue: string, oldValue: string): void {
-    if(oldValue != undefined) {
+    if (oldValue != undefined) {
       this.currentPlanning.sort = newValue;
       this.bills = this.sortBills(this.bills, this.currentPlanning);
     }
-
   }
 
   public submit(): void {
@@ -70,7 +72,8 @@ export class BillHandler {
       if (!response.wasCancelled) {
         let createdBill = this._billService.createBill(response.output)
         this.bills.push(createdBill);
-        if(this.selectedSort != "") {
+        createdBill.nextDueDate = this.formatFromTomDateString(createdBill);
+        if (this.selectedSort != "") {
           this.bills = this.sortBills(this.bills, this.currentPlanning);
         }
       }
@@ -99,29 +102,36 @@ export class BillHandler {
     this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
-        if(this.selectedSort != "") {
+        bill.nextDueDate = this.formatFromTomDateString(bill);
+        if (this.selectedSort != "") {
           this.bills = this.sortBills(this.bills, this.currentPlanning);
         }
       }
     });
   }
 
-  public formatFromTomDateString(startDate: string, endDate: string, payPeriod: number): string {
+  public formatFromTomDateString(bill: Bill): Date {
 
     let today = moment().startOf('day');
-
-    let start = moment(startDate);
-    let end = (endDate !== null && endDate !== "" && endDate !== undefined) ? moment(endDate) : moment(startDate);
-    let payperiod = (payPeriod >= 1) ? payPeriod : 1
-
-    let options = { year: 'numeric', month: 'short', day: 'numeric' };
+    let start = moment(bill.startDate);
 
     if (today <= start) {
-      return start.toDate().toLocaleString(this._locale, options);
+      return start.toDate()
     }
 
+    if (bill.endDate === undefined && bill.payPeriod > 0) {
+      let payPeriod = (bill.payPeriod < 1) ? 1 : bill.payPeriod;
+      while (start.isBefore(today)) {
+        start.add(payPeriod, 'month');
+      }
+      return start.toDate();
+    }
+
+    let end = (bill.endDate !== null && bill.endDate !== "" && bill.endDate !== undefined) ? moment(bill.endDate) : moment(bill.startDate);
+    let payperiod = (bill.payPeriod >= 1) ? bill.payPeriod : 1
+
     if (today > end) {
-      return '';
+      return undefined;
     }
 
     let billDueDates = [];
@@ -134,10 +144,10 @@ export class BillHandler {
     for (let i = 0; i < billDueDates.length; i++) {
       const element = billDueDates[i];
       if (today.toDate() < new Date(element)) {
-        return new Date(element).toLocaleString(this._locale, options);
+        return new Date(element);
       }
     }
-    return '';
+    return undefined
   }
 
   public addPlanning(): void {
@@ -158,6 +168,10 @@ export class BillHandler {
     this.currentPlanning = planning;
 
     let bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+    bills.forEach(element => {
+      element.nextDueDate = this.formatFromTomDateString(element);
+    });
 
     this.bills = this.sortBills(bills, this.currentPlanning);
   }
@@ -238,43 +252,20 @@ export class BillHandler {
     if (planning.sort !== undefined && planning.sort !== "") {
 
       if (planning.sort = "duedate") {
+        let orderedBills = [];
 
-        let billsWithDate: any[] = []
+        let billsCopy = [...bills];
 
-        bills.forEach(element => {
+        let billsWithDates = billsCopy.filter(x => x.nextDueDate !== undefined);
 
-          let billDueDates = [];
+        billsWithDates
+          .sort((a, b) => a.nextDueDate.getTime() - b.nextDueDate.getTime())
+          .forEach(x => orderedBills
+            .push(x));
 
-          let startDate = moment(element.startDate);
-          let endDate = (element.endDate !== null && element.endDate !== "" && element.endDate !== undefined) ? moment(element.endDate) : moment(startDate);
-
-          let payPeriod = (element.payPeriod >= 1) ? element.payPeriod : 1
-
-
-          while (startDate.isSameOrBefore(endDate)) {
-            billDueDates.push(startDate.format("YYYY-MM-DD"));
-            startDate.add(payPeriod, 'month');
-          }
-
-          let now = moment().startOf('day').toDate();
-
-          let closest = new Date("2025-01-01");
-
-          billDueDates.forEach((d) => {
-            const date = new Date(d);
-
-            if (date >= now && (date < new Date(closest) || date < closest)) {
-              closest = d;
-            }
-          });
-
-          billsWithDate.push({ bill: element, date: moment(closest) });
-        });
-
-        billsWithDate = billsWithDate.sort((a, b) => a.date - b.date);
-        return billsWithDate.map(a => a.bill);
+        billsCopy.filter(x => x.nextDueDate === undefined).forEach(x => orderedBills.push(x));
+        return orderedBills;
       }
-
     };
 
     //sort by billOrder Custom sort
@@ -299,7 +290,6 @@ export class BillHandler {
 
     return bills;
   }
-
 
   private moveItemInArrayFromIndexToIndex(array, fromIndex, toIndex): any {
     if (fromIndex === toIndex) return array;

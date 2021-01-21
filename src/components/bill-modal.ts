@@ -39,13 +39,13 @@ export class BillModal {
 
   public payperiods = [
     { name: "payperiod.never", value: 0 },
-    { name: "payperiod.every1week", value: 0.25 },
-    { name: "payperiod.every2week", value: 0.5 },
     { name: "payperiod.every1month", value: 1 },
     { name: "payperiod.every2month", value: 2 },
     { name: "payperiod.every3month", value: 3 },
     { name: "payperiod.every6month", value: 6 },
     { name: "payperiod.every12month", value: 12 },
+    { name: "payperiod.error", value: 0.25 },
+    { name: "payperiod.error", value: 0.5 },
   ]
 
   public colorSchemes = [
@@ -100,6 +100,10 @@ export class BillModal {
 
     let result = await this._controller.validate();
 
+    if(this.payPeriod > 0 && this.payPeriod < 1) {
+      return;
+    }
+
     if (result.valid) {
       this.bill.createdDate = (this.bill.createdDate !== null || this.bill.createdDate !== undefined) ? this.bill.createdDate : null;
       this.bill.color = (this.colorScheme !== null || this.colorScheme !== undefined) ? this.colorScheme.name : "Primary";
@@ -127,7 +131,7 @@ export class BillModal {
   }
   public payPeriodChanged(newValue, oldValue): void {
 
-    if (this.payPeriod === 0) {
+    if (this.payPeriod === 0 || this.repeatForever) {
       this.endDate = undefined;
       return;
     }

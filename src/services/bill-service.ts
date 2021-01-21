@@ -80,6 +80,7 @@ export class BillService {
   public createBill(bill: Bill): Bill {
     bill.id = Guid.raw();
     bill.createdDate = new Date().toISOString();
+    bill.nextDueDate = undefined;
     this.bills.push(bill);
 
     if (this.currentPlanningId === 0) {

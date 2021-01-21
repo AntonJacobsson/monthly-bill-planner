@@ -29,18 +29,20 @@
     },
     "payperiod": {
         "never": "Not recurring",
-        "every1week": "Every week",
-        "every2week": "Every other week",
         "every1month": "Every month",
         "every2month": "Every other month",
         "every3month": "Quarter",
         "every6month": "Six months",
-        "every12month": "Year"
+        "every12month": "Year",
+        "error": "Error",
+        "error-message": "Please select a valid recurring option"
     },
+    "action-required": "Action required!",
     "name": "Name",
     "price": "Price",
     "paymonth": "Payment Month",
     "recurringbill": "Recurring",
+    "repeat-forever": "Repeat Forever",
     "change": "Edit",
     "create": "Create",
     "cancel": "Cancel",
