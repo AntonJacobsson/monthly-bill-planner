@@ -1,6 +1,7 @@
 @import "../src/components/modal.scss";
 @import "../node_modules/bulma/bulma.sass";
 @import "../node_modules/bulma-switch/src/sass/index.sass";
+@import "../node_modules/bulma-checkradio/src/sass/index.sass";
 
 $ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) !default;
 $ct-series-colors: (
@@ -241,3 +242,78 @@ body > ux-dialog-overlay.active {
         align-self: center;
     }
   }
+
+  .calendar-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.calendar-weekdays {
+  margin-left: -1.5em;
+  margin-right: -1.5em;
+  display: flex;
+  flex-wrap: wrap;
+  > p {
+      text-align: center;
+      flex: 0 1 14.28%;
+  }
+}
+
+.calendar-wrapper {
+  margin-left: -1.5em;
+  margin-right: -1.5em;
+  display: flex;
+  padding: 0.25em;
+  flex-wrap: wrap;
+  > div {
+      text-align: center;
+      flex: 0 1 14.28%;
+
+      padding: 1em;
+  }
+
+
+  .day-background-green {
+    //   background:    hsl(141, 53%, 53%)
+    background: hsl(142, 52%, 80%);
+  }
+  .day-background-yellow {
+    //   background: hsl(48, 100%, 67%);
+    background: hsl(48, 100%, 80%);
+  }
+  .day-background-red {
+    //   background: hsl(348, 100%, 61%);
+    background: hsl(347, 90%, 80%);
+  }
+  .calendar-outline {
+    outline: 1px solid lightgray;
+}
+
+  .active-day {
+      background: hsl(203, 92%, 90%);
+  }
+}
+
+.calendar-list {
+  > div {
+      display: flex;
+      justify-content: space-between;
+  }
+}
+
+.table {
+    width:100%!important;
+    table-layout:fixed!important;
+    min-width:100%;
+
+    > tbody {
+        > tr {
+            td {
+                overflow: hidden;
+            }
+        }
+    }
+} 
+
+
+  

@@ -80,7 +80,9 @@ export class BillService {
   public createBill(bill: Bill): Bill {
     bill.id = Guid.raw();
     bill.createdDate = new Date().toISOString();
+    bill.paidDates = [];
     bill.nextDueDate = undefined;
+    bill.dueDates = undefined;
     this.bills.push(bill);
 
     if (this.currentPlanningId === 0) {
@@ -111,6 +113,30 @@ export class BillService {
     billToUpdate.endDate = bill.endDate;
     billToUpdate.notes = bill.notes;
     billToUpdate.color = bill.color;
+    billToUpdate.paidDates = bill.paidDates;
+
+    if (this.currentPlanningId === 0) {
+      this.updateLocalStorage("bills", this.bills);
+    } else {
+      this.updateLocalStorage("bills" + this.currentPlanningId, this.bills);
+    }
+  }
+
+  public updateBills(bills: Bill[]): void {
+
+    bills.forEach(element => {
+
+      let billToUpdate = this.bills.find(x => x.id === element.id);
+
+      billToUpdate.name = element.name;
+      billToUpdate.payPeriod = element.payPeriod;
+      billToUpdate.totalCost = element.totalCost;
+      billToUpdate.startDate = element.startDate;
+      billToUpdate.endDate = element.endDate;
+      billToUpdate.notes = element.notes;
+      billToUpdate.color = element.color;
+      billToUpdate.paidDates = element.paidDates;
+    });
 
     if (this.currentPlanningId === 0) {
       this.updateLocalStorage("bills", this.bills);

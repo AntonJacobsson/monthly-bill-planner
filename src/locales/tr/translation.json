@@ -43,6 +43,7 @@
     "paymonth": "Ödeme Ayı",
     "recurringbill": "Yinelenen",
     "repeat-forever": "Sonsuza Kadar Tekrarla",
+    "paid": "Ücretli",
     "change": "Düzenle",
     "create": "Oluştur",
     "cancel": "İptal",
@@ -55,6 +56,7 @@
         "startDate-missing": "Başlangıç tarihi boş olamaz. Lütfen geçerli bir başlangıç tarihi giriniz",
         "endDate-missing": "Bitiş tarihi boş olamaz. Lütfen geçerli bir bitiş tarihi giriniz"
     },
+    "startDate-warning": "Bu faturayı ödendi olarak işaretlediniz. Başlangıç tarihini değiştirirseniz, bu silinecektir",
     "delete-warning": "Bu faturayı silmek istediğine emin misin",
     "notes": "Notlar",
     "required": "Gerekli bilgi",

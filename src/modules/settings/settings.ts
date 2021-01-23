@@ -69,11 +69,6 @@ export class Settings {
     document.dispatchEvent(event);
   }
 
-  public deactivate(): void {
-    let event = new CustomEvent("hideBannerAd", { "detail": "Hides banner ad" });
-    document.dispatchEvent(event);
-  }
-
   public selectedCurrencyChanged(newValue: string, oldValue: any): void {
     if (oldValue !== undefined) {
       this._currencyService.setCurrencyToLocalStorage(newValue);

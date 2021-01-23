@@ -43,6 +43,7 @@
     "paymonth": "Betalningsmånad",
     "recurringbill": "Återkommande",
     "repeat-forever": "Inget slutdatum",
+    "paid": "Betald",
     "change": "Ändra",
     "create": "Skapa",
     "cancel": "Avbryt",
@@ -55,6 +56,7 @@
         "startDate-missing": "Startdatum kan inte vara tomt. Fyll i ett giltligt startdatum",
         "endDate-missing": "Slutdatum kan inte vara tomt. Fyll i ett giltligt slutdatum"
     },
+    "startDate-warning": "Du har markerat denna räkning som betald. Om du ändrar startdatum kommer detta att raderas",
     "delete-warning": "Är du säker på att du vill ta bort räkningen?",
     "notes": "Anteckningar",
     "required": "Nödvändig info",

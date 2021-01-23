@@ -48,8 +48,9 @@
         admob.interstitial.show()
       })
 
-      document.addEventListener('hideBannerAd', function (event) {
-        admob.interstitial.prepare()
+      document.addEventListener('admob.interstitial.events.CLOSE', function(event) {
+
+      admob.interstitial.prepare()
       })
     </script>
     <% } %>

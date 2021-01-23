@@ -9,8 +9,10 @@ import { LanguageService } from 'services/language-service';
 import { BillOrderDictionary, Planning, PlanningRequest } from 'models/planning';
 import { I18N } from 'aurelia-i18n';
 import * as moment from 'moment';
+import { CalendarDay } from 'models/calendar-day';
+import { CurrentContext } from 'services/current-context';
 
-@inject(DialogService, BillService, LanguageService, I18N)
+@inject(DialogService, BillService, LanguageService, I18N, CurrentContext)
 
 export class BillHandler {
 
@@ -22,25 +24,33 @@ export class BillHandler {
   public currentPlanning: Planning;
   public isReorderMode: boolean = false;
 
+  public isCalendarMode: boolean = false;
+  public weekArray: string[] = [];
+
   private _locale: string = '';
+  public currentMonth: string = '';
+  public monthDays: CalendarDay[] = [];
+  public selectedCalendarDay: CalendarDay;
+  private _currentMonth: Date;
 
   public sorts: any[] = [
     { name: "custom", value: "" },
     { name: "due-date", value: "dueDate" }
   ]
 
-  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N) {
+  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N, private _currentContext: CurrentContext) {
     this.dialogService = dialogService;
   }
 
   public activate(): void {
-
     window.scroll({
       top: 0,
       behavior: 'auto'
     });
 
     this._locale = this._languageService.getLanguage();
+
+    moment.locale(this._locale);
 
     this.plannings = this._billService.getPlannings();
     if (this._billService.currentPlanningId === undefined) {
@@ -58,6 +68,28 @@ export class BillHandler {
     });
 
     this.bills = this.sortBills(bills, this.currentPlanning);
+  }
+
+  public toggleCalendarMode(): void {
+    if(this.isCalendarMode === false) {
+      this.setDueDates(this.bills);
+      this.updateCalendar(moment().startOf('month').toDate());
+      this.isCalendarMode = true;
+
+      this._currentContext.calendarClicks += 1;
+
+      if(this._currentContext.calendarClicks >= 3) {
+
+        let event = new CustomEvent("openBannerAd", { "detail": "Opens banner ad" });
+        document.dispatchEvent(event);
+        this._currentContext.calendarClicks = 0;
+      }
+
+    } else {
+      this.isCalendarMode = false;
+      this._billService.updateBills(this.bills)
+      this.selectedCalendarDay = undefined;
+    }
   }
 
   public selectedSortChanged(newValue: string, oldValue: string): void {
@@ -136,7 +168,7 @@ export class BillHandler {
 
     let billDueDates = [];
 
-    while (start.isSameOrBefore(end)) {
+    while (start.isBefore(end)) {
       billDueDates.push(start.format("YYYY-MM-DD"));
       start.add(payperiod, 'month');
     }
@@ -163,6 +195,12 @@ export class BillHandler {
   }
 
   public selectPlanning(planning: Planning): void {
+    if(this.isCalendarMode) {
+      this._billService.updateBills(this.bills)
+      this.isCalendarMode = false;
+      this.selectedCalendarDay = undefined;
+    }
+
     if (this.isReorderMode) { return; }
 
     this.currentPlanning = planning;
@@ -245,6 +283,10 @@ export class BillHandler {
 
   public deactivate(): void {
     this.dialogService.closeAll();
+
+    if(this.isCalendarMode) {
+      this._billService.updateBills(this.bills)
+    }
   }
 
   private sortBills(bills: Bill[], planning: Planning): Bill[] {
@@ -307,4 +349,122 @@ export class BillHandler {
 
     return newArray;
   };
+
+  public updateCalendar(date: Date): void {
+
+    let options = { year: 'numeric', month: 'long' };
+    this._currentMonth = date;
+    this.currentMonth = this._currentMonth.toLocaleDateString(this._locale, options);
+
+    this.weekArray = [];
+    let weekDays = moment.weekdays(true);
+    weekDays.forEach(element => {
+      this.weekArray.push(element.charAt(0).toUpperCase())
+    });
+
+    let daysInMonth = moment(this._currentMonth).daysInMonth();
+    let dayInWeek = moment(this._currentMonth).weekday();
+
+    this.monthDays = [];
+
+    for (let i = 0; i < dayInWeek; i++) {
+      let object: CalendarDay = {day: undefined, backgroundColor: '', isActive: false, bills: []}
+      this.monthDays.push(object);
+    }
+
+    for (let i = 0; i < daysInMonth; i++) {
+      let object: CalendarDay = {day: i + 1, backgroundColor: '', isActive: false, bills: []}
+      this.monthDays.push(object);
+    }
+
+    this.bills.forEach(element => {
+      let test = element.dueDates.filter(x => moment(x).isSameOrAfter(moment(this._currentMonth)) && moment(x).isSameOrBefore(moment(this._currentMonth).endOf('month')));
+      test.forEach(element2 => {
+        let test2 = this.monthDays.find(x => x.day === moment(element2).date());
+        if(test2 != undefined) {
+          element.paidDates = (element.paidDates === undefined) ? [] : element.paidDates
+          let cool = (moment(this._currentMonth).set('date', test2.day).format("YYYY-MM-DD"));
+
+          let isPaid = false;
+          if(element.paidDates.includes(cool)) {
+            isPaid = true;
+          }
+
+          test2.bills.push({name: element.name, totalCost: element.totalCost, isPaid: isPaid, date: cool, id: element.id});
+        }
+      });
+    });
+
+    let cool = this.monthDays.filter(x => x.bills.length > 0);
+
+    cool.forEach(element => {
+      if(element.bills.every(x => x.isPaid)) {
+        element.backgroundColor = 'green'
+      } else {
+        if(element.bills.some(x => x.isPaid === true)) {
+          element.backgroundColor = 'yellow'
+        } else {
+          element.backgroundColor = 'red';
+        }
+      }
+    });
+  }
+
+  public changeMonth(number: number): void {
+    this.updateCalendar(moment(this._currentMonth).add(number, 'month').toDate());
+  }
+
+  public daySelect(data: CalendarDay): void {
+    if(data.day != undefined) {
+      this.monthDays.forEach(element => {
+        element.isActive = false;
+      });
+      data.isActive = true;
+      this.selectedCalendarDay = data;
+    }
+  }
+
+  public setDueDates(bills: Bill[]): void {
+    bills.forEach(element => {
+      element.dueDates = [];
+
+      if(element.payPeriod < 1) {
+        let start = moment(element.startDate);
+        element.dueDates.push(start.format("YYYY-MM-DD"));
+      }
+      else {
+        let start = moment(element.startDate);
+        let endDate = (element.endDate !== undefined) ? moment(element.endDate) : moment('2025-01-01');
+
+        while (start.isBefore(endDate)) {
+          element.dueDates.push(start.format("YYYY-MM-DD"))
+          start.add(element.payPeriod, 'month');
+        }
+      }
+    });
+  }
+
+  public updatePaidDates(bill:any, selectedCalendarDay: any): void
+  {
+    let result = this.bills.find(x => x.id == bill.id);
+
+    if(bill.isPaid === false) {
+
+      result.paidDates.push(bill.date);
+    } else {
+      result.paidDates = result.paidDates.filter(x => x !== bill.date);
+    }
+
+    bill.isPaid = !bill.isPaid;
+
+    if(selectedCalendarDay.bills.every(x => x.isPaid)) {
+      selectedCalendarDay.backgroundColor = 'green'
+    } else {
+      if(selectedCalendarDay.bills.some(x => x.isPaid === true)) {
+        selectedCalendarDay.backgroundColor = 'yellow'
+      } else {
+        selectedCalendarDay.backgroundColor = 'red';
+      }
+    }
+  }
 }

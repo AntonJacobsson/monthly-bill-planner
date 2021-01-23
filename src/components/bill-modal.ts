@@ -3,7 +3,7 @@ import { inject } from 'aurelia-framework';
 import { Bill } from 'models/bill';
 import { NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from "aurelia-validation";
-import { observable } from 'aurelia-framework';
+import { observable, computedFrom } from 'aurelia-framework';
 import * as moment from 'moment'
 
 @inject(DialogController, NewInstance.of(ValidationController))
@@ -18,7 +18,9 @@ export class BillModal {
   public endDate: string;
   public notes: string;
   public colorScheme: any;
+  public paidDates: string[] = [];
 
+  public originalStartDate: string;
   public essentialTabActive: boolean = true;
   public controller: DialogController;
   public bill: Bill;
@@ -70,12 +72,14 @@ export class BillModal {
 
   public activate(bill: Bill): void {
     if (bill !== null) {
+      this.originalStartDate = bill.startDate;
       this.name = bill.name;
       this.payPeriod = bill.payPeriod;
       this.totalCost = bill.totalCost;
       this.startDate = bill.startDate;
       this.endDate = bill.endDate;
       this.colorScheme = this.colorSchemes.find(x => x.name == bill.color);
+      this.paidDates = bill.paidDates;
 
       if (this.payPeriod !== 0 && this.endDate === undefined) {
         this.repeatForever = true;
@@ -86,7 +90,6 @@ export class BillModal {
       } else {
         this.notes = "";
       }
-
       this.createOrEditTitle = "change";
       this.bill = bill;
     } else {
@@ -95,6 +98,11 @@ export class BillModal {
     }
   }
 
+
+  @computedFrom('startDate')
+  get startDateChangedWithPaidDates(): boolean {
+    return (this.createOrEditTitle === 'change' && this.originalStartDate !=  this.startDate &&  this.paidDates !== undefined &&  this.paidDates.length > 0);
+  }
 
   public async validateOnCreateOrEdit(): Promise<void> {
 
@@ -114,9 +122,14 @@ export class BillModal {
         this.bill.payPeriod = this.payPeriod,
         this.bill.totalCost = this.totalCost,
         this.bill.notes = this.notes
+        this.bill.paidDates = this.paidDates;
 
       if (this.repeatForever) {
         this.bill.endDate = undefined;
+      }
+
+      if(this.startDateChangedWithPaidDates) {
+        this.bill.paidDates = [];
       }
 
       this.controller.ok(this.bill);
@@ -141,7 +154,7 @@ export class BillModal {
     }
   }
 
-  public repeatForeverChanged(newValue, oldValue): void {
+  public repeatForeverChanged(newValue: boolean, oldValue: boolean): void {
     if (newValue === true) {
       this.endDate = undefined;
     }

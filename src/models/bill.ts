@@ -8,6 +8,8 @@ export class Bill {
     public endDate: string;
     public notes: string;
     public color: string;
+    public paidDates: string[];
 
     public nextDueDate: Date;
+    public dueDates: string[];
 }

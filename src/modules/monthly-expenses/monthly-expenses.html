@@ -18,7 +18,7 @@
         <div class="columns">
             <div repeat.for="billMonth of billMonthRows" class="column" id="month-${billMonth.month}">
                 <h4 class="title is-4 no-copy" t="${getMonthString(billMonth.month)}"></h4>
-                <div class="box" click.delegate="flipCard(billMonth, $index)" style="position: relative;">
+                <div class="box" click.delegate="flipCard(billMonth, $index)" style="position: relative; overflow: hidden;">
                   <div if.bind="!billMonth.isFlipped" class="content">
                     <ul>
                       <li class="no-copy"repeat.for="bill of billMonth.bills">${bill.name} - ${bill.totalCost | currencyFormat}</li>

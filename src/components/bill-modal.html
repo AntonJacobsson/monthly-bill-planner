@@ -77,6 +77,7 @@
           <span t="bill-created" class="is-size-7 no-copy"></span><span class="is-size-7">${bill.createdDate.substring(0,10)}</span>
         </div>
       </div>
+      <div if.bind="startDateChangedWithPaidDates" class="notification is-warning" style="margin: -1em; margin-top: 1em;" t="startDate-warning"></div>
     </ux-dialog-body>
     
     <ux-dialog-body show.bind="!essentialTabActive">
