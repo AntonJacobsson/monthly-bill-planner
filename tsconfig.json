@@ -18,11 +18,12 @@
     "moduleResolution": "node",
     "baseUrl": "src",
     "resolveJsonModule": true,
-    "allowJs": true
+    "allowJs": true,
+    "esModuleInterop": true,
   },
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.ts",
+    "./tests/**/*.ts",
     "./custom_typings/**/*.d.ts"
   ],
   "atom": {

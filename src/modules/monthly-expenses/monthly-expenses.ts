@@ -2,7 +2,7 @@ import { observable } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
-import * as moment from 'moment';
+import moment from 'moment';
 import Chartist from 'chartist-webpack';
 
 @inject(BillService)

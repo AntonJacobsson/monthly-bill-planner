@@ -61,28 +61,28 @@
       </div>
     </div>
 
-    <div if.bind="isCalendarMode">
+    <div class="calendar-wrapper" if.bind="isCalendarMode">
       <div class="calendar-weekdays">
         <p repeat.for="week of weekArray">${week}</p>
       </div>
-      <div class="calendar-wrapper">
-        <div repeat.for="box of monthDays " click.delegate="daySelect(box)" class="${box.isActive ? 'active-day' : ''} ${box.day !== undefined ? 'calendar-outline': ''} day-background-${box.backgroundColor}">${box.day}</div>
+      <div class="calendar-content">
+        <div repeat.for="box of monthDays " click.delegate="daySelect(box)" class="${box.isActive ? 'active-day' : ''} day-background-${box.backgroundColor}">${box.day}</div>
       </div>
       <div class="calendar-list content">
         
         <table if.bind ="selectedCalendarDay.bills.length > 0" class="table"> 
           <thead>
             <tr>
-              <th t="name"></th>
-              <th t="price"></th>
-              <th t="paid"></th>
+              <th colspan="2" t="name"></th>
+              <th  colspan="2"  t="price"></th>
+              <th  colspan="1"  t="paid"></th>
             </tr>
           </thead>
           <tbody>
             <tr repeat.for="bill of selectedCalendarDay.bills">
-              <td>${bill.name}</td>
-              <td>${bill.totalCost | currencyFormat }</td>
-              <td>
+              <td colspan="2">${bill.name}</td>
+              <td colspan="2">${bill.totalCost | currencyFormat }</td>
+              <td colspan="1">
                 <div class="field" click.delegate="updatePaidDates(bill, selectedCalendarDay)">
                 <input class="is-checkradio is-medium" type="checkbox" name="exampleCheckboxMedium" checked.bind="bill.isPaid">
                 <label for="exampleCheckboxMedium"></label>

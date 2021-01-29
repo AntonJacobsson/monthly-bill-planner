@@ -249,8 +249,6 @@ body > ux-dialog-overlay.active {
     justify-content: space-between;
 }
 .calendar-weekdays {
-  margin-left: -1.5em;
-  margin-right: -1.5em;
   display: flex;
   flex-wrap: wrap;
   > p {
@@ -259,13 +257,13 @@ body > ux-dialog-overlay.active {
   }
 }
 
-.calendar-wrapper {
-  margin-left: -1.5em;
-  margin-right: -1.5em;
+.calendar-content {
   display: flex;
-  padding: 0.25em;
   flex-wrap: wrap;
+  border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
   > div {
+    border: 1px solid hsl(219deg 70% 96%);
       text-align: center;
       flex: 0 1 14.28%;
 
@@ -285,9 +283,6 @@ body > ux-dialog-overlay.active {
     //   background: hsl(348, 100%, 61%);
     background: hsl(347, 90%, 80%);
   }
-  .calendar-outline {
-    outline: 1px solid lightgray;
-}
 
   .active-day {
       background: hsl(203, 92%, 90%);
@@ -295,10 +290,18 @@ body > ux-dialog-overlay.active {
 }
 
 .calendar-list {
+    margin-left: 0.75em;
+    margin-right: 0.75em;
   > div {
       display: flex;
       justify-content: space-between;
   }
+}
+
+.calendar-wrapper {
+    margin-left: -1.5em;
+    margin-right: -1.5em;
+    margin-top: -1.5em;
 }
 
 .table {
@@ -306,14 +309,20 @@ body > ux-dialog-overlay.active {
     table-layout:fixed!important;
     min-width:100%;
 
+    > thead {
+        > tr {
+            th {
+                border-bottom: 0px;
+                padding: 0.5em 0em;
+            }
+        }
+    }
     > tbody {
         > tr {
             td {
                 overflow: hidden;
+                padding: 0.5em 0em;
             }
         }
     }
 } 
-
-
-  

@@ -8,9 +8,16 @@ export class DateFormatValueConverter {
     constructor(private _languageService: LanguageService) { }
 
     public toView(date: Date): string {
-        if(date === undefined) {
-            return ''
+        if(date === undefined || date === null) {
+            return '';
         }
-        return date.toLocaleString(this._languageService.getLanguage(), this._options)
+
+        let language = this._languageService.getLanguage();
+
+        if(language === undefined || language === null) {
+            language = 'en'
+        };
+
+        return date.toLocaleString(language, this._options)
     }
 }

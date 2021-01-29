@@ -19,6 +19,8 @@ node_modules
 /test/coverage-jest
 /test/coverage-karma
 /www
+/coverage
+/.vscode
 
 # Cordova 
 /platforms

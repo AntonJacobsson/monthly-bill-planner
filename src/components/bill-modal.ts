@@ -4,7 +4,7 @@ import { Bill } from 'models/bill';
 import { NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from "aurelia-validation";
 import { observable, computedFrom } from 'aurelia-framework';
-import * as moment from 'moment'
+import moment from 'moment';
 
 @inject(DialogController, NewInstance.of(ValidationController))
 export class BillModal {

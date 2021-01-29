@@ -8,7 +8,7 @@ import { DeletePrompt } from 'components/delete-prompt';
 import { LanguageService } from 'services/language-service';
 import { BillOrderDictionary, Planning, PlanningRequest } from 'models/planning';
 import { I18N } from 'aurelia-i18n';
-import * as moment from 'moment';
+import moment from 'moment';
 import { CalendarDay } from 'models/calendar-day';
 import { CurrentContext } from 'services/current-context';
 
@@ -71,14 +71,14 @@ export class BillHandler {
   }
 
   public toggleCalendarMode(): void {
-    if(this.isCalendarMode === false) {
+    if (this.isCalendarMode === false) {
       this.setDueDates(this.bills);
       this.updateCalendar(moment().startOf('month').toDate());
       this.isCalendarMode = true;
 
       this._currentContext.calendarClicks += 1;
 
-      if(this._currentContext.calendarClicks >= 3) {
+      if (this._currentContext.calendarClicks >= 3) {
 
         let event = new CustomEvent("openBannerAd", { "detail": "Opens banner ad" });
         document.dispatchEvent(event);
@@ -195,7 +195,7 @@ export class BillHandler {
   }
 
   public selectPlanning(planning: Planning): void {
-    if(this.isCalendarMode) {
+    if (this.isCalendarMode) {
       this._billService.updateBills(this.bills)
       this.isCalendarMode = false;
       this.selectedCalendarDay = undefined;
@@ -284,7 +284,7 @@ export class BillHandler {
   public deactivate(): void {
     this.dialogService.closeAll();
 
-    if(this.isCalendarMode) {
+    if (this.isCalendarMode) {
       this._billService.updateBills(this.bills)
     }
   }
@@ -368,40 +368,48 @@ export class BillHandler {
     this.monthDays = [];
 
     for (let i = 0; i < dayInWeek; i++) {
-      let object: CalendarDay = {day: undefined, backgroundColor: '', isActive: false, bills: []}
+      let object: CalendarDay = { day: undefined, backgroundColor: '', isActive: false, bills: [] }
       this.monthDays.push(object);
     }
 
     for (let i = 0; i < daysInMonth; i++) {
-      let object: CalendarDay = {day: i + 1, backgroundColor: '', isActive: false, bills: []}
+      let object: CalendarDay = { day: i + 1, backgroundColor: '', isActive: false, bills: [] }
       this.monthDays.push(object);
     }
 
+    if(this.monthDays.length % 7 !== 0) {
+      let add = 7 - (this.monthDays.length % 7);
+      for (let i = 0; i < add; i++) {
+        let object: CalendarDay = { day: undefined, backgroundColor: '', isActive: false, bills: [] }
+        this.monthDays.push(object);
+      }
+    }
+
+
     this.bills.forEach(element => {
-      let test = element.dueDates.filter(x => moment(x).isSameOrAfter(moment(this._currentMonth)) && moment(x).isSameOrBefore(moment(this._currentMonth).endOf('month')));
-      test.forEach(element2 => {
-        let test2 = this.monthDays.find(x => x.day === moment(element2).date());
-        if(test2 != undefined) {
+      let dueDatesWithinMonth = element.dueDates.filter(x => moment(x).isSameOrAfter(moment(this._currentMonth)) && moment(x).isSameOrBefore(moment(this._currentMonth).endOf('month')));
+      dueDatesWithinMonth.forEach(dueDate => {
+        let monthDay = this.monthDays.find(x => x.day === moment(dueDate).date());
+        if (monthDay != undefined) {
           element.paidDates = (element.paidDates === undefined) ? [] : element.paidDates
-          let cool = (moment(this._currentMonth).set('date', test2.day).format("YYYY-MM-DD"));
+          let date = (moment(this._currentMonth).set('date', monthDay.day).format("YYYY-MM-DD"));
 
           let isPaid = false;
-          if(element.paidDates.includes(cool)) {
+          if (element.paidDates.includes(date)) {
             isPaid = true;
           }
-
-          test2.bills.push({name: element.name, totalCost: element.totalCost, isPaid: isPaid, date: cool, id: element.id});
+          monthDay.bills.push({ name: element.name, totalCost: element.totalCost, isPaid: isPaid, date: date, id: element.id });
         }
       });
     });
 
-    let cool = this.monthDays.filter(x => x.bills.length > 0);
+    let monthDaysWithBills = this.monthDays.filter(x => x.bills.length > 0);
 
-    cool.forEach(element => {
-      if(element.bills.every(x => x.isPaid)) {
+    monthDaysWithBills.forEach(element => {
+      if (element.bills.every(x => x.isPaid)) {
         element.backgroundColor = 'green'
       } else {
-        if(element.bills.some(x => x.isPaid === true)) {
+        if (element.bills.some(x => x.isPaid === true)) {
           element.backgroundColor = 'yellow'
         } else {
           element.backgroundColor = 'red';
@@ -411,11 +419,12 @@ export class BillHandler {
   }
 
   public changeMonth(number: number): void {
+    this.selectedCalendarDay = undefined
     this.updateCalendar(moment(this._currentMonth).add(number, 'month').toDate());
   }
 
   public daySelect(data: CalendarDay): void {
-    if(data.day != undefined) {
+    if (data.day != undefined) {
       this.monthDays.forEach(element => {
         element.isActive = false;
       });
@@ -428,7 +437,7 @@ export class BillHandler {
     bills.forEach(element => {
       element.dueDates = [];
 
-      if(element.payPeriod < 1) {
+      if (element.payPeriod < 1) {
         let start = moment(element.startDate);
         element.dueDates.push(start.format("YYYY-MM-DD"));
       }
@@ -444,11 +453,10 @@ export class BillHandler {
     });
   }
 
-  public updatePaidDates(bill:any, selectedCalendarDay: any): void
-  {
+  public updatePaidDates(bill: any, selectedCalendarDay: any): void {
     let result = this.bills.find(x => x.id == bill.id);
 
-    if(bill.isPaid === false) {
+    if (bill.isPaid === false) {
 
       result.paidDates.push(bill.date);
     } else {
@@ -457,14 +465,15 @@ export class BillHandler {
 
     bill.isPaid = !bill.isPaid;
 
-    if(selectedCalendarDay.bills.every(x => x.isPaid)) {
+    if (selectedCalendarDay.bills.every(x => x.isPaid)) {
       selectedCalendarDay.backgroundColor = 'green'
     } else {
-      if(selectedCalendarDay.bills.some(x => x.isPaid === true)) {
+      if (selectedCalendarDay.bills.some(x => x.isPaid === true)) {
         selectedCalendarDay.backgroundColor = 'yellow'
       } else {
         selectedCalendarDay.backgroundColor = 'red';
       }
     }
   }
+
 }
