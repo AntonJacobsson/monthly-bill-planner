@@ -42,7 +42,7 @@
       </span>
       </button>
 
-      <h5 class="subtitle is-5">${currentMonth}</h5>
+      <h5 class="subtitle is-5 no-copy">${currentMonth}</h5>
 
       <button click.delegate="changeMonth(1)" class="button is-secondary">
         <span class="icon">
@@ -63,25 +63,25 @@
 
     <div class="calendar-wrapper" if.bind="isCalendarMode">
       <div class="calendar-weekdays">
-        <p repeat.for="week of weekArray">${week}</p>
+        <p repeat.for="week of weekArray" class="no-copy">${week}</p>
       </div>
       <div class="calendar-content">
-        <div repeat.for="box of monthDays " click.delegate="daySelect(box)" class="${box.isActive ? 'active-day' : ''} day-background-${box.backgroundColor}">${box.day}</div>
+        <div repeat.for="box of monthDays " click.delegate="daySelect(box)" class="${box.isActive ? 'active-day' : ''} day-background-${box.backgroundColor} no-copy">${box.day}</div>
       </div>
       <div class="calendar-list content">
         
         <table if.bind ="selectedCalendarDay.bills.length > 0" class="table"> 
           <thead>
             <tr>
-              <th colspan="2" t="name"></th>
-              <th  colspan="2"  t="price"></th>
-              <th  colspan="1"  t="paid"></th>
+              <th colspan="2" t="name" class="no-copy"></th>
+              <th colspan="2" t="price" class="no-copy"></th>
+              <th colspan="1" t="paid" class="no-copy"></th>
             </tr>
           </thead>
           <tbody>
             <tr repeat.for="bill of selectedCalendarDay.bills">
-              <td colspan="2">${bill.name}</td>
-              <td colspan="2">${bill.totalCost | currencyFormat }</td>
+              <td colspan="2" class="no-copy">${bill.name}</td>
+              <td colspan="2" class="no-copy">${bill.totalCost | currencyFormat }</td>
               <td colspan="1">
                 <div class="field" click.delegate="updatePaidDates(bill, selectedCalendarDay)">
                 <input class="is-checkradio is-medium" type="checkbox" name="exampleCheckboxMedium" checked.bind="bill.isPaid">

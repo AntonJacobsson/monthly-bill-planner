@@ -303,19 +303,19 @@ describe('updateCalendar', () => {
         Sut.activate();
     });
 
-    // test('No bills - January 2021', () => {
+    test('No bills - January 2021', () => {
 
-    //     Sut.updateCalendar(new Date('2021-01-01'));
-    //     expect(Sut.monthDays.length).toEqual(42);
-    //     expect(Sut.monthDays.filter(x => x.day !== undefined).length).toEqual(31);
-    // });
+        Sut.updateCalendar(new Date('2021-01-01'));
+        expect(Sut.monthDays.length).toEqual(42);
+        expect(Sut.monthDays.filter(x => x.day !== undefined).length).toEqual(31);
+    });
 
-    // test('No bills - February 2021', () => {
+    test('No bills - February 2021', () => {
 
-    //     Sut.updateCalendar(new Date('2021-02-01'));
-    //     expect(Sut.monthDays.length).toEqual(35);
-    //     expect(Sut.monthDays.filter(x => x.day !== undefined).length).toEqual(28);
-    // });
+        Sut.updateCalendar(new Date('2021-02-01'));
+        expect(Sut.monthDays.length).toEqual(35);
+        expect(Sut.monthDays.filter(x => x.day !== undefined).length).toEqual(28);
+    });
 
     test('3 bills - 1 January 2021 - Non Paid', () => {
 
