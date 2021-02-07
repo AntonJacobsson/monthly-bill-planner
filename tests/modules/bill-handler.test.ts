@@ -1,5 +1,6 @@
 import { I18N } from "aurelia-i18n";
 import { Guid } from "guid-typescript";
+import { Bill } from "models/bill";
 import { BillHandler } from "modules/bill-handler/bill-handler";
 import moment from "moment";
 import { BillService } from "services/bill-service";
@@ -9,13 +10,13 @@ describe('reorderBill', () => {
 
     test('Move first bill down', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
-        Sut.currentPlanning =  {
-         billOrder: [],
-         key: 0,
-         name: "planning",
-         sort: ""
+        Sut.currentPlanning = {
+            billOrder: [],
+            key: 0,
+            name: "planning",
+            sort: ""
         }
 
         let firstGuid = Guid.raw();
@@ -60,13 +61,13 @@ describe('reorderBill', () => {
 
     test('Move last bill up', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
-        Sut.currentPlanning =  {
-         billOrder: [],
-         key: 0,
-         name: "planning",
-         sort: ""
+        Sut.currentPlanning = {
+            billOrder: [],
+            key: 0,
+            name: "planning",
+            sort: ""
         }
 
         let firstGuid = Guid.raw();
@@ -111,13 +112,13 @@ describe('reorderBill', () => {
 
     test('Move first bill up, should not crash', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
-        Sut.currentPlanning =  {
-         billOrder: [],
-         key: 0,
-         name: "planning",
-         sort: ""
+        Sut.currentPlanning = {
+            billOrder: [],
+            key: 0,
+            name: "planning",
+            sort: ""
         }
 
         let firstGuid = Guid.raw();
@@ -146,13 +147,13 @@ describe('reorderBill', () => {
 
     test('Move last bill down, should not crash', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
-        Sut.currentPlanning =  {
-         billOrder: [],
-         key: 0,
-         name: "planning",
-         sort: ""
+        Sut.currentPlanning = {
+            billOrder: [],
+            key: 0,
+            name: "planning",
+            sort: ""
         }
 
         let firstGuid = Guid.raw();
@@ -184,7 +185,7 @@ describe('setDueDates', () => {
 
     test('Set non recurring dueDates', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
         let id = Guid.raw();
 
@@ -215,7 +216,7 @@ describe('setDueDates', () => {
 
     test('Set 1 month recurring dueDates', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
         let id = Guid.raw();
 
@@ -240,13 +241,13 @@ describe('setDueDates', () => {
 
         let bill = bills[0];
         expect(bill.dueDates).toHaveLength(12);
-        expect(bill.dueDates).toStrictEqual(['2020-01-01','2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01','2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01','2020-10-01', '2020-11-01', '2020-12-01']);
+        expect(bill.dueDates).toStrictEqual(['2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01']);
 
     })
 
     test('Set 1 month recurring, no endDate dueDates', () => {
 
-        let Sut = new BillHandler(null,null,null,null,null);
+        let Sut = new BillHandler(null, null, null, null, null);
 
         let id = Guid.raw();
 
@@ -272,13 +273,13 @@ describe('setDueDates', () => {
         let bill = bills[0];
         expect(bill.dueDates).toHaveLength(60);
         expect(bill.dueDates).toStrictEqual(
-        [
-            '2020-01-01','2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01','2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01','2020-10-01', '2020-11-01', '2020-12-01',
-            '2021-01-01','2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01','2021-06-01', '2021-07-01', '2021-08-01', '2021-09-01','2021-10-01', '2021-11-01', '2021-12-01',
-            '2022-01-01','2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01','2022-06-01', '2022-07-01', '2022-08-01', '2022-09-01','2022-10-01', '2022-11-01', '2022-12-01',
-            '2023-01-01','2023-02-01', '2023-03-01', '2023-04-01', '2023-05-01','2023-06-01', '2023-07-01', '2023-08-01', '2023-09-01','2023-10-01', '2023-11-01', '2023-12-01',
-            '2024-01-01','2024-02-01', '2024-03-01', '2024-04-01', '2024-05-01','2024-06-01', '2024-07-01', '2024-08-01', '2024-09-01','2024-10-01', '2024-11-01', '2024-12-01'
-        ]);
+            [
+                '2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01',
+                '2021-01-01', '2021-02-01', '2021-03-01', '2021-04-01', '2021-05-01', '2021-06-01', '2021-07-01', '2021-08-01', '2021-09-01', '2021-10-01', '2021-11-01', '2021-12-01',
+                '2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01', '2022-06-01', '2022-07-01', '2022-08-01', '2022-09-01', '2022-10-01', '2022-11-01', '2022-12-01',
+                '2023-01-01', '2023-02-01', '2023-03-01', '2023-04-01', '2023-05-01', '2023-06-01', '2023-07-01', '2023-08-01', '2023-09-01', '2023-10-01', '2023-11-01', '2023-12-01',
+                '2024-01-01', '2024-02-01', '2024-03-01', '2024-04-01', '2024-05-01', '2024-06-01', '2024-07-01', '2024-08-01', '2024-09-01', '2024-10-01', '2024-11-01', '2024-12-01'
+            ]);
 
     })
 });
@@ -297,10 +298,10 @@ describe('updateCalendar', () => {
         jest.spyOn(i18n, 'tr').mockReturnValue("translated");
 
         let billService = new BillService(i18n);
-        jest.spyOn(billService, 'getPlannings').mockReturnValue([{billOrder: [], key: 0, name: "planning", sort: ""}]);
+        jest.spyOn(billService, 'getPlannings').mockReturnValue([{ billOrder: [], key: 0, name: "planning", sort: "" }]);
 
-        Sut = new BillHandler(null,billService,languageService,i18n,null);
-        Sut.activate();
+        Sut = new BillHandler(null, billService, languageService, i18n, null);
+        Sut.attached();
     });
 
     test('No bills - January 2021', () => {
@@ -373,5 +374,63 @@ describe('updateCalendar', () => {
 
     });
 
+
+});
+
+describe('formatFromTomDateString', () => {
+
+    test('StartDate after today', () => {
+
+        let Sut = new BillHandler(null, null, null, null, null);
+
+        let futureDate = moment().startOf('day').add(2, 'day');
+
+        let bill: Bill = {
+            color: 'primary',
+            createdDate: '2020-01-01',
+            dueDates: [],
+            endDate: undefined,
+            id: Guid.raw(),
+            name: 'My January Bill',
+            nextDueDate: undefined,
+            notes: '',
+            paidDates: [],
+            payPeriod: 0,
+            startDate: futureDate.format("YYYY-MM-DD"),
+            totalCost: 0
+        }
+
+        let result = Sut.formatFromTomDateString(bill);
+
+        expect(result).toStrictEqual(futureDate.toDate());
+
+    });
+
+    test('start date - days before today', () => {
+
+        let Sut = new BillHandler(null, null, null, null, null);
+
+        let futureDate = moment().startOf('day').subtract(10, 'day');
+
+        let bill: Bill = {
+            color: 'primary',
+            createdDate: '2020-01-01',
+            dueDates: [],
+            endDate: undefined,
+            id: Guid.raw(),
+            name: 'My January Bill',
+            nextDueDate: undefined,
+            notes: '',
+            paidDates: [],
+            payPeriod: 1,
+            startDate: futureDate.format("YYYY-MM-DD"),
+            totalCost: 0
+        }
+
+        let result = Sut.formatFromTomDateString(bill);
+
+        expect(result).toStrictEqual(futureDate.add(1, 'month').toDate());
+
+    });
 
 });

@@ -1,3 +1,5 @@
+import { Currency } from "models/currency";
+
 export class CurrencyService {
 
     private selectedCurrency: string;
@@ -6,6 +8,8 @@ export class CurrencyService {
         let response = this.getCurrencyFromLocalStorage();
         if (response !== null) {
             this.selectedCurrency = response;
+        } else {
+            this.selectedCurrency = Currency.USD
         }
     }
 

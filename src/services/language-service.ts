@@ -6,6 +6,8 @@ export class LanguageService {
         let response = this.getLanguageFromLocalStorage();
         if (response !== null) {
             this.selectedLanguage = response;
+        } else {
+            this.selectedLanguage = 'en';
         }
     }
 

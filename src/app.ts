@@ -36,12 +36,22 @@ export class App {
     await this._i18n.setLocale(this._languageService.getLanguage());
   }
 
+  public toggleFAQ(): void {
+    if(this.router.currentInstruction.config.route === 'faq') {
+      this.router.navigateBack();
+    } else {
+      this.router.navigateToRoute('faq');
+    }
+
+  };
+
   public configureRouter(config: RouterConfiguration, router: Router): void {
 
     config.map([
       { route: ['settings'], name: 'settings', moduleId: PLATFORM.moduleName('modules/settings/settings'), nav: true, title: this._i18n.tr("routes.settings") },
       { route: ['', 'bill-handler'], name: 'bill-handler', moduleId: PLATFORM.moduleName('modules/bill-handler/bill-handler'), nav: true, title: this._i18n.tr("routes.bill-handler") },
       { route: ['monthly-expenses'], name: 'monthly-expenses', moduleId: PLATFORM.moduleName('modules/monthly-expenses/monthly-expenses'), nav: true, title: this._i18n.tr("routes.monthly-expenses") },
+      { route: ['faq'], name: 'faq', moduleId: PLATFORM.moduleName('modules/faq/faq'), nav: false, title: 'FAQ' },
     ]);
     this.router = router;
   }

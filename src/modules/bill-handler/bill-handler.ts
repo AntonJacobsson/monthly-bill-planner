@@ -42,32 +42,38 @@ export class BillHandler {
     this.dialogService = dialogService;
   }
 
-  public activate(): void {
-    window.scroll({
-      top: 0,
-      behavior: 'auto'
-    });
+  public attached(): void {
 
-    this._locale = this._languageService.getLanguage();
+    try {
+      window.scroll({
+        top: 0,
+        behavior: 'auto'
+      });
 
-    moment.locale(this._locale);
+      this._locale = this._languageService.getLanguage();
 
-    this.plannings = this._billService.getPlannings();
-    if (this._billService.currentPlanningId === undefined) {
-      this.currentPlanning = this.plannings[0];
-    } else {
-      this.currentPlanning = this.plannings.find(x => x.key == this._billService.currentPlanningId);
+      moment.locale(this._locale);
+
+      this.plannings = this._billService.getPlannings();
+      if (this._billService.currentPlanningId === undefined) {
+        this.currentPlanning = this.plannings[0];
+      } else {
+        this.currentPlanning = this.plannings.find(x => x.key == this._billService.currentPlanningId);
+      }
+
+      this.selectedSort = (this.currentPlanning.sort != undefined) ? this.currentPlanning.sort : '';
+
+      let bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+      bills.forEach(element => {
+        element.nextDueDate = this.formatFromTomDateString(element);
+      });
+
+      this.bills = this.sortBills(bills, this.currentPlanning);
+    } catch (error) {
+      const ex:Error = error;
+      alert('If this error is recurring please send a screenshot to contact@moimob.com. Thank you!' + "\n" + ex.message + ex.stack + ' bill-handler');
     }
-
-    this.selectedSort = (this.currentPlanning.sort != undefined) ? this.currentPlanning.sort : '';
-
-    let bills = this._billService.getBillsByPlanning(this.currentPlanning);
-
-    bills.forEach(element => {
-      element.nextDueDate = this.formatFromTomDateString(element);
-    });
-
-    this.bills = this.sortBills(bills, this.currentPlanning);
   }
 
   public toggleCalendarMode(): void {
