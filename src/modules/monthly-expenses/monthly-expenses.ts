@@ -1,5 +1,4 @@
-import { observable } from 'aurelia-framework';
-import { inject } from 'aurelia-framework';
+import { observable, inject } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import moment from 'moment';
@@ -104,12 +103,10 @@ export class MonthlyExpenses {
         "#a748ca"
       ]
 
-      let dataset = [];
+      let dataset: Dataset[] = [];
 
       for (let i = 0; i < billMonthRow.bills.length; i++) {
-        dataset.push({
-          name: billMonthRow.bills[i].name, cost: Number(billMonthRow.bills[i].totalCost), color: colors[i],
-        });
+        dataset.push({name: billMonthRow.bills[i].name, cost: Number(billMonthRow.bills[i].totalCost), color: colors[i], percent: undefined});
       }
 
       dataset = dataset.sort((n1,n2) => n1.cost - n2.cost).reverse();
@@ -229,7 +226,7 @@ export class MonthlyExpenses {
     return m[number - 1];
   }
 
-  public getBillYears(bills: Bill[]): any {
+  public getBillYears(bills: Bill[]): number[] {
 
     const years: number[] = [];
 
@@ -248,7 +245,8 @@ export class MonthlyExpenses {
 
     let uniq = [...new Set(years)].sort();
     let currentYear = Number(new Date().toISOString().substring(0, 4));
-    let yearsInRange = [];
+
+    let yearsInRange: number[] = [];
 
     if (uniq.length === 0) {
       yearsInRange.push(currentYear);
@@ -272,5 +270,12 @@ export class BillMonthRow {
   public month: number;
   public bills: Bill[];
   public isFlipped: boolean;
-  public dataset: any[];
+  public dataset: Dataset[];
+}
+
+export class Dataset {
+  public name: string;
+  public cost: number;
+  public color: string;
+  public percent: string;
 }

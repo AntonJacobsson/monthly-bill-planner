@@ -1,7 +1,6 @@
 import { RouterConfiguration, Router } from 'aurelia-router';
-import { PLATFORM } from "aurelia-framework";
+import { PLATFORM, inject } from "aurelia-framework";
 import { I18N } from 'aurelia-i18n';
-import { inject } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
 import { LanguageService } from 'services/language-service';
 @inject(I18N, CurrencyService, LanguageService)

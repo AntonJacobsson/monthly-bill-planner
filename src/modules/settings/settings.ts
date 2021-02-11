@@ -1,12 +1,11 @@
-import { inject } from 'aurelia-framework';
+import { inject, observable, NewInstance } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
 import { LanguageService } from 'services/language-service';
-import { observable } from 'aurelia-framework';
 import { Currency } from 'models/currency';
-import { NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from "aurelia-validation";
 import { ContactData } from 'models/contact-data';
 import { BillService } from 'services/bill-service';
+import { NameValuePair } from 'models/name-value-pair';
 
 @inject(CurrencyService, LanguageService, NewInstance.of(ValidationController), BillService)
 
@@ -25,10 +24,10 @@ export class Settings {
 
   public isBusy: boolean = false;
   public reasons: string[] = ["select-a-reason", "general-question", "feature-request", "language-request", "currency-request", "problem-with-bills", "other"]
-  public languages: any[] = [
-    { name: 'Svenska', locale: 'sv' },
-    { name: 'English', locale: 'en' },
-    { name: 'Türkçe', locale: 'tr' },
+  public languages: NameValuePair[] = [
+    { name: 'Svenska', value: 'sv' },
+    { name: 'English', value: 'en' },
+    { name: 'Türkçe', value: 'tr' },
   ];
 
   public currencies: string[] =
@@ -69,13 +68,13 @@ export class Settings {
     document.dispatchEvent(event);
   }
 
-  public selectedCurrencyChanged(newValue: string, oldValue: any): void {
+  public selectedCurrencyChanged(newValue: string, oldValue: string): void {
     if (oldValue !== undefined) {
       this._currencyService.setCurrencyToLocalStorage(newValue);
     }
   }
 
-  public selectedLanguageChanged(newValue: any, oldValue: any): void {
+  public selectedLanguageChanged(newValue: string, oldValue: string): void {
     if (oldValue !== undefined) {
       this._languageService.setLanguageToLocalStorage(newValue);
       window.location.reload();

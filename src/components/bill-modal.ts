@@ -1,10 +1,9 @@
 import { DialogController } from 'aurelia-dialog';
-import { inject } from 'aurelia-framework';
 import { Bill } from 'models/bill';
-import { NewInstance } from 'aurelia-framework';
 import { ValidationRules, ValidationController } from "aurelia-validation";
-import { observable, computedFrom } from 'aurelia-framework';
+import { inject, NewInstance, observable, computedFrom } from 'aurelia-framework';
 import moment from 'moment';
+import { ColorScheme } from 'models/color-scheme';
 
 @inject(DialogController, NewInstance.of(ValidationController))
 export class BillModal {
@@ -17,7 +16,7 @@ export class BillModal {
   public startDate: string;
   public endDate: string;
   public notes: string;
-  public colorScheme: any;
+  public colorScheme: ColorScheme;
   public paidDates: string[] = [];
 
   public originalStartDate: string;
@@ -50,7 +49,7 @@ export class BillModal {
     { name: "payperiod.error", value: 0.5 },
   ]
 
-  public colorSchemes = [
+  public colorSchemes: ColorScheme[] = [
     { name: "primary", value: "#ebfffc", displayName: "color.default" },
     { name: "info", value: "#eef6fc", displayName: "color.blue" },
     { name: "success", value: "#effaf3", displayName: "color.green" },

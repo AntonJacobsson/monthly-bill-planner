@@ -9,8 +9,9 @@ import { LanguageService } from 'services/language-service';
 import { BillOrderDictionary, Planning, PlanningRequest } from 'models/planning';
 import { I18N } from 'aurelia-i18n';
 import moment from 'moment';
-import { CalendarDay } from 'models/calendar-day';
+import { CalendarDay, CalendarDayBill } from 'models/calendar-day';
 import { CurrentContext } from 'services/current-context';
+import { NameValuePair } from 'models/name-value-pair';
 
 @inject(DialogService, BillService, LanguageService, I18N, CurrentContext)
 
@@ -33,7 +34,7 @@ export class BillHandler {
   public selectedCalendarDay: CalendarDay;
   private _currentMonth: Date;
 
-  public sorts: any[] = [
+  public sorts: NameValuePair[] = [
     { name: "custom", value: "" },
     { name: "due-date", value: "dueDate" }
   ]
@@ -345,7 +346,7 @@ export class BillHandler {
     return bills;
   }
 
-  private moveItemInArrayFromIndexToIndex(array, fromIndex, toIndex): any {
+  private moveItemInArrayFromIndexToIndex(array, fromIndex, toIndex): Bill[] {
     if (fromIndex === toIndex) return array;
 
     const newArray = [...array];
@@ -465,7 +466,7 @@ export class BillHandler {
     });
   }
 
-  public updatePaidDates(bill: any, selectedCalendarDay: any): void {
+  public updatePaidDates(bill: CalendarDayBill, selectedCalendarDay: CalendarDay): void {
     let result = this.bills.find(x => x.id == bill.id);
 
     if (bill.isPaid === false) {

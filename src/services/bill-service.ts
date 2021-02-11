@@ -20,7 +20,7 @@ export class BillService {
     }
   }
 
-  public getBillsFromLocalStorage(key: string): any {
+  public getBillsFromLocalStorage(key: string): Bill[] {
     let data = localStorage.getItem(key);
     if (data !== null) {
       try {
@@ -32,7 +32,7 @@ export class BillService {
     return null
   }
 
-  public getPlanningsFromLocalStorage(): any {
+  public getPlanningsFromLocalStorage(): Planning[] {
     let data = localStorage.getItem('plannings');
     if (data !== null) {
       try {
@@ -145,6 +145,7 @@ export class BillService {
     }
   }
 
+  // tslint:disable-next-line: no-any
   public updateLocalStorage(key: string, data: any): void {
     localStorage.removeItem(key)
     localStorage.setItem(key, JSON.stringify(data));
