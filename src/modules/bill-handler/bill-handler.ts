@@ -281,7 +281,13 @@ export class BillHandler {
           if (this.currentPlanning.key == response.output) {
             this.currentPlanning = this.plannings[0];
           }
-          this.bills = this._billService.getBillsByPlanning(this.currentPlanning);
+          let bills = this._billService.getBillsByPlanning(this.currentPlanning);
+
+          bills.forEach(element => {
+            element.nextDueDate = this.formatFromTomDateString(element);
+          });
+
+          this.bills = this.sortBills(bills, this.currentPlanning);
         }
       }
     });

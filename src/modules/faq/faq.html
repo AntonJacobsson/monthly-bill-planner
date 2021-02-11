@@ -8,7 +8,7 @@
 
 
         <div>
-            <h2 class="subtitle has-text-primary" style="padding: 0.5em; padding-bottom: 1em; padding-top: 1em; margin: 0; font-weight: 500;">${question.question}</h2>
+            <h2 class="subtitle has-text-primary" style="padding: 0.5em; padding-bottom: 1em; padding-top: 1em; margin: 0; font-weight: 500; padding-right: 2em;">${question.question}</h2>
             <div>
                 <svg if.bind="!question.isOpen" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'><title>Chevron Down</title><path fill='none' stroke='lightgrey' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M112 184l144 144 144-144' /></svg>
                 <svg if.bind="question.isOpen" xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'> <title>Chevron Up</title><path fill='none' stroke='#00D1B2' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M112 328l144-144 144 144' /></svg>

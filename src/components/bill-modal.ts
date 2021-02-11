@@ -142,7 +142,7 @@ export class BillModal {
       this.essentialTabActive = false;
     }
   }
-  public payPeriodChanged(newValue, oldValue): void {
+  public payPeriodChanged(newValue: number, oldValue: number): void {
 
     if (this.payPeriod === 0 || this.repeatForever) {
       this.endDate = undefined;

@@ -12,7 +12,7 @@ export class App {
 
   constructor(private _i18n: I18N, private _currencyService: CurrencyService, private _languageService: LanguageService) {
 
-    if(this._languageService.getLanguageFromLocalStorage() === null) {
+    if (this._languageService.getLanguageFromLocalStorage() === null) {
       let translationLanguage = 'en';
       if (window.navigator.language.slice(0, 2) === 'sv') {
         translationLanguage = 'sv';
@@ -23,7 +23,7 @@ export class App {
       this._languageService.setLanguageToLocalStorage(translationLanguage);
     }
 
-    if(this._currencyService.getCurrencyFromLocalStorage() === null) {
+    if (this._currencyService.getCurrencyFromLocalStorage() === null) {
       let currency = 'USD';
       if (this._languageService.getLanguage() === 'sv') {
         currency = 'SEK';
@@ -37,7 +37,7 @@ export class App {
   }
 
   public toggleFAQ(): void {
-    if(this.router.currentInstruction.config.route === 'faq') {
+    if (this.router.currentInstruction.config.route === 'faq') {
       this.router.navigateBack();
     } else {
       this.router.navigateToRoute('faq');
