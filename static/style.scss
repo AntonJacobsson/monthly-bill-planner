@@ -273,23 +273,23 @@ body > ux-dialog-overlay.active {
 .calendar-weekdays {
   display: flex;
   flex-wrap: wrap;
+  padding-bottom: 0.25em;
   > p {
       text-align: center;
-      flex: 0 1 14.28%;
+      flex: 0 1 14.28571%;
   }
 }
 
 .calendar-content {
   display: flex;
   flex-wrap: wrap;
-  border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+  border-top: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
   > div {
-    border: 1px solid hsl(219deg 70% 96%);
-      text-align: center;
-      flex: 0 1 14.28%;
-
-      padding: 1em;
+    text-align: center;
+    flex: 0 1 14.28571%;
+    padding: 4vw;
+    outline: 1px solid #eef3fc;
   }
 
 

@@ -1,4 +1,7 @@
 {
+  "extends": [
+    "tslint:recommended"   
+  ],
   "rules": {
     "no-empty": true,
     "no-console": true,
@@ -19,6 +22,16 @@
       "call-signature"
     ],
     "no-duplicate-imports": true,
-    "no-any": true
+    "no-any": true,
+    "no-unnecessary-type-assertion": true,
+    "no-unnecessary-initializer": true,
+    "no-consecutive-blank-lines": true,
+    "align": true,
+    "no-irregular-whitespace": true,
+    "no-switch-case-fall-through": true,
+    "no-empty-interface": true,
+    "no-duplicate-variable": true,
+    "prefer-const": true,
+    "prefer-conditional-expression" : true
   }
 }
