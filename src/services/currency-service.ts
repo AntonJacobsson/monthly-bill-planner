@@ -1,20 +1,16 @@
-import { Currency } from "models/currency";
+import { Currency } from 'models/currency';
 
 export class CurrencyService {
 
     private selectedCurrency: string;
 
     constructor() {
-        let response = this.getCurrencyFromLocalStorage();
-        if (response !== null) {
-            this.selectedCurrency = response;
-        } else {
-            this.selectedCurrency = Currency.USD
-        }
+        const response = this.getCurrencyFromLocalStorage();
+        this.selectedCurrency = (response !== null) ? response : Currency.USD;
     }
 
     public getCurrencyFromLocalStorage(): string {
-        let data = localStorage.getItem('currency');
+        const data = localStorage.getItem('currency');
         if (data !== null) {
             return data;
         }

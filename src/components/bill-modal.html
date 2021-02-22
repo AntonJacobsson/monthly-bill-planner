@@ -35,22 +35,42 @@
         <p class="help is-danger" repeat.for="errorInfo of startDateErrors" t="validation.startDate-missing"></p>
         <p class="help is-danger" if.bind="startDateErrors.length === 0">&nbsp;</p>
       </div>
-
       <div class="field">
         <label class="label no-copy" t="recurringbill"></label>
         <div class="control">
-          <div class="select ${payPeriod > 0 && 1 > payPeriod ? 'is-danger' : ''}">
-            <select value.bind="payPeriod" style="width: 100%;">
-              <option show.bind="payperiod.value >= 1 || payperiod.value === 0" repeat.for="payperiod of payperiods" model.bind="payperiod.value" t='${payperiod.name}' class="is-danger">
-              </option>
-            </select>
+        <input id="switchRoundedDefault2" type="checkbox" name="switchRoundedDefault2" class="switch is-rounded" checked.bind="isRecurring">
+        <label for="switchRoundedDefault2" style="line-height: 2.5"></label>
+      </div>
+    </div>
+  </div>
+
+    <div show.bind="isRecurring" class="field-flex-wrapper">
+      <div style="flex: 0">
+        <p style="padding-top: 0.4em">Every </p>
+      </div>
+      <div class="field" validation-errors.bind="payPeriodErrors">
+      
+        <div class="control">
+          <input class="input" type="number" min="1" value.bind="payPeriod & validate" placeholder="1" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');" class.bind="payPeriodErrors.length ? 'is-danger' : ''">
+        </div>
+        <p class="help is-danger" if.bind="payPeriodErrors.length !== 0" t="validation.repeat-period-missing"></p>
+        <p class="help is-danger" if.bind="payPeriodErrors.length === 0">&nbsp;</p>
+      </div>
+      <div class="field">
+        <div>
+          <div class="control">
+            <div class="select">
+              <select value.bind="payPeriodType" style="width: 100%;">
+                <option show.bind="payperiod.value >= 1 || payperiod.value === 0" repeat.for="payperiod of payperiodstypes" model.bind="payperiod.value" t='${payperiod.name}' class="is-danger">
+                </option>
+              </select>
+            </div>
           </div>
         </div>
-        <p class="help is-danger" if.bind="payPeriod > 0 && 1 > payPeriod" t="payperiod.error-message"></p>
       </div>
     </div>
 
-    <div class="field-flex-wrapper">
+    <div show.bind="isRecurring" class="field-flex-wrapper">
       <div class="field" validation-errors.bind="endDateErrors">
         <label class="label no-copy" t="endDate"></label>
         <div class="control">
@@ -78,6 +98,7 @@
         </div>
       </div>
       <div if.bind="startDateChangedWithPaidDates" class="notification is-warning" style="margin: -1em; margin-top: 1em;" t="startDate-warning"></div>
+      <div if.bind="payPeriodTypeChangedWithPaidDates" class="notification is-warning" style="margin: -1em; margin-top: 1em;" t="payPeriodType-warning"></div>
     </ux-dialog-body>
     
     <ux-dialog-body show.bind="!essentialTabActive">

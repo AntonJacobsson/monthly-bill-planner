@@ -28,12 +28,6 @@
         "december":"December"
     },
     "payperiod": {
-        "never": "Inte återkommande",
-        "every1month": "Varje månad",
-        "every2month": "Varannan månad",
-        "every3month": "Kvartal",
-        "every6month": "Halvår",
-        "every12month": "År",
         "error": "Fel",
         "error-message": "Välj en giltlig period"
     },
@@ -54,9 +48,11 @@
         "name-missing": "Namn kan inte vara tomt. Fyll i ett giltligt namn",
         "totalCost-missing": "Pris kan inte vara tomt. Fyll i ett giltligt pris",
         "startDate-missing": "Startdatum kan inte vara tomt. Fyll i ett giltligt startdatum",
-        "endDate-missing": "Slutdatum kan inte vara tomt. Fyll i ett giltligt slutdatum"
+        "endDate-missing": "Slutdatum kan inte vara tomt. Fyll i ett giltligt slutdatum",
+        "repeat-period-missing": "Betalningsperioden är felaktig. Fyll i ett giltligt värde"
     },
     "startDate-warning": "Du har markerat denna räkning som betald. Om du ändrar startdatum kommer detta att raderas",
+    "payPeriodType-warning": "Du har markerat denna räkning som betald. Om du ändrar betalningsperioden kommer detta att raderas",
     "delete-warning": "Är du säker på att du vill ta bort räkningen?",
     "notes": "Anteckningar",
     "required": "Nödvändig info",

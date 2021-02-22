@@ -12,50 +12,50 @@ export class CurrencyFormatValueConverter {
 
   public toView(value: number): string {
 
-    let currency = this._currencyService.getCurrency();
+    const currency = this._currencyService.getCurrency();
 
     switch (currency) {
       case Currency.USD: {
-        return "$" + value.toString();
+        return '$' + value.toString();
       }
       case Currency.EUR: {
-        return "€" + value.toString();
+        return '€' + value.toString();
       }
       case Currency.JPY: {
-        return "¥" + value.toString();
+        return '¥' + value.toString();
       }
       case Currency.GBP: {
-        return "£" + value.toString();
+        return '£' + value.toString();
       }
       case Currency.AUD: {
-        return "$" + value.toString();
+        return '$' + value.toString();
       }
       case Currency.CAD: {
-        return "$" + value.toString();
+        return '$' + value.toString();
       }
       case Currency.CHF: {
-        return "fr. " + value.toString();
+        return 'fr. ' + value.toString();
       }
       case Currency.CNY: {
-        return "¥" + value.toString();
+        return '¥' + value.toString();
       }
       case Currency.SEK: {
         return value.toString() + ' kr';
       }
       case Currency.MXN: {
-        return "$" + value.toString();
+        return '$' + value.toString();
       }
       case Currency.PHP: {
-        return "₱" + value.toString();
+        return '₱' + value.toString();
       }
       case Currency.MYR: {
-        return "RM " + value.toString();
+        return 'RM ' + value.toString();
       }
       case Currency.TRY: {
         return value.toString() + ' ₺';
       }
       case Currency.INR: {
-        return "₹" + value.toString();
+        return '₹' + value.toString();
       }
       case Currency.NONE: {
         return value.toString();

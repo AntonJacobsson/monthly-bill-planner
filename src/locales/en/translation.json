@@ -28,12 +28,6 @@
         "december":"December"
     },
     "payperiod": {
-        "never": "Not recurring",
-        "every1month": "Every month",
-        "every2month": "Every other month",
-        "every3month": "Quarter",
-        "every6month": "Six months",
-        "every12month": "Year",
         "error": "Error",
         "error-message": "Please select a valid recurring option"
     },
@@ -54,9 +48,11 @@
         "name-missing": "Name cannot be empty. Please enter a valid name",
         "totalCost-missing": "Price cannot be empty. Please enter a valid price",
         "startDate-missing": "Start Date cannot be empty. Please enter a valid start date",
-        "endDate-missing": "End Date cannot be empty. Please enter a valid end date"
+        "endDate-missing": "End Date cannot be empty. Please enter a valid end date",
+        "repeat-period-missing": "Recurring period is invalid. Please enter a valid value"
     },
     "startDate-warning": "You have marked this bill as paid. If you change the start date, this will be deleted",
+    "payPeriodType-warning": "You have marked this bill as paid. If you change the pay period, this will be deleted",
     "delete-warning": "Are you sure you want to delete this bill",
     "notes": "Notes",
     "required": "Required info",

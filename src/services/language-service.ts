@@ -3,16 +3,12 @@ export class LanguageService {
     private selectedLanguage: string;
 
     constructor() {
-        let response = this.getLanguageFromLocalStorage();
-        if (response !== null) {
-            this.selectedLanguage = response;
-        } else {
-            this.selectedLanguage = 'en';
-        }
+        const response = this.getLanguageFromLocalStorage();
+        this.selectedLanguage = (response !== null) ? response : 'en'
     }
 
     public getLanguageFromLocalStorage(): string {
-        let data = localStorage.getItem('language');
+        const data = localStorage.getItem('language');
         if (data !== null) {
             return data;
         }

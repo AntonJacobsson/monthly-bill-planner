@@ -28,12 +28,6 @@
         "december":"Aralık"
     },
     "payperiod": {
-        "never": "Tekrar etmeyen",
-        "every1month": "Ayda bir",
-        "every2month": "2 ayda bir",
-        "every3month": "3 ayda bir",
-        "every6month": "6 ayda bir",
-        "every12month": "Yılda bir",
         "error": "hata",
         "error-message": "Geçerli bir dönem seçin"
     },
@@ -54,9 +48,11 @@
         "name-missing": "İsim boş olamaz. Lütfen geçerli bir isim giriniz",
         "totalCost-missing": "Fiyat boş olamaz. Lütfen geçerli bir fiyat giriniz",
         "startDate-missing": "Başlangıç tarihi boş olamaz. Lütfen geçerli bir başlangıç tarihi giriniz",
-        "endDate-missing": "Bitiş tarihi boş olamaz. Lütfen geçerli bir bitiş tarihi giriniz"
+        "endDate-missing": "Bitiş tarihi boş olamaz. Lütfen geçerli bir bitiş tarihi giriniz",
+        "repeat-period-missing": "Yinelenen dönem geçersizdir. Lütfen geçerli bir değer girin"
     },
     "startDate-warning": "Bu faturayı ödendi olarak işaretlediniz. Başlangıç tarihini değiştirirseniz, bu silinecektir",
+    "payPeriodType-warning": "Bu faturayı ödendi olarak işaretlediniz. Ödeme dönemini değiştirirseniz, bu silinecektir",
     "delete-warning": "Bu faturayı silmek istediğine emin misin",
     "notes": "Notlar",
     "required": "Gerekli bilgi",

@@ -1,26 +1,27 @@
-import { I18N } from "aurelia-i18n";
-import { Guid } from "guid-typescript";
-import { Bill } from "models/bill";
-import { BillHandler } from "modules/bill-handler/bill-handler";
-import moment from "moment";
-import { BillService } from "services/bill-service";
-import { LanguageService } from "services/language-service";
+import { I18N } from 'aurelia-i18n';
+import { Guid } from 'guid-typescript';
+import { Bill } from 'models/bill';
+import { PayPeriodType } from 'models/pay-period-type';
+import { BillHandler } from 'modules/bill-handler/bill-handler';
+import moment from 'moment';
+import { BillService } from 'services/bill-service';
+import { LanguageService } from 'services/language-service';
 
 describe('reorderBill', () => {
 
     test('Move first bill down', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
             key: 0,
-            name: "planning",
-            sort: ""
+            name: 'planning',
+            sort: ''
         }
 
-        let firstGuid = Guid.raw();
-        let secondGuid = Guid.raw();
+        const firstGuid = Guid.raw();
+        const secondGuid = Guid.raw();
 
         Sut.bills = [
             {
@@ -34,8 +35,9 @@ describe('reorderBill', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-02-01",
-                totalCost: 0
+                startDate: '2020-02-01',
+                totalCost: 0,
+                payPeriodType: 0
             },
             {
                 color: 'primary',
@@ -48,30 +50,31 @@ describe('reorderBill', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-03-01",
-                totalCost: 0
+                startDate: '2020-03-01',
+                totalCost: 0,
+                payPeriodType: 0
             }
         ]
 
         Sut.reorderBill(Sut.bills[0], 1);
 
-        expect(Sut.bills[0].name).toBe("My Bill March")
+        expect(Sut.bills[0].name).toBe('My Bill March')
         expect(Sut.bills[0].id).toBe(secondGuid);
     })
 
     test('Move last bill up', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
             key: 0,
-            name: "planning",
-            sort: ""
+            name: 'planning',
+            sort: ''
         }
 
-        let firstGuid = Guid.raw();
-        let secondGuid = Guid.raw();
+        const firstGuid = Guid.raw();
+        const secondGuid = Guid.raw();
 
         Sut.bills = [
             {
@@ -85,8 +88,9 @@ describe('reorderBill', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-02-01",
-                totalCost: 0
+                startDate: '2020-02-01',
+                totalCost: 0,
+                payPeriodType: 0
             },
             {
                 color: 'primary',
@@ -99,29 +103,30 @@ describe('reorderBill', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-03-01",
-                totalCost: 0
+                startDate: '2020-03-01',
+                totalCost: 0,
+                payPeriodType: 0
             }
         ]
 
         Sut.reorderBill(Sut.bills[1], -1);
 
-        expect(Sut.bills[0].name).toBe("My Bill March")
+        expect(Sut.bills[0].name).toBe('My Bill March')
         expect(Sut.bills[0].id).toBe(secondGuid);
     })
 
     test('Move first bill up, should not crash', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
             key: 0,
-            name: "planning",
-            sort: ""
+            name: 'planning',
+            sort: ''
         }
 
-        let firstGuid = Guid.raw();
+        const firstGuid = Guid.raw();
 
         Sut.bills = [
             {
@@ -135,28 +140,29 @@ describe('reorderBill', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-02-01",
-                totalCost: 0
-            },
+                startDate: '2020-02-01',
+                totalCost: 0,
+                payPeriodType: 0
+            }
         ]
 
         Sut.reorderBill(Sut.bills[0], -1);
-        expect(Sut.bills[0].name).toBe("My Bill Feb")
+        expect(Sut.bills[0].name).toBe('My Bill Feb')
         expect(Sut.bills[0].id).toBe(firstGuid);
     })
 
     test('Move last bill down, should not crash', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
             key: 0,
-            name: "planning",
-            sort: ""
+            name: 'planning',
+            sort: ''
         }
 
-        let firstGuid = Guid.raw();
+        const firstGuid = Guid.raw();
 
         Sut.bills = [
             {
@@ -170,13 +176,14 @@ describe('reorderBill', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-02-01",
-                totalCost: 0
-            },
+                startDate: '2020-02-01',
+                totalCost: 0,
+                payPeriodType: 0
+            }
         ]
 
         Sut.reorderBill(Sut.bills[0], 1);
-        expect(Sut.bills[0].name).toBe("My Bill Feb")
+        expect(Sut.bills[0].name).toBe('My Bill Feb')
         expect(Sut.bills[0].id).toBe(firstGuid);
     })
 });
@@ -185,30 +192,31 @@ describe('setDueDates', () => {
 
     test('Set non recurring dueDates', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
-        let id = Guid.raw();
+        const id = Guid.raw();
 
-        let bills = [
+        const bills = [
             {
                 color: 'primary',
                 createdDate: '2020-01-01',
                 dueDates: [],
                 endDate: undefined,
-                id: id,
+                id,
                 name: 'My January Bill',
                 nextDueDate: undefined,
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2020-01-01",
-                totalCost: 0
-            },
+                startDate: '2020-01-01',
+                totalCost: 0,
+                payPeriodType: 0
+            }
         ]
 
         Sut.setDueDates(bills);
 
-        let bill = bills[0];
+        const bill = bills[0];
         expect(bill.dueDates).toHaveLength(1);
         expect(bill.dueDates[0]).toBe(bill.startDate);
 
@@ -216,30 +224,31 @@ describe('setDueDates', () => {
 
     test('Set 1 month recurring dueDates', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
-        let id = Guid.raw();
+        const id = Guid.raw();
 
-        let bills = [
+        const bills = [
             {
                 color: 'primary',
                 createdDate: '2020-01-01',
                 dueDates: [],
                 endDate: '2021-01-01',
-                id: id,
+                id,
                 name: 'My January Bill',
                 nextDueDate: undefined,
                 notes: '',
                 paidDates: [],
                 payPeriod: 1,
-                startDate: "2020-01-01",
-                totalCost: 0
-            },
+                startDate: '2020-01-01',
+                totalCost: 0,
+                payPeriodType: PayPeriodType.Month
+            }
         ]
 
         Sut.setDueDates(bills);
 
-        let bill = bills[0];
+        const bill = bills[0];
         expect(bill.dueDates).toHaveLength(12);
         expect(bill.dueDates).toStrictEqual(['2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01', '2020-07-01', '2020-08-01', '2020-09-01', '2020-10-01', '2020-11-01', '2020-12-01']);
 
@@ -247,30 +256,31 @@ describe('setDueDates', () => {
 
     test('Set 1 month recurring, no endDate dueDates', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
-        let id = Guid.raw();
+        const id = Guid.raw();
 
-        let bills = [
+        const bills = [
             {
                 color: 'primary',
                 createdDate: '2020-01-01',
                 dueDates: [],
                 endDate: undefined,
-                id: id,
+                id,
                 name: 'My January Bill',
                 nextDueDate: undefined,
                 notes: '',
                 paidDates: [],
                 payPeriod: 1,
-                startDate: "2020-01-01",
-                totalCost: 0
-            },
+                startDate: '2020-01-01',
+                totalCost: 0,
+                payPeriodType: 0
+            }
         ]
 
         Sut.setDueDates(bills);
 
-        let bill = bills[0];
+        const bill = bills[0];
         expect(bill.dueDates).toHaveLength(60);
         expect(bill.dueDates).toStrictEqual(
             [
@@ -291,14 +301,14 @@ describe('updateCalendar', () => {
     beforeEach(() => {
         window.scroll = jest.fn();
 
-        let languageService = new LanguageService();
-        jest.spyOn(languageService, 'getLanguage').mockReturnValue("en");
+        const languageService = new LanguageService();
+        jest.spyOn(languageService, 'getLanguage').mockReturnValue('en');
 
-        let i18n = new I18N(null, null);
-        jest.spyOn(i18n, 'tr').mockReturnValue("translated");
+        const i18n = new I18N(null, null);
+        jest.spyOn(i18n, 'tr').mockReturnValue('translated');
 
-        let billService = new BillService(i18n);
-        jest.spyOn(billService, 'getPlannings').mockReturnValue([{ billOrder: [], key: 0, name: "planning", sort: "" }]);
+        const billService = new BillService(i18n);
+        jest.spyOn(billService, 'getPlannings').mockReturnValue([{ billOrder: [], key: 0, name: 'planning', sort: '' }]);
 
         Sut = new BillHandler(null, billService, languageService, i18n, null);
         Sut.attached();
@@ -332,8 +342,9 @@ describe('updateCalendar', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2021-01-01",
-                totalCost: 0
+                startDate: '2021-01-01',
+                totalCost: 0,
+                payPeriodType: 0
             },
             {
                 color: 'primary',
@@ -346,8 +357,9 @@ describe('updateCalendar', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2021-01-01",
-                totalCost: 0
+                startDate: '2021-01-01',
+                totalCost: 0,
+                payPeriodType: 0
             },
             {
                 color: 'primary',
@@ -360,20 +372,20 @@ describe('updateCalendar', () => {
                 notes: '',
                 paidDates: [],
                 payPeriod: 0,
-                startDate: "2021-01-01",
-                totalCost: 0
+                startDate: '2021-01-01',
+                totalCost: 0,
+                payPeriodType: 0
             }
         ]
 
         Sut.updateCalendar(moment('2021-01-01').startOf('month').toDate());
         expect(Sut.monthDays.length).toEqual(42);
 
-        let monthDay = Sut.monthDays.find(x => x.day === 1);
+        const monthDay = Sut.monthDays.find(x => x.day === 1);
         expect(monthDay.bills.length).toBe(3);
         expect(monthDay.backgroundColor).toBe('red');
 
     });
-
 
 });
 
@@ -381,11 +393,11 @@ describe('formatFromTomDateString', () => {
 
     test('StartDate after today', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
-        let futureDate = moment().startOf('day').add(2, 'day');
+        const futureDate = moment().startOf('day').add(2, 'day');
 
-        let bill: Bill = {
+        const bill: Bill = {
             color: 'primary',
             createdDate: '2020-01-01',
             dueDates: [],
@@ -396,11 +408,12 @@ describe('formatFromTomDateString', () => {
             notes: '',
             paidDates: [],
             payPeriod: 0,
-            startDate: futureDate.format("YYYY-MM-DD"),
-            totalCost: 0
+            startDate: futureDate.format('YYYY-MM-DD'),
+            totalCost: 0,
+            payPeriodType: 0
         }
 
-        let result = Sut.formatFromTomDateString(bill);
+        const result = Sut.formatFromTomDateString(bill);
 
         expect(result).toStrictEqual(futureDate.toDate());
 
@@ -408,11 +421,11 @@ describe('formatFromTomDateString', () => {
 
     test('start date - days before today', () => {
 
-        let Sut = new BillHandler(null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null);
 
-        let futureDate = moment().startOf('day').subtract(10, 'day');
+        const futureDate = moment().startOf('day').subtract(10, 'day');
 
-        let bill: Bill = {
+        const bill: Bill = {
             color: 'primary',
             createdDate: '2020-01-01',
             dueDates: [],
@@ -423,11 +436,12 @@ describe('formatFromTomDateString', () => {
             notes: '',
             paidDates: [],
             payPeriod: 1,
-            startDate: futureDate.format("YYYY-MM-DD"),
-            totalCost: 0
+            startDate: futureDate.format('YYYY-MM-DD'),
+            totalCost: 0,
+            payPeriodType: 0
         }
 
-        let result = Sut.formatFromTomDateString(bill);
+        const result = Sut.formatFromTomDateString(bill);
 
         expect(result).toStrictEqual(futureDate.add(1, 'month').toDate());
 

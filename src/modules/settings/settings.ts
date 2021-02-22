@@ -2,7 +2,7 @@ import { inject, observable, NewInstance } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
 import { LanguageService } from 'services/language-service';
 import { Currency } from 'models/currency';
-import { ValidationRules, ValidationController } from "aurelia-validation";
+import { ValidationRules, ValidationController } from 'aurelia-validation';
 import { ContactData } from 'models/contact-data';
 import { BillService } from 'services/bill-service';
 import { NameValuePair } from 'models/name-value-pair';
@@ -23,11 +23,11 @@ export class Settings {
   public formSendFailed: boolean = false;
 
   public isBusy: boolean = false;
-  public reasons: string[] = ["select-a-reason", "general-question", "feature-request", "language-request", "currency-request", "problem-with-bills", "other"]
+  public reasons: string[] = ['select-a-reason', 'general-question', 'feature-request', 'language-request', 'currency-request', 'problem-with-bills', 'other']
   public languages: NameValuePair[] = [
     { name: 'Svenska', value: 'sv' },
     { name: 'English', value: 'en' },
-    { name: 'Türkçe', value: 'tr' },
+    { name: 'Türkçe', value: 'tr' }
   ];
 
   public currencies: string[] =
@@ -54,9 +54,9 @@ export class Settings {
     this._languageService = languageService;
 
     ValidationRules
-      .ensure("email").required().email()
-      .ensure("selectedReason").required()
-      .ensure("message").required()
+      .ensure('email').required().email()
+      .ensure('selectedReason').required()
+      .ensure('message').required()
       .on(this);
   }
 
@@ -64,7 +64,7 @@ export class Settings {
     this.selectedLanguage = this._languageService.getLanguageFromLocalStorage();
     this.selectedCurrency = this._currencyService.getCurrencyFromLocalStorage();
 
-    let event = new CustomEvent("openBannerAd", { "detail": "Opens banner ad" });
+    const event = new CustomEvent('openBannerAd', { 'detail': 'Opens banner ad' });
     document.dispatchEvent(event);
   }
 
@@ -83,29 +83,29 @@ export class Settings {
 
   public async sumbitForm(): Promise<void> {
 
-    if (this.isBusy == false) {
+    if (this.isBusy === false) {
 
-      let result = await this._controller.validate();
+      const result = await this._controller.validate();
       if (result.valid) {
         this.formSendFailed = false;
         this.isBusy = true;
 
-        let billJson = JSON.stringify(this._billService.getBillsFromLocalStorage("bills"));
-        let planningsJson = JSON.stringify(this._billService.getPlanningsFromLocalStorage());
+        const billJson = JSON.stringify(this._billService.getBillsFromLocalStorage('bills'));
+        const planningsJson = JSON.stringify(this._billService.getPlanningsFromLocalStorage());
 
-        let data: ContactData = {
+        const data: ContactData = {
           email: this.email,
           message: this.message,
           reason: this.selectedReason,
-          billJson: billJson,
-          planningsJson: planningsJson,
+          billJson,
+          planningsJson,
           locale: window.navigator.language,
-          createdAt:  new Date().toISOString(),
+          createdAt:  new Date().toISOString()
         }
 
-        let response = await fetch("https://api.apispreadsheets.com/data/2963/", {
-          method: "POST",
-          body: JSON.stringify({ data }),
+        const response = await fetch('https://api.apispreadsheets.com/data/2963/', {
+          method: 'POST',
+          body: JSON.stringify({ data })
         });
 
         if (response.status === 201) {

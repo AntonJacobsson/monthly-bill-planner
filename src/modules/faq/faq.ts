@@ -1,4 +1,4 @@
-import { QuestionRow } from "models/question-row"
+import { QuestionRow } from 'models/question-row'
 
 export class FAQ {
 
@@ -10,7 +10,12 @@ export class FAQ {
         },
         {
             question: 'Can I pay to remove the in app ads',
-            answer: "As of today you can't pay to remove ads. But we are looking into adding this feature",
+            answer: 'As of today you can\'t pay to remove ads. But we are looking into adding this feature',
+            isOpen: false
+        },
+        {
+            question: 'I\'m from the UK, can I change currency to pounds',
+            answer: 'Yes. We have British pound in our currency selection. Go to Settings and select GBP',
             isOpen: false
         }
     ]
@@ -18,5 +23,4 @@ export class FAQ {
     public toggleIsOpen(question: QuestionRow): void {
         question.isOpen = !question.isOpen
     }
-
 }

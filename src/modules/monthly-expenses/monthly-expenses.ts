@@ -3,6 +3,8 @@ import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import moment from 'moment';
 import Chartist from 'chartist-webpack';
+import { PayPeriodType } from 'models/pay-period-type';
+import { getBillDueDates } from 'converters/date-helper';
 
 @inject(BillService)
 
@@ -33,7 +35,7 @@ export class MonthlyExpenses {
   public activate(): void {
 
     this.months.forEach(element => {
-      let billMonthRow: BillMonthRow = {
+      const billMonthRow: BillMonthRow = {
         month: element,
         bills: [],
         isFlipped: false,
@@ -46,10 +48,10 @@ export class MonthlyExpenses {
 
     this.years = this.getBillYears(this._bills);
 
-    let years = [... this.years].sort((a, b) => b - a);
-    let year = (years.length > 0) ? years[0] : this.selectedYear;
+    const years = [... this.years].sort((a, b) => b - a);
+    const year = (years.length > 0) ? years[0] : this.selectedYear;
 
-    this.lastDateForBills = (year + "-12-31");
+    this.lastDateForBills = (year + '-12-31');
 
     this._bills.forEach(element => {
       this.filterBillMonthRows(element);
@@ -60,11 +62,11 @@ export class MonthlyExpenses {
 
   public attached(): void {
 
-    let currentMonth = moment(new Date()).month() + 1;
+    const currentMonth = moment(new Date()).month() + 1;
     if (currentMonth > 3) {
-      let scrollToDiv = document.getElementById("month-" + currentMonth.toString());
+      const scrollToDiv = document.getElementById('month-' + currentMonth.toString());
       if (scrollToDiv !== null) {
-        let position = scrollToDiv.getBoundingClientRect().top + window.scrollY;
+        const position = scrollToDiv.getBoundingClientRect().top + window.scrollY;
 
         window.scroll({
           top: position,
@@ -85,22 +87,22 @@ export class MonthlyExpenses {
 
     if (billMonthRow.isFlipped) {
 
-      let colors = [
-        "#00d1b2",
-        "#3273dc",
-        "#209cee",
-        "#48c774",
-        "#ffdd57",
-        "#59922b",
-        "#ff3860",
-        "#6b0392",
-        "#f05b4f",
-        "#dda458",
-        "#eacf7d",
-        "#86797d",
-        "#b2c326",
-        "#6188e2",
-        "#a748ca"
+      const colors = [
+        '#00d1b2',
+        '#3273dc',
+        '#209cee',
+        '#48c774',
+        '#ffdd57',
+        '#59922b',
+        '#ff3860',
+        '#6b0392',
+        '#f05b4f',
+        '#dda458',
+        '#eacf7d',
+        '#86797d',
+        '#b2c326',
+        '#6188e2',
+        '#a748ca'
       ]
 
       let dataset: Dataset[] = [];
@@ -111,34 +113,34 @@ export class MonthlyExpenses {
 
       dataset = dataset.sort((n1,n2) => n1.cost - n2.cost).reverse();
 
-      let data = {
-        series: dataset.map(x => x.cost),
+      const data = {
+        series: dataset.map(x => x.cost)
       };
 
-      let sum = (a, b) => { return a + b };
-      let labelInterpolationFnc = (value: number) => {
-        let percent = Math.round(value / data.series.reduce(sum) * 100);
+      const sum = (a, b) => { return a + b };
+      const labelInterpolationFnc = (value: number) => {
+        const percent = Math.round(value / data.series.reduce(sum) * 100);
 
-        return (percent < 5) ? "" : percent + '%';
+        return (percent < 5) ? '' : percent + '%';
 
       };
 
       dataset.forEach(element => {
-        let percent = Math.round(element.cost / data.series.reduce(sum) * 100)
+        const percent = Math.round(element.cost / data.series.reduce(sum) * 100)
         if(percent < 5) {
-          element.percent =  " - " + Math.round(element.cost / data.series.reduce(sum) * 100) + '%';
+          element.percent =  ' - ' + Math.round(element.cost / data.series.reduce(sum) * 100) + '%';
         }
       });
 
       billMonthRow.dataset = dataset;
 
-      let chartist = new Chartist.Pie('.ct-chart-' + index, data, { labelInterpolationFnc });
+      const chartist = new Chartist.Pie('.ct-chart-' + index, data, { labelInterpolationFnc });
     }
   }
 
   public filterBillMonthRows(bill: Bill): void {
     if (bill.payPeriod === 0) {
-      let startDate = moment(bill.startDate);
+      const startDate = moment(bill.startDate);
       if (moment(bill.startDate).year() === this.selectedYear) {
         this.billMonthRows.find(x => x.month - 1 === moment(startDate).month()).bills.push(bill)
       }
@@ -157,45 +159,59 @@ export class MonthlyExpenses {
       }
 
       let billsActiveMonths = [];
-      let costPerMonth = [];
+      const costPerMonth = [];
 
-
-      let startDate = moment(bill.startDate);
-      let endDate = moment(bill.endDate);
+      const startDate = moment(bill.startDate);
+      const endDate = moment(bill.endDate);
 
       while (startDate.isBefore(endDate)) {
-        billsActiveMonths.push(startDate.format("YYYY-MM-01"));
+        billsActiveMonths.push(startDate.format('YYYY-MM-01'));
         startDate.add(1, 'month');
       }
 
+      billsActiveMonths = billsActiveMonths.filter(x => moment(x).year() === this.selectedYear)
+
       for (let i = 0; i < billsActiveMonths.length; i++) {
         const element = billsActiveMonths[i];
-
-        let obj = {
+        const obj = {
           date: element,
-          cost: 0
+          cost: 0,
+          information: ''
         }
 
-        if (i === 0) {
-          if (bill.payPeriod < 1) {
-            obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+        if(bill.payPeriodType === undefined) {
+          bill.payPeriodType = PayPeriodType.Month
+        }
+
+        if(bill.payPeriodType === PayPeriodType.Month) {
+          if (i === 0) {
+            if (bill.payPeriod < 1) {
+              obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+            } else {
+              obj.cost = Number((bill.totalCost / 1).toFixed(0));
+            }
           } else {
-            obj.cost = Number((bill.totalCost / 1).toFixed(0));
+            obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
           }
-        } else {
-          obj.cost = Number((bill.totalCost / bill.payPeriod).toFixed(0));
+        }
+
+        if(bill.payPeriodType === PayPeriodType.Week) {
+          const payDatesInMonth = getBillDueDates(bill, this.lastDateForBills).filter(x => moment(x).month() === moment(element).month() && moment(x).year() === this.selectedYear).length;
+          obj.cost = Number((bill.totalCost * payDatesInMonth).toFixed(0));
+          if(payDatesInMonth > 1) {
+            obj.information = ' (' + payDatesInMonth + ')';
+          }
         }
 
         costPerMonth.push(obj);
       };
 
-      let costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() == this.selectedYear);
-
+      const costPerMonthWithinSelectedYear = costPerMonth.filter(x => moment(x.date).year() === this.selectedYear);
       costPerMonthWithinSelectedYear.forEach(element => {
 
         const currentBill: Bill = {
           payPeriod: bill.payPeriod,
-          name: bill.name,
+          name: bill.name + element.information,
           totalCost: Number(element.cost),
           color: bill.color,
           createdDate: bill.createdDate,
@@ -205,7 +221,8 @@ export class MonthlyExpenses {
           startDate: bill.startDate,
           nextDueDate: bill.nextDueDate,
           dueDates: bill.dueDates,
-          paidDates: bill.paidDates
+          paidDates: bill.paidDates,
+          payPeriodType: bill.payPeriodType
         };
         this.billMonthRows.find(x => x.month - 1 === moment(element.date).month()).bills.push(currentBill)
       });
@@ -220,10 +237,10 @@ export class MonthlyExpenses {
     return totalCost;
   }
 
-  public getMonthString(number: number): string {
-    let m = ["months.january", "months.february", "months.march", "months.april", "months.may", "months.june",
-      "months.july", "months.august", "months.september", "months.october", "months.november", "months.december"];
-    return m[number - 1];
+  public getMonthString(value: number): string {
+    const m = ['months.january', 'months.february', 'months.march', 'months.april', 'months.may', 'months.june',
+      'months.july', 'months.august', 'months.september', 'months.october', 'months.november', 'months.december'];
+    return m[value - 1];
   }
 
   public getBillYears(bills: Bill[]): number[] {
@@ -237,16 +254,15 @@ export class MonthlyExpenses {
     });
 
     billYears.forEach(element => {
-      if (element !== undefined && element !== "") {
+      if (element !== undefined && element !== '') {
         years.push(Number(element.substring(0, 4)))
       }
     });
 
+    const uniq = [...new Set(years)].sort();
+    const currentYear = Number(new Date().toISOString().substring(0, 4));
 
-    let uniq = [...new Set(years)].sort();
-    let currentYear = Number(new Date().toISOString().substring(0, 4));
-
-    let yearsInRange: number[] = [];
+    const yearsInRange: number[] = [];
 
     if (uniq.length === 0) {
       yearsInRange.push(currentYear);
@@ -257,11 +273,8 @@ export class MonthlyExpenses {
       }
     }
 
-    if (yearsInRange.includes(currentYear)) {
-      this.selectedYear = currentYear;
-    } else {
-      this.selectedYear = yearsInRange[0];
-    }
+    this.selectedYear = (yearsInRange.includes(currentYear)) ? currentYear : yearsInRange[0]
+
     return yearsInRange
   }
 }

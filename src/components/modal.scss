@@ -26,13 +26,13 @@ ux-dialog-overlay {
     &.active {
       opacity: 1;
     }
+    > div {
+      margin: 0 !important;
+      padding-top: 2.5em;
+    }
 
     & > div > div {
       display: block;
-      height: -moz-fit-content;
-      height: -webkit-fit-content;
-      height: fit-content;
-      margin: auto;
     }
   
     &, & > div, & > div > div {

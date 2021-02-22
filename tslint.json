@@ -10,7 +10,6 @@
     "max-classes-per-file": true,
     "no-require-imports": true,
     "no-magic-numbers": false,
-    "trailing-comma": true,
     "no-trailing-whitespace": true,
     "class-name": true,
     "no-var-keyword": true,
@@ -32,6 +31,10 @@
     "no-empty-interface": true,
     "no-duplicate-variable": true,
     "prefer-const": true,
-    "prefer-conditional-expression" : true
-  }
+    "prefer-conditional-expression" : true,
+    "quotemark": [true, "single", "double"],
+    "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+    "ordered-imports": [false]
+  },
+  "defaultSeverity": "warning"
 }
