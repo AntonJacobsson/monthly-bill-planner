@@ -1,6 +1,33 @@
 # `Monthly Bill Planner`
 
-<a href="https://codebeat.co/projects/github-com-antonjacobsson-monthly-bill-planner-master"><img alt="codebeat badge" src="https://codebeat.co/badges/69fd2f5c-7b87-4f20-b1e6-7601754d7011" /></a>
+[![codebeat badge](https://codebeat.co/badges/69fd2f5c-7b87-4f20-b1e6-7601754d7011)](https://codebeat.co/projects/github-com-antonjacobsson-monthly-bill-planner-master)
+
+## Organize bills and plan your future expenses
+
+### Monthly Bill Planner is an app that will let you organize your bills and calculate your monthly expenses.
+
+#### Disclaimer:
+The App does not access your bank account. You need to enter bills manually. Data is stored locally on your device
+
+#### Features:
+- Store your Bills (which are stored locally)
+- Bills can be paid weekly, bi-weekly, monthly, bi-monthly, quarterly, semi-annually, annually. You can also set up your own custom pay period.
+- Mark bills as paid
+- Multiple bill planning tabs are available
+- Calculates your bills by even out the cost per month
+- Display bill data in charts to show cost in percentage
+- Customization, you can change color of each bill to fit your needs
+- 3 available languages (English, Swedish and Turkish)
+- 10+ currencies
+- Offline first, you can use the app while offline
+
+We would appritiate feedback. Hope you like it!
+
+#### Contributors: 
+Yigit Sereflioglu (yseref@tuta.io) - Turkish translation
+
+<img src="https://github.com/AntonJacobsson/monthly-bill-planner/blob/master/resources/image1.jpeg" width="19%" >  <img src="https://github.com/AntonJacobsson/monthly-bill-planner/blob/master/resources/image2.jpeg" width="19%" >  <img src="https://github.com/AntonJacobsson/monthly-bill-planner/blob/master/resources/image3.jpeg" width="19%" >  <img src="https://github.com/AntonJacobsson/monthly-bill-planner/blob/master/resources/image5.jpeg" width="19%" >  <img src="https://github.com/AntonJacobsson/monthly-bill-planner/blob/master/resources/image4.jpeg" width="19%" >
+
 
 This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
 
