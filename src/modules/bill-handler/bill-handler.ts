@@ -1,6 +1,6 @@
 import { BillModal } from '../../components/bill-modal';
 import { PlanningModal } from '../../components/planning-modal';
-import { DialogService } from 'aurelia-dialog';
+import { DialogCloseResult, DialogService } from 'aurelia-dialog';
 import { inject, observable } from 'aurelia-framework';
 import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
@@ -12,7 +12,8 @@ import moment from 'moment';
 import { CalendarDay, CalendarDayBill } from 'models/calendar-day';
 import { CurrentContext } from 'services/current-context';
 import { NameValuePair } from 'models/name-value-pair';
-import { getBillDueDates, getPeriodStringFromEnum } from 'converters/date-helper';
+import { getBillDueDates, getPeriodStringFromEnum } from 'functions/date-functions';
+import { createCalendarFromDate, getBackgroundColorFromBills } from 'functions/calendar-functions';
 
 @inject(DialogService, BillService, LanguageService, I18N, CurrentContext)
 
@@ -29,10 +30,11 @@ export class BillHandler {
   public isCalendarMode: boolean = false;
   public weekArray: string[] = [];
 
-  private _locale: string = '';
   public currentMonth: string = '';
   public monthDays: CalendarDay[] = [];
   public selectedCalendarDay: CalendarDay;
+
+  private _locale: string = '';
   private _currentMonth: Date;
 
   public sorts: NameValuePair[] = [
@@ -105,7 +107,7 @@ export class BillHandler {
   }
 
   public submit(): void {
-    this.dialogService.open({ viewModel: BillModal, model: null, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: BillModal, model: null, lock: false }).whenClosed((response: DialogCloseResult) => {
       if (!response.wasCancelled) {
         const createdBill = this._billService.createBill(response.output)
         this.bills.push(createdBill);
@@ -121,7 +123,7 @@ export class BillHandler {
     if (this.isReorderMode) { return; }
 
     navigator.vibrate(50);
-    this.dialogService.open({ viewModel: DeletePrompt, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: DeletePrompt, model: bill, lock: false }).whenClosed((response: DialogCloseResult) => {
       if (!response.wasCancelled) {
         this.deleteBill(response.output);
       }
@@ -136,7 +138,7 @@ export class BillHandler {
   public edit(bill: Bill): void {
     if (this.isReorderMode) { return; }
 
-    this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: { wasCancelled: any; output: Bill; }) => {
+    this.dialogService.open({ viewModel: BillModal, model: bill, lock: false }).whenClosed((response: DialogCloseResult) => {
       if (!response.wasCancelled) {
         this._billService.updateBill(response.output);
         bill.nextDueDate = this.formatFromTomDateString(bill);
@@ -179,12 +181,13 @@ export class BillHandler {
       start.add(payperiod, getPeriodStringFromEnum(bill.payPeriodType));
     }
 
-    for (let i = 0; i < billDueDates.length; i++) {
-      const element = billDueDates[i];
-      if (today.toDate() < new Date(element)) {
-        return new Date(element);
+    billDueDates.forEach(element => {
+      const date = new Date(element);
+      if(today.toDate() < date) {
+        return date
       }
-    }
+    });
+
     return undefined
   }
 
@@ -270,7 +273,7 @@ export class BillHandler {
     if (this.isReorderMode) { return; }
 
     navigator.vibrate(50);
-    this.dialogService.open({ viewModel: PlanningModal, model: planning, lock: false }).whenClosed((response: { wasCancelled: any; output: any; }) => {
+    this.dialogService.open({ viewModel: PlanningModal, model: planning, lock: false }).whenClosed((response: DialogCloseResult) => {
       if (!response.wasCancelled) {
         if (response.output.name !== undefined) {
           this._billService.updatePlanning(response.output);
@@ -373,28 +376,7 @@ export class BillHandler {
       this.weekArray.push(element.charAt(0).toUpperCase())
     });
 
-    const daysInMonth = moment(this._currentMonth).daysInMonth();
-    const dayInWeek = moment(this._currentMonth).weekday();
-
-    this.monthDays = [];
-
-    for (let i = 0; i < dayInWeek; i++) {
-      const object: CalendarDay = { day: undefined, backgroundColor: '', isActive: false, bills: [] }
-      this.monthDays.push(object);
-    }
-
-    for (let i = 0; i < daysInMonth; i++) {
-      const object: CalendarDay = { day: i + 1, backgroundColor: '', isActive: false, bills: [] }
-      this.monthDays.push(object);
-    }
-
-    if(this.monthDays.length % 7 !== 0) {
-      const add = 7 - (this.monthDays.length % 7);
-      for (let i = 0; i < add; i++) {
-        const object: CalendarDay = { day: undefined, backgroundColor: '', isActive: false, bills: [] }
-        this.monthDays.push(object);
-      }
-    }
+    this.monthDays = createCalendarFromDate(date)
 
     this.bills.forEach(element => {
       const dueDatesWithinMonth = element.dueDates.filter(x => moment(x).isSameOrAfter(moment(this._currentMonth)) && moment(x).isSameOrBefore(moment(this._currentMonth).endOf('month')));
@@ -416,15 +398,7 @@ export class BillHandler {
     const monthDaysWithBills = this.monthDays.filter(x => x.bills.length > 0);
 
     monthDaysWithBills.forEach(element => {
-      if (element.bills.every(x => x.isPaid)) {
-        element.backgroundColor = 'green'
-      } else {
-        if (element.bills.some(x => x.isPaid === true)) {
-          element.backgroundColor = 'yellow'
-        } else {
-          element.backgroundColor = 'red';
-        }
-      }
+      element.backgroundColor = getBackgroundColorFromBills(element.bills);
     });
   }
 
@@ -460,15 +434,6 @@ export class BillHandler {
     }
 
     bill.isPaid = !bill.isPaid;
-
-    if (selectedCalendarDay.bills.every(x => x.isPaid)) {
-      selectedCalendarDay.backgroundColor = 'green'
-    } else {
-      if (selectedCalendarDay.bills.some(x => x.isPaid === true)) {
-        selectedCalendarDay.backgroundColor = 'yellow'
-      } else {
-        selectedCalendarDay.backgroundColor = 'red';
-      }
-    }
+    selectedCalendarDay.backgroundColor = getBackgroundColorFromBills(selectedCalendarDay.bills);
   }
 }

@@ -1,7 +1,7 @@
 import { I18N } from 'aurelia-i18n';
 import { Guid } from 'guid-typescript';
 import { Bill } from 'models/bill';
-import { PayPeriodType } from 'models/pay-period-type';
+import { PayPeriodType } from 'enums/pay-period-type';
 import { BillHandler } from 'modules/bill-handler/bill-handler';
 import moment from 'moment';
 import { BillService } from 'services/bill-service';
@@ -314,20 +314,6 @@ describe('updateCalendar', () => {
         Sut.attached();
     });
 
-    test('No bills - January 2021', () => {
-
-        Sut.updateCalendar(new Date('2021-01-01'));
-        expect(Sut.monthDays.length).toEqual(42);
-        expect(Sut.monthDays.filter(x => x.day !== undefined).length).toEqual(31);
-    });
-
-    test('No bills - February 2021', () => {
-
-        Sut.updateCalendar(new Date('2021-02-01'));
-        expect(Sut.monthDays.length).toEqual(35);
-        expect(Sut.monthDays.filter(x => x.day !== undefined).length).toEqual(28);
-    });
-
     test('3 bills - 1 January 2021 - Non Paid', () => {
 
         Sut.bills = [
@@ -379,7 +365,6 @@ describe('updateCalendar', () => {
         ]
 
         Sut.updateCalendar(moment('2021-01-01').startOf('month').toDate());
-        expect(Sut.monthDays.length).toEqual(42);
 
         const monthDay = Sut.monthDays.find(x => x.day === 1);
         expect(monthDay.bills.length).toBe(3);

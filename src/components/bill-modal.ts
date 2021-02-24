@@ -4,7 +4,7 @@ import { ValidationRules, ValidationController } from 'aurelia-validation';
 import { inject, NewInstance, observable, computedFrom } from 'aurelia-framework';
 import moment from 'moment';
 import { ColorScheme } from 'models/color-scheme';
-import { PayPeriodType } from 'models/pay-period-type';
+import { PayPeriodType } from 'enums/pay-period-type';
 
 @inject(DialogController, NewInstance.of(ValidationController))
 export class BillModal {

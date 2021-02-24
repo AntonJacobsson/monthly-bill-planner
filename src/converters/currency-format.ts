@@ -1,6 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
-import { Currency } from 'models/currency';
+import { Currency } from 'enums/currency';
 @inject(CurrencyService)
 
 export class CurrencyFormatValueConverter {

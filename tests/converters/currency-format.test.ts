@@ -1,4 +1,4 @@
-import { Currency } from '../../src/models/currency';
+import { Currency } from '../../src/enums/currency';
 import { CurrencyService } from '../../src/services/currency-service';
 import { CurrencyFormatValueConverter } from '../../src/converters/currency-format'
 

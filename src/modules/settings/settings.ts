@@ -1,7 +1,7 @@
 import { inject, observable, NewInstance } from 'aurelia-framework';
 import { CurrencyService } from 'services/currency-service';
 import { LanguageService } from 'services/language-service';
-import { Currency } from 'models/currency';
+import { Currency } from 'enums/currency';
 import { ValidationRules, ValidationController } from 'aurelia-validation';
 import { ContactData } from 'models/contact-data';
 import { BillService } from 'services/bill-service';

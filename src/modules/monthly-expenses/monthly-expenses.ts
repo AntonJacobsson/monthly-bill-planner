@@ -3,8 +3,8 @@ import { BillService } from 'services/bill-service';
 import { Bill } from 'models/bill';
 import moment from 'moment';
 import Chartist from 'chartist-webpack';
-import { PayPeriodType } from 'models/pay-period-type';
-import { getBillDueDates } from 'converters/date-helper';
+import { PayPeriodType } from 'enums/pay-period-type';
+import { getBillDueDates } from 'functions/date-functions';
 
 @inject(BillService)
 

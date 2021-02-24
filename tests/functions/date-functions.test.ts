@@ -1,7 +1,6 @@
-import { getBillDueDates, getPeriodStringFromEnum } from 'converters/date-helper';
-import { Guid } from 'guid-typescript';
+import { getBillDueDates, getPeriodStringFromEnum } from 'functions/date-functions';
 import { Bill } from 'models/bill';
-import { PayPeriodType } from 'models/pay-period-type';
+import { PayPeriodType } from 'enums/pay-period-type';
 
 describe('getPeriodStringFromEnum', () => {
 

@@ -1,5 +1,5 @@
 import { Bill } from 'models/bill';
-import { PayPeriodType } from 'models/pay-period-type';
+import { PayPeriodType } from 'enums/pay-period-type';
 import moment from 'moment';
 
 // tslint:disable-next-line: typedef

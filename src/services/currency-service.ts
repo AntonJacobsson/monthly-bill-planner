@@ -1,4 +1,4 @@
-import { Currency } from 'models/currency';
+import { Currency } from 'enums/currency';
 
 export class CurrencyService {
 
