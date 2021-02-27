@@ -373,7 +373,7 @@ export class BillHandler {
     this.weekArray = [];
     const weekDays = moment.weekdays(true);
     weekDays.forEach(element => {
-      this.weekArray.push(element.charAt(0).toUpperCase())
+      this.weekArray.push(element.substr(0, 3));
     });
 
     this.monthDays = createCalendarFromDate(date)

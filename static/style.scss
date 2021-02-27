@@ -290,19 +290,31 @@ body > ux-dialog-overlay.active {
     flex: 0 1 14.28571%;
     padding: 4vw;
     outline: 1px solid #eef3fc;
+    position: relative;
   }
 
+  .calendar-day-text {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0.5em;
+  }
+
+  .calendar-day-text-light {
+    position: absolute;
+    bottom: 0.5em;
+    font-size: 0.75em;
+    left: 0.5em;
+    color: rgba(0, 0, 0, 0.4);
+  }
 
   .day-background-green {
-    //   background:    hsl(141, 53%, 53%)
     background: hsl(142, 52%, 80%);
   }
   .day-background-yellow {
-    //   background: hsl(48, 100%, 67%);
     background: hsl(48, 100%, 80%);
   }
   .day-background-red {
-    //   background: hsl(348, 100%, 61%);
     background: hsl(347, 90%, 80%);
   }
 
