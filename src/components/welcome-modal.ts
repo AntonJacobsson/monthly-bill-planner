@@ -15,6 +15,16 @@ export class WelcomeModal {
         this.controller = controller;
     }
 
+    public activate(language: string): void {
+        if(language === 'sv') {
+            this.selectedCurrency = Currency.SEK;
+        }
+
+        if(language === 'tr') {
+            this.selectedCurrency = Currency.TRY;
+        }
+    }
+
     public saveCurrency(): void {
         this._currencyService.setCurrencyToLocalStorage(this.selectedCurrency);
         this.controller.ok();

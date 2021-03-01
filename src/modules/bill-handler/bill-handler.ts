@@ -56,11 +56,11 @@ export class BillHandler {
         behavior: 'auto'
       });
 
-      if (this._currencyService.getCurrencyFromLocalStorage() === null) {
-        this.dialogService.open({ viewModel: WelcomeModal, lock: true });
-      }
-
       this._locale = this._languageService.getLanguage();
+
+      if (this._currencyService.getCurrencyFromLocalStorage() === null) {
+        this.dialogService.open({ viewModel: WelcomeModal, model: this._locale, lock: true });
+      }
 
       moment.locale(this._locale);
 
