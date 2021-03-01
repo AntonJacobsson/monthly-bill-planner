@@ -3,16 +3,16 @@
     "routes": {
         "settings": "Inställningar",
         "bill-handler": "Hantera Räkningar",
-        "monthly-expenses" : "Månatliga utgifter"
+        "monthly-expenses": "Månatliga utgifter"
     },
-    "add-bill" : "Lägg till ny",
+    "add-bill": "Lägg till ny",
     "add-bill-now": "Lägg till nu",
-    "bill-title" : "Räkningar",
-    "edit" : "Ändra",
+    "bill-title": "Räkningar",
+    "edit": "Ändra",
     "delete": "Ta bort",
     "total": "Totalt",
     "change-language": "Ändra språk",
-    "change-currency": "Ändra valuta", 
+    "change-currency": "Ändra valuta",
     "months": {
         "january": "Januari",
         "february": "Februari",
@@ -24,8 +24,8 @@
         "august": "Augusti",
         "september": "September",
         "october": "Oktober",
-        "november":"November",
-        "december":"December"
+        "november": "November",
+        "december": "December"
     },
     "payperiod": {
         "error": "Fel",
@@ -71,7 +71,7 @@
     "start-add-bill": "Börja med att lägga till nya räkningar",
     "contact": "Kontakta",
     "email": "E-postadress",
-    "send" : "Skicka",
+    "send": "Skicka",
     "form-success-title": "Tack!",
     "form-success-subtitle": "Ditt meddelande har skickats",
     "form-send-failed": "Något gick fel, kontrollera din internetanslutning och försök igen senare",
@@ -91,5 +91,9 @@
         "custom": "Egen sortering",
         "due-date": "Förfallodatum"
     },
-    "sort-by": "Sortering"
+    "sort-by": "Sortering",
+    "welcome-paragraph": "Tack för att du laddade ner vår app, fortsätt genom att välja valuta",
+    "welcome": "Välkommen",
+    "continue": "Fortsätt",
+    "missing-currency": "Saknar du en valuta? Du kan alltid skicka en valutaförfrågan genom att gå till inställningarna"
 }

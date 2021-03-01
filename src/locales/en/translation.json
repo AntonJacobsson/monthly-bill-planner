@@ -3,12 +3,12 @@
     "routes": {
         "settings": "Settings",
         "bill-handler": "Manage bills",
-        "monthly-expenses" : "Monthly Expenses"
+        "monthly-expenses": "Monthly Expenses"
     },
-    "add-bill" : "Add new",
+    "add-bill": "Add new",
     "add-bill-now": "Add now",
-    "bill-title" : "Bills",
-    "edit" : "Edit",
+    "bill-title": "Bills",
+    "edit": "Edit",
     "delete": "Delete",
     "total": "Total",
     "change-language": "Change language",
@@ -24,8 +24,8 @@
         "august": "August",
         "september": "September",
         "october": "October",
-        "november":"November",
-        "december":"December"
+        "november": "November",
+        "december": "December"
     },
     "payperiod": {
         "error": "Error",
@@ -71,7 +71,7 @@
     "start-add-bill": "Start out by adding new bills",
     "contact": "Contact",
     "email": "Email",
-    "send" : "Send",
+    "send": "Send",
     "form-success-title": "Thanks for being awesome!",
     "form-success-subtitle": "Your message has been sent successfully",
     "form-send-failed": "Something went wrong, check your internet connection and try again later",
@@ -91,5 +91,9 @@
         "custom": "Custom",
         "due-date": "Due Date"
     },
-    "sort-by": "Sort by"
+    "sort-by": "Sort by",
+    "welcome-paragraph": "Thank you for downloading our app, please continue by selecting your preferred currency",
+    "welcome": "Welcome",
+    "continue": "Continue",
+    "missing-currency": "Are you missing a currency? You can always send us a currency request by going to settings"
 }

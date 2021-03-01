@@ -1,14 +1,13 @@
 import { RouterConfiguration, Router } from 'aurelia-router';
 import { PLATFORM, inject } from 'aurelia-framework';
 import { I18N } from 'aurelia-i18n';
-import { CurrencyService } from 'services/currency-service';
 import { LanguageService } from 'services/language-service';
-@inject(I18N, CurrencyService, LanguageService)
+@inject(I18N, LanguageService)
 
 export class App {
   public router: Router;
 
-  constructor(private _i18n: I18N, private _currencyService: CurrencyService, private _languageService: LanguageService) {
+  constructor(private _i18n: I18N, private _languageService: LanguageService) {
 
     if (this._languageService.getLanguageFromLocalStorage() === null) {
       let translationLanguage = 'en';
@@ -19,14 +18,6 @@ export class App {
         translationLanguage = 'tr';
       }
       this._languageService.setLanguageToLocalStorage(translationLanguage);
-    }
-
-    if (this._currencyService.getCurrencyFromLocalStorage() === null) {
-      let currency = 'USD';
-      if (this._languageService.getLanguage() === 'sv') {
-        currency = 'SEK';
-      }
-      this._currencyService.setCurrencyToLocalStorage(currency);
     }
   }
 

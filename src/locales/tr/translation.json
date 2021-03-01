@@ -3,12 +3,12 @@
     "routes": {
         "settings": "Ayarlar",
         "bill-handler": "Faturaları yönet",
-        "monthly-expenses" : "Aylık Giderler"
+        "monthly-expenses": "Aylık Giderler"
     },
-    "add-bill" : "Yeni ekle",
+    "add-bill": "Yeni ekle",
     "add-bill-now": "Şimdi ekle",
-    "bill-title" : "Faturalar",
-    "edit" : "Düzenle",
+    "bill-title": "Faturalar",
+    "edit": "Düzenle",
     "delete": "Sil",
     "total": "Toplam",
     "change-language": "Dil",
@@ -24,8 +24,8 @@
         "august": "Ağustos",
         "september": "Eylül",
         "october": "Ekim",
-        "november":"Kasım",
-        "december":"Aralık"
+        "november": "Kasım",
+        "december": "Aralık"
     },
     "payperiod": {
         "error": "hata",
@@ -71,7 +71,7 @@
     "start-add-bill": "Yeni fatura ekleyerek başlayın",
     "contact": "İletişim",
     "email": "E-mail",
-    "send" : "Gönder",
+    "send": "Gönder",
     "form-success-title": "Mükemmel olduğunuz için teşekkürler!",
     "form-success-subtitle": "Mesajınız başarılı bir şekilde gönderildi",
     "form-send-failed": "Bir şeyler yanlış gitti, internet bağlantınızı kontrol edip yeniden deneyiniz",
@@ -91,5 +91,9 @@
         "custom": "Özel sıralama",
         "due-date": "Bitiş tarihi"
     },
-    "sort-by": "göre sırala"
+    "sort-by": "göre sırala",
+    "welcome-paragraph": "Uygulamamızı indirdiğiniz için teşekkür ederiz, lütfen tercih ettiğiniz para birimini seçerek devam edin",
+    "welcome": "Hoşgeldiniz",
+    "continue": "Devam et",
+    "missing-currency": "Bir para biriminiz mi eksik? Ayarlara giderek bize her zaman bir para birimi talebi gönderebilirsiniz"
 }

@@ -21,8 +21,8 @@ export class CurrencyService {
         return this.selectedCurrency;
     }
 
-    public setCurrencyToLocalStorage(language: string): void {
-        this.selectedCurrency = language
+    public setCurrencyToLocalStorage(currency: string): void {
+        this.selectedCurrency = currency
         localStorage.removeItem('currency')
         localStorage.setItem('currency', this.selectedCurrency);
     }

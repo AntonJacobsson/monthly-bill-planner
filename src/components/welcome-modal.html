@@ -1,0 +1,26 @@
+<template>
+    <ux-dialog style="margin-top: 20vh;">
+        <div style="padding: 0.5em">
+            <h2 class="title is-5 no-copy" t="welcome"></h2>
+        </div>
+        <ux-dialog-body>
+            <p class="no-copy" t="welcome-paragraph"></p>
+
+            <div class="field" style="padding-top: 0.5em; padding-bottom: 0.5em;">
+                <label class="label no-copy" t="change-currency"></label>
+                <div class="control">
+                    <div class="select">
+                        <select value.bind="selectedCurrency">
+                            <option repeat.for="currency of currencies">${currency}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <p class="no-copy" style="font-size: 0.75em;" t="missing-currency"></p>
+        </ux-dialog-body>
+        <ux-dialog-footer>
+            <button class="button is-primary" click.trigger="saveCurrency()" t="continue"></button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

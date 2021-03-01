@@ -14,8 +14,10 @@ import { CurrentContext } from 'services/current-context';
 import { NameValuePair } from 'models/name-value-pair';
 import { getBillDueDates, getPeriodStringFromEnum } from 'functions/date-functions';
 import { createCalendarFromDate, getBackgroundColorFromBills } from 'functions/calendar-functions';
+import { CurrencyService } from 'services/currency-service';
+import { WelcomeModal } from 'components/welcome-modal';
 
-@inject(DialogService, BillService, LanguageService, I18N, CurrentContext)
+@inject(DialogService, BillService, LanguageService, I18N, CurrentContext, CurrencyService)
 
 export class BillHandler {
 
@@ -42,7 +44,7 @@ export class BillHandler {
     { name: 'due-date', value: 'dueDate' }
   ]
 
-  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N, private _currentContext: CurrentContext) {
+  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N, private _currentContext: CurrentContext, private _currencyService: CurrencyService) {
     this.dialogService = dialogService;
   }
 
@@ -53,6 +55,10 @@ export class BillHandler {
         top: 0,
         behavior: 'auto'
       });
+
+      if (this._currencyService.getCurrencyFromLocalStorage() === null) {
+        this.dialogService.open({ viewModel: WelcomeModal, lock: true });
+      }
 
       this._locale = this._languageService.getLanguage();
 
@@ -72,7 +78,7 @@ export class BillHandler {
 
       this.bills = this.sortBills(bills, this.currentPlanning);
     } catch (error) {
-      const ex:Error = error;
+      const ex: Error = error;
       alert('If this error is recurring please send a screenshot to contact@moimob.com. Thank you!' + '\n' + ex.message + ex.stack + ' bill-handler');
     }
   }
@@ -183,7 +189,7 @@ export class BillHandler {
 
     billDueDates.forEach(element => {
       const date = new Date(element);
-      if(today.toDate() < date) {
+      if (today.toDate() < date) {
         return date
       }
     });

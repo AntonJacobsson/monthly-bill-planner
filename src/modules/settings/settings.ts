@@ -6,6 +6,7 @@ import { ValidationRules, ValidationController } from 'aurelia-validation';
 import { ContactData } from 'models/contact-data';
 import { BillService } from 'services/bill-service';
 import { NameValuePair } from 'models/name-value-pair';
+import { getCurrencies } from 'functions/currency-functions';
 
 @inject(CurrencyService, LanguageService, NewInstance.of(ValidationController), BillService)
 
@@ -30,24 +31,7 @@ export class Settings {
     { name: 'Türkçe', value: 'tr' }
   ];
 
-  public currencies: string[] =
-    [
-      Currency.USD,
-      Currency.EUR,
-      Currency.JPY,
-      Currency.GBP,
-      Currency.AUD,
-      Currency.CAD,
-      Currency.CHF,
-      Currency.CNY,
-      Currency.SEK,
-      Currency.MXN,
-      Currency.PHP,
-      Currency.MYR,
-      Currency.TRY,
-      Currency.INR,
-      Currency.NONE
-    ];
+  public currencies: Currency[] = getCurrencies();
 
   constructor(currencyService: CurrencyService, languageService: LanguageService, private _controller: ValidationController, private _billService: BillService) {
     this._currencyService = currencyService;
