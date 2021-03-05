@@ -5,8 +5,9 @@ import moment from 'moment';
 import Chartist from 'chartist-webpack';
 import { PayPeriodType } from 'enums/pay-period-type';
 import { getBillDueDates } from 'functions/date-functions';
+import { ExceptionService } from 'services/exception-service';
 
-@inject(BillService)
+@inject(BillService, ExceptionService)
 
 export class MonthlyExpenses {
   private _bills: Bill[];
@@ -18,7 +19,7 @@ export class MonthlyExpenses {
 
   public billMonthRows: BillMonthRow[] = []
 
-  constructor(private _billService: BillService) {}
+  constructor(private _billService: BillService, private _exceptionService: ExceptionService) {}
 
   public selectedYearChanged(newValue: number, oldValue: number): void {
     if (oldValue !== undefined) {
@@ -32,32 +33,38 @@ export class MonthlyExpenses {
     }
   }
 
-  public activate(): void {
+  public async activate(): Promise<void> {
 
-    this.months.forEach(element => {
-      const billMonthRow: BillMonthRow = {
-        month: element,
-        bills: [],
-        isFlipped: false,
-        dataset: []
-      }
-      this.billMonthRows.push(billMonthRow);
-    });
+    try {
+      this.months.forEach(element => {
+        const billMonthRow: BillMonthRow = {
+          month: element,
+          bills: [],
+          isFlipped: false,
+          dataset: []
+        }
+        this.billMonthRows.push(billMonthRow);
+      });
 
-    this._bills = this._billService.getBills();
+      this._bills = this._billService.getBills();
 
-    this.years = this.getBillYears(this._bills);
+      this.years = this.getBillYears(this._bills);
 
-    const years = [... this.years].sort((a, b) => b - a);
-    const year = (years.length > 0) ? years[0] : this.selectedYear;
+      const years = [... this.years].sort((a, b) => b - a);
+      const year = (years.length > 0) ? years[0] : this.selectedYear;
 
-    this.lastDateForBills = (year + '-12-31');
+      this.lastDateForBills = (year + '-12-31');
 
-    this._bills.forEach(element => {
-      this.filterBillMonthRows(element);
-    });
+      this._bills.forEach(element => {
+        this.filterBillMonthRows(element);
+      });
 
-    this.billMonthRows.forEach(x => x.bills.sort((n1,n2) => n1.totalCost - n2.totalCost).reverse());
+      this.billMonthRows.forEach(x => x.bills.sort((n1,n2) => n1.totalCost - n2.totalCost).reverse());
+
+    } catch (error) {
+      const message = await this._exceptionService.sendErrorAsync(error, MonthlyExpenses.name)
+      alert(message);
+    }
   }
 
   public attached(): void {

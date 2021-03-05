@@ -29,7 +29,7 @@ describe('totalMonthCost', () => {
 
     test('Empty List', () => {
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         expect(Sut.totalMonthCost([])).toBe(0)
     });
@@ -46,7 +46,7 @@ describe('totalMonthCost', () => {
             bill1, bill2
         ]
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         expect(Sut.totalMonthCost(bills)).toBe(3500)
     });
@@ -55,7 +55,7 @@ describe('totalMonthCost', () => {
 describe('getBillYears', () => {
     test('Empty List', () => {
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         const currentYear = new Date().getFullYear();
 
@@ -66,7 +66,7 @@ describe('getBillYears', () => {
 
         const bill = { ...defaultBill };
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         expect(Sut.getBillYears([bill])).toEqual([2020])
     });
@@ -76,7 +76,7 @@ describe('getBillYears', () => {
         const bill = { ...defaultBill };
         bill.endDate = '2022-01-01'
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         expect(Sut.getBillYears([bill])).toEqual([2020, 2021, 2022])
     });
@@ -90,7 +90,7 @@ describe('getBillYears', () => {
         bill2.startDate = '2024-01-01'
         bill2.endDate = '2026-01-01'
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         expect(Sut.getBillYears([bill, bill2])).toEqual([2020, 2021, 2022, 2023, 2024, 2025, 2026])
     });
@@ -100,7 +100,7 @@ describe('getBillYears', () => {
 describe('flipCard', () => {
     test('No bills should not flip', () => {
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         Sut.flipCard(defaultBillMonthRow, 0);
 
@@ -114,7 +114,7 @@ describe('flipCard', () => {
 
         billMonthRow.bills = [bill]
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         Sut.flipCard(billMonthRow, 0);
 
@@ -128,7 +128,7 @@ describe('filterBillMonthRows', () => {
 
         const bill = { ...defaultBill };
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
         Sut.selectedYear = 2020;
         Sut.billMonthRows = [
             { month: 1, dataset: [], bills: [], isFlipped: false },
@@ -155,7 +155,7 @@ describe('filterBillMonthRows', () => {
 
         const bill = { ...defaultBill };
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         Sut.selectedYear = 2022;
         Sut.billMonthRows = [
@@ -188,7 +188,7 @@ describe('filterBillMonthRows', () => {
         bill.payPeriod = 1;
         bill.totalCost = 1000;
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         Sut.selectedYear = 2020;
         Sut.billMonthRows = [
@@ -220,7 +220,7 @@ describe('getMonthString', () => {
 
     test('All months', () => {
 
-        const Sut = new MonthlyExpenses(null);
+        const Sut = new MonthlyExpenses(null, null);
 
         expect(Sut.getMonthString(0)).toBe(undefined)
         expect(Sut.getMonthString(1)).toBe('months.january')

@@ -12,7 +12,7 @@ describe('reorderBill', () => {
 
     test('Move first bill down', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
@@ -65,7 +65,7 @@ describe('reorderBill', () => {
 
     test('Move last bill up', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
@@ -118,7 +118,7 @@ describe('reorderBill', () => {
 
     test('Move first bill up, should not crash', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
@@ -154,7 +154,7 @@ describe('reorderBill', () => {
 
     test('Move last bill down, should not crash', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         Sut.currentPlanning = {
             billOrder: [],
@@ -193,7 +193,7 @@ describe('setDueDates', () => {
 
     test('Set non recurring dueDates', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         const id = Guid.raw();
 
@@ -225,7 +225,7 @@ describe('setDueDates', () => {
 
     test('Set 1 month recurring dueDates', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         const id = Guid.raw();
 
@@ -257,7 +257,7 @@ describe('setDueDates', () => {
 
     test('Set 1 month recurring, no endDate dueDates', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         const id = Guid.raw();
 
@@ -314,7 +314,7 @@ describe('updateCalendar', () => {
         const billService = new BillService(i18n);
         jest.spyOn(billService, 'getPlannings').mockReturnValue([{ billOrder: [], key: 0, name: 'planning', sort: '' }]);
 
-        Sut = new BillHandler(null, billService, languageService, i18n, null, currencyService);
+        Sut = new BillHandler(null, billService, languageService, i18n, null, currencyService, null);
         Sut.attached();
     });
 
@@ -382,7 +382,7 @@ describe('formatFromTomDateString', () => {
 
     test('StartDate after today', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         const futureDate = moment().startOf('day').add(2, 'day');
 
@@ -410,7 +410,7 @@ describe('formatFromTomDateString', () => {
 
     test('start date - days before today', () => {
 
-        const Sut = new BillHandler(null, null, null, null, null, null);
+        const Sut = new BillHandler(null, null, null, null, null, null, null);
 
         const futureDate = moment().startOf('day').subtract(10, 'day');
 

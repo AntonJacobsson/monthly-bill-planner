@@ -16,8 +16,9 @@ import { getBillDueDates, getPeriodStringFromEnum } from 'functions/date-functio
 import { createCalendarFromDate, getBackgroundColorFromBills } from 'functions/calendar-functions';
 import { CurrencyService } from 'services/currency-service';
 import { WelcomeModal } from 'components/welcome-modal';
+import { ExceptionService } from 'services/exception-service';
 
-@inject(DialogService, BillService, LanguageService, I18N, CurrentContext, CurrencyService)
+@inject(DialogService, BillService, LanguageService, I18N, CurrentContext, CurrencyService, ExceptionService)
 
 export class BillHandler {
 
@@ -44,11 +45,11 @@ export class BillHandler {
     { name: 'due-date', value: 'dueDate' }
   ]
 
-  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N, private _currentContext: CurrentContext, private _currencyService: CurrencyService) {
+  constructor(dialogService: DialogService, private _billService: BillService, private _languageService: LanguageService, private _i18n: I18N, private _currentContext: CurrentContext, private _currencyService: CurrencyService, private _exceptionService: ExceptionService) {
     this.dialogService = dialogService;
   }
 
-  public attached(): void {
+  public async attached(): Promise<void> {
 
     try {
       window.scroll({
@@ -78,8 +79,8 @@ export class BillHandler {
 
       this.bills = this.sortBills(bills, this.currentPlanning);
     } catch (error) {
-      const ex: Error = error;
-      alert('If this error is recurring please send a screenshot to contact@moimob.com. Thank you!' + '\n' + ex.message + ex.stack + ' bill-handler');
+      const message = await this._exceptionService.sendErrorAsync(error, BillHandler.name)
+      alert(message);
     }
   }
 

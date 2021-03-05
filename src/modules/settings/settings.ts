@@ -7,8 +7,11 @@ import { ContactData } from 'models/contact-data';
 import { BillService } from 'services/bill-service';
 import { NameValuePair } from 'models/name-value-pair';
 import { getCurrencies } from 'functions/currency-functions';
+import { CurrentContext } from 'services/current-context';
+import { ExceptionService } from 'services/exception-service';
+import moment from 'moment';
 
-@inject(CurrencyService, LanguageService, NewInstance.of(ValidationController), BillService)
+@inject(CurrencyService, LanguageService, NewInstance.of(ValidationController), BillService, CurrentContext, ExceptionService)
 
 export class Settings {
   private _currencyService: CurrencyService;
@@ -33,7 +36,7 @@ export class Settings {
 
   public currencies: Currency[] = getCurrencies();
 
-  constructor(currencyService: CurrencyService, languageService: LanguageService, private _controller: ValidationController, private _billService: BillService) {
+  constructor(currencyService: CurrencyService, languageService: LanguageService, private _controller: ValidationController, private _billService: BillService, private _currentContext: CurrentContext, private _exceptionService: ExceptionService) {
     this._currencyService = currencyService;
     this._languageService = languageService;
 
@@ -44,12 +47,28 @@ export class Settings {
       .on(this);
   }
 
-  public activate(): void {
-    this.selectedLanguage = this._languageService.getLanguageFromLocalStorage();
-    this.selectedCurrency = this._currencyService.getCurrencyFromLocalStorage();
+  public async activate(): Promise<void> {
 
-    const event = new CustomEvent('openBannerAd', { 'detail': 'Opens banner ad' });
-    document.dispatchEvent(event);
+    try {
+      this.selectedLanguage = this._languageService.getLanguageFromLocalStorage();
+      this.selectedCurrency = this._currencyService.getCurrencyFromLocalStorage();
+
+      const timestamp = moment().unix();
+      if(this._currentContext.settingsUnix === 0) {
+        this._currentContext.settingsUnix = timestamp;
+      }
+
+      if (timestamp - this._currentContext.settingsUnix >= 10) {
+        const event = new CustomEvent('openBannerAd', { 'detail': 'Opens banner ad' });
+        document.dispatchEvent(event);
+        this._currentContext.settingsUnix = timestamp;
+      }
+
+    } catch (error) {
+      const message = await this._exceptionService.sendErrorAsync(error, Settings.name)
+      alert(message);
+    }
+
   }
 
   public selectedCurrencyChanged(newValue: string, oldValue: string): void {
